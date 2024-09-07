@@ -23,10 +23,10 @@ const Navbar: React.FC = () => {
   const isActive = (path: string) => activePath === path;
 
   return (
-    <div className='px-10 md:px-20 py-5 bg-blue-300'>
+    <div className='px-10 lg:px-20 py-5 bg-blue-300'>
     <nav className=" backdrop-blur-md bg-opacity-20 ">
       <div className={`bg-gray-200 rounded-full shadow-lg text-black  ${isOpen ? 'rounded-xl' : 'rounded-full'}`}>
-      <div className="container mx-auto flex items-center justify-between p-6 md:px-10 md:py-5">
+      <div className="container mx-auto flex items-center justify-between gap-4 p-6 md:px-10 md:py-5">
         <div className="text-lg font-bold flex items-center">
           <Link href="/">
             <Image src={logo} height={50} width={50} alt="logo" />
@@ -94,7 +94,7 @@ const Navbar: React.FC = () => {
             </h1>
           </Link>
           <Link href="/job">
-            <button className="bg-blue-500 text-white py-1 px-3 rounded-lg hover:bg-blue-600">
+            <button className="bg-blue-500 text-white py-2 px-4 rounded-full hover:bg-blue-600">
               Post a Job
             </button>
           </Link>
