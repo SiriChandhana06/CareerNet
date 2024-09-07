@@ -12,11 +12,11 @@ export default function Home() {
 
   useEffect(() => {
     const interval1 = setInterval(() => {
-      setFreelancersCount((prevCount) => (prevCount < 500 ? prevCount + 1 : 500));
+      setFreelancersCount((prevCount) => (prevCount < 500 ? prevCount + 3 : 500));
     }, 10); // adjust the speed by changing the interval
 
     const interval2 = setInterval(() => {
-      setWorkPostedCount((prevCount) => (prevCount < 300 ? prevCount + 1 : 300));
+      setWorkPostedCount((prevCount) => (prevCount < 300 ? prevCount + 3 : 300));
     }, 10);
 
     return () => {
