@@ -55,28 +55,38 @@ export default function Carousel() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen py-2">
-      <h2 className="text-gray-500 text-lg">The latest freelance work!</h2>
-      <h1 className="text-4xl font-semibold mt-2">
+    <div className='mx-10 md:mx-24'>
+      <h2 className="text-gray-500 text-xl md:text-2xl text-left">The latest freelance work!</h2>
+      <div className='flex justify-between'>
+      <div>
+      <h1 className="text-xl md:text-3xl lg:text-5xl font-semibold mt-2">
         Recently Posted <span className="text-blue-600">Works</span>
       </h1>
-
-      <div className="relative mt-8 w-full max-w-5xl">
-        <div className="flex justify-between items-center w-full">
-          {/* Left Arrow */}
-          <button
+      </div>
+      <div className='flex gap-2 md:gap-4'>
+      <button
             onClick={handlePrev}
-            className="bg-blue-600 text-white p-2 rounded-full hover:bg-blue-700 transition"
+            className="bg-white text-blue-600 p-2 md:p-4 lg:p-6 rounded-full hover:bg-blue-700 hover:text-white transition"
           >
             <FaArrowLeft />
           </button>
-
+          <button
+            onClick={handleNext}
+            className="bg-blue-600 text-white p-2 md:p-4 lg:p-6 rounded-full hover:bg-white hover:text-blue-600 transition"
+          >
+            <FaArrowRight />
+          </button>
+      </div>
+      </div>
+      <div className="flex py-2">  
+      <div className="relative mt-8 w-full "> 
           {/* Carousel Cards */}
-          <div className="flex space-x-6 overflow-hidden w-full justify-center">
+          <div className='hidden lg:block'>
+          <div className="flex space-x-6 items-center overflow-hidden w-full justify-center ">
             {works.slice(currentIndex, currentIndex + 3).map((work, index) => (
               <div
                 key={index}
-                className="w-80 h-60 bg-white shadow-lg rounded-xl p-6 text-center"
+                className="w-96 h-54 bg-white shadow-lg rounded-xl p-6 text-center"
               >
                 <img
                   src={work.icon}
@@ -85,26 +95,56 @@ export default function Carousel() {
                 />
                 <h3 className="text-xl font-semibold">{work.title}</h3>
                 <p className="text-gray-600 mt-2">{work.description}</p>
-                <p className="text-lg font-semibold mt-4">Highest bid {work.bid}</p>
+                <div className='flex justify-between'>
+                  <div>
+                <p className="text-lg font-semibold mt-4">Highest bid </p>
+                <p  className="text-lg font-semibold ">{work.bid}</p>
+                </div>
+                <div>
                 <a
                   href={work.link}
-                  className="text-blue-500 mt-2 block hover:underline"
+                  className="text-blue-500 mt-8 block hover:underline"
                 >
                   Apply now
                 </a>
+                </div>
+                </div>
               </div>
             ))}
-          </div>
-
-          {/* Right Arrow */}
-          <button
-            onClick={handleNext}
-            className="bg-blue-600 text-white p-2 rounded-full hover:bg-blue-700 transition"
-          >
-            <FaArrowRight />
-          </button>
+        </div>
+        </div>
+        <div className="flex space-x-6 items-center overflow-hidden w-full justify-center block lg:hidden">
+            {works.slice(currentIndex, currentIndex + 1).map((work, index) => (
+              <div
+                key={index}
+                className="w-96 h-54 bg-white shadow-lg rounded-xl p-6 text-center"
+              >
+                <img
+                  src={work.icon}
+                  alt={work.title}
+                  className="w-12 h-12 mx-auto mb-4"
+                />
+                <h3 className="text-xl font-semibold">{work.title}</h3>
+                <p className="text-gray-600 mt-2">{work.description}</p>
+                <div className='flex justify-between'>
+                  <div>
+                <p className="text-lg font-semibold mt-4">Highest bid </p>
+                <p  className="text-lg font-semibold ">{work.bid}</p>
+                </div>
+                <div>
+                <a
+                  href={work.link}
+                  className="text-blue-500 mt-8 block hover:underline"
+                >
+                  Apply now
+                </a>
+                </div>
+                </div>
+              </div>
+            ))}
         </div>
       </div>
+    </div>
     </div>
   );
 }

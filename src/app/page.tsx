@@ -59,7 +59,7 @@ export default function Home() {
           <Image src={home} alt="Home" className="w-full h-full lg:h-[500px] object-cover"/>
         </div>
       </div>
-    <div className="bg-white py-8 mx-10 my-10 md:mx-20 shadow-lg rounded-lg">
+    <div className="bg-white py-8 mx-10 my-10 md:mx-20 shadow-lg rounded-xl">
       <div className="container mx-auto flex flex-col md:flex-row justify-around items-center space-y-6 md:space-y-0 md:space-x-4">
         
         <div className="flex flex-col items-center text-center p-4 ">
