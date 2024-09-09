@@ -5,6 +5,8 @@ import Image from "next/image";
 import home from '../app/Assests/home1.png';
 import girl from '../app/Assests/girl.png';
 import Carousel from "./Components/Carousel";
+import Categories from './Components/Categories';
+import Newletter from "./Components/Newletter";
 
 export default function Home() {
   const [freelancersCount, setFreelancersCount] = useState(0);
@@ -129,6 +131,12 @@ export default function Home() {
     </div>
     <div>
       <Carousel/>
+    </div>
+    <div>
+      <Categories/>
+    </div>
+    <div>
+      <Newletter/>
     </div>
    </div>
   );

@@ -85,12 +85,7 @@ const Navbar: React.FC = () => {
           </Link>
           <Link href="/login">
             <h1 className={`hover:text-gray-300 ${isActive('/login') ? 'text-blue-500' : ''}`}>
-              Log In
-            </h1>
-          </Link>
-          <Link href="/signup">
-            <h1 className={`hover:text-gray-300 ${isActive('/signup') ? 'text-blue-500' : ''}`}>
-              Sign Up
+              Log In / Sign Up
             </h1>
           </Link>
           <Link href="/job">
@@ -130,12 +125,7 @@ const Navbar: React.FC = () => {
             </Link>
             <Link href="/login">
               <h1 className={`hover:text-gray-300 ${isActive('/login') ? 'text-blue-500' : ''}`}>
-                Log In
-              </h1>
-            </Link>
-            <Link href="/signup">
-              <h1 className={`hover:text-gray-300 ${isActive('/signup') ? 'text-blue-500' : ''}`}>
-                Sign Up
+                Log In / Sign Up
               </h1>
             </Link>
             <Link href="/job">
