@@ -10,7 +10,7 @@ const Newletter: React.FC = () => {
             </div>
             <div>
                 <div className="mt-10 flex justify-center">
-                    <input type='email' placeholder="Enter Your Email Address" className="rounded-xl py-2 px-4 w-64 md:w-96"/>
+                    <input type='email' placeholder="Enter Your Email Address" className="rounded-xl py-2 px-4 w-64 md:w-96 shadow-lg shadow-blue-400"/>
                 </div>
                 <div className="flex justify-center">
                     <button className="mt-8 px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">Subscribe</button>

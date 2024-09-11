@@ -7,6 +7,7 @@ import girl from '../app/Assests/girl.png';
 import Carousel from "./Components/Carousel";
 import Categories from './Components/Categories';
 import Newletter from "./Components/Newletter";
+import Footer from "./Components/Footer";
 
 export default function Home() {
   const [freelancersCount, setFreelancersCount] = useState(0);
@@ -137,6 +138,9 @@ export default function Home() {
     </div>
     <div>
       <Newletter/>
+    </div>
+    <div className="mt-10">
+      <Footer/>
     </div>
    </div>
   );
