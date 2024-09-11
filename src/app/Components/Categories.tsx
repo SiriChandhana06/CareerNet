@@ -29,7 +29,7 @@ export default function Categories() {
 
   return (
     <div className="flex flex-col items-center">
-      <h1 className="text-4xl font-semibold mt-10 mb-8 text-gray-800">
+      <h1 className="text-4xl font-semibold mt-10 mb-8 text-center text-gray-800">
         Choose Different <span className="text-blue-600 font-bold">Category</span>
       </h1>
       {error ? (

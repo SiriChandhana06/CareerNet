@@ -133,10 +133,10 @@ export default function Home() {
     <div>
       <Carousel/>
     </div>
-    <div>
+    <div className="mt-10">
       <Categories/>
     </div>
-    <div>
+    <div className="mt-10">
       <Newletter/>
     </div>
     <div className="mt-10">
