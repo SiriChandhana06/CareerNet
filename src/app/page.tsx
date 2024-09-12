@@ -8,6 +8,7 @@ import Carousel from "./Components/Carousel";
 import Categories from './Components/Categories';
 import Newletter from "./Components/Newletter";
 import Footer from "./Components/Footer";
+import PortfolioSection from "./Components/PortfolioSection";
 
 export default function Home() {
   const [freelancersCount, setFreelancersCount] = useState(0);
@@ -135,6 +136,9 @@ export default function Home() {
     </div>
     <div className="mt-10">
       <Categories/>
+    </div>
+    <div className="mt-10">
+      <PortfolioSection/>
     </div>
     <div className="mt-10">
       <Newletter/>
