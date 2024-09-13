@@ -65,18 +65,18 @@ const Navbar: React.FC = () => {
           } md:block`}
         >
           <Link href="/">
-            <h1 className={`hover:text-gray-300 ${isActive('/') ? 'text-blue-500' : ''}`}>
+            <h1 className={`hover:text-blue-300 ${isActive('/') ? 'text-blue-500' : ''}`}>
               Home
             </h1>
           </Link>
           <Link href="/findwork">
-            <h1 className={`hover:text-gray-300 ${isActive('/find-work') ? 'text-blue-500' : ''}`}>
+            <h1 className={`hover:text-blue-300 ${isActive('/find-work') ? 'text-blue-500' : ''}`}>
               Find Work
             </h1>
           </Link>
           <Link href="/findfreelancers">
             <h1
-              className={`hover:text-gray-300 ${
+              className={`hover:text-blue-300 ${
                 isActive('/find-freelancers') ? 'text-blue-500' : ''
               }`}
             >
@@ -84,12 +84,12 @@ const Navbar: React.FC = () => {
             </h1>
           </Link>
           <Link href="/login">
-            <h1 className={`hover:text-gray-300 ${isActive('/login') ? 'text-blue-500' : ''}`}>
+            <h1 className={`hover:text-blue-300 ${isActive('/login') ? 'text-blue-500' : ''}`}>
               Log In / Sign Up
             </h1>
           </Link>
           <Link href="/job">
-            <button className="bg-blue-500 text-white py-2 px-4 rounded-full hover:bg-blue-600">
+            <button className="bg-blue-500 text-white py-2 px-4 rounded-full hover:bg-blue-600 hover:scale-110">
               Post a Job
             </button>
           </Link>
