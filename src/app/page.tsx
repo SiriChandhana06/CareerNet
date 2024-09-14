@@ -1,14 +1,14 @@
 "use client";
 import { useState, useEffect } from "react";
-import Navbar from "./Components/Navbar";
+import Navbar from "../Components/Navbar";
 import Image from "next/image";
-import home from '../app/Assests/home1.png';
-import girl from '../app/Assests/girl.png';
-import Carousel from "./Components/Carousel";
-import Categories from './Components/Categories';
-import Newletter from "./Components/Newletter";
-import Footer from "./Components/Footer";
-import PortfolioSection from "./Components/PortfolioSection";
+import home from '../Assests/home1.png';
+import girl from '../Assests/girl.png';
+import Carousel from "../Components/Carousel";
+import Categories from '../Components/Categories';
+import Newletter from "../Components/Newletter";
+import Footer from "../Components/Footer";
+import PortfolioSection from "../Components/PortfolioSection";
 
 export default function Home() {
   const [freelancersCount, setFreelancersCount] = useState(0);
@@ -44,7 +44,7 @@ export default function Home() {
             Hire Great Freelancers, Fast. Spacelance helps you hire elite freelancers at a moment&apos;s notice.
           </p>
           <div className="flex flex-col md:flex-row items-center md:items-start mt-0 md:mt-10">
-            <button className="bg-blue-600 text-white py-2 px-4 rounded-md mb-4 md:mb-0 md:mr-4 hover:bg-blue-700">
+            <button className="bg-blue-600 text-white py-2 px-4 rounded-md mb-4 md:mb-0 md:mr-4 hover:bg-blue-700 hover:scale-110" >
               Hire a Freelancer
             </button>
             <div className="relative w-full md:w-auto ">
@@ -53,7 +53,7 @@ export default function Home() {
                 placeholder="Search freelance work"
                 className="py-2 px-4 rounded-md border-2 border-gray-300 w-full md:w-64"
               />
-              <svg xmlns="http://www.w3.org/2000/svg" className="absolute right-1 top-0.5" width="40" height="40" viewBox="0 0 56 56">
+              <svg xmlns="http://www.w3.org/2000/svg" className="absolute right-1 top-0.5 hover:scale-110" width="40" height="40" viewBox="0 0 56 56">
                 <path fill="#1E88E5" d="M28 51.906c13.055 0 23.906-10.828 23.906-23.906c0-13.055-10.875-23.906-23.93-23.906C14.899 4.094 4.095 14.945 4.095 28c0 13.078 10.828 23.906 23.906 23.906M16.539 25.398c0-4.945 4.055-9 9.023-9c4.946 0 9 4.055 9 9a8.76 8.76 0 0 1-1.664 5.18l5.86 5.86c.328.328.539.773.539 1.218c0 .985-.68 1.664-1.594 1.664c-.539 0-.984-.164-1.43-.61l-5.789-5.788a8.9 8.9 0 0 1-4.922 1.5c-4.968 0-9.023-4.055-9.023-9.024m2.601 0c0 3.516 2.907 6.422 6.422 6.422c3.47 0 6.375-2.906 6.375-6.422c0-3.468-2.906-6.375-6.375-6.375c-3.515 0-6.422 2.907-6.422 6.375"/>
               </svg>
             </div>
