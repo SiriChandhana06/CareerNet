@@ -1,4 +1,3 @@
-import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import logo from '../../Assests/logo.png'; 
@@ -92,7 +91,7 @@ const LoginPage: React.FC = () => {
         <hr className='border border-gray-500 mt-4'/>
         <div className="mt-4 flex justify-center gap-1 text-center">
           <span>Don’t have an account? </span>
-          <Link href="/sign-up">
+          <Link href="/signup">
             <h1 className="text-blue-600 hover:underline">Sign up</h1>
           </Link>
         </div>
