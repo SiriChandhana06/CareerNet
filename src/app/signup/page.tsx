@@ -6,6 +6,7 @@ import login from '../../Assests/login.png';
 const SignupPage: React.FC = () => {
   return (
     <div className='bg-blue-300'>
+
       <Link href="/">
       <div className='flex justify-start'>
         <button className='bg-gray-200 mt-4 ml-10 rounded-xl px-4 py-3'>
@@ -13,6 +14,7 @@ const SignupPage: React.FC = () => {
       </button>
       </div>
       </Link>
+
       <div className='lg:grid lg:grid-cols-2 bg-blue-300 h-screen lg:h-full py-10 md:py-20 px-10'>
         <div className="flex justify-center items-center ">
           <div className="bg-white shadow-lg rounded-lg p-8 max-w-xl w-full">
@@ -104,6 +106,7 @@ const SignupPage: React.FC = () => {
           <Image src={login} height={450} width={450} alt='login' />
         </div>
       </div>
+      
     </div>
   );
 };
