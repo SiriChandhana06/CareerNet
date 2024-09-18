@@ -1,7 +1,11 @@
+"use client";
 import Image from 'next/image';
 import Link from 'next/link';
 import logo from '../../Assests/logo.png';
 import login from '../../Assests/login.png';
+// import { useState,useEffect } from 'react';
+// import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, User } from "firebase/auth";
+// import {app} from '../../Firebaseauth';
 
 const LoginPage: React.FC = () => {
   return (
@@ -77,7 +81,7 @@ const LoginPage: React.FC = () => {
             </form>
             <hr className='border border-gray-500 mt-4' />
             <div className="mt-4 flex justify-center gap-1 text-center">
-              <span>Don’t have an account? </span>
+              <span>Don’t have an account?</span>
               <Link href="/signup">
                 <h1 className="text-blue-600 hover:underline">Sign up</h1>
               </Link>

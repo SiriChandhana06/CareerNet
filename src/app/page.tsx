@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Navbar from "../Components/Navbar";
 import Image from "next/image";
 import home from '../Assests/home1.png';
