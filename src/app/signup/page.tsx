@@ -7,7 +7,6 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { auth, provider } from "../../Firebaseauth";
 import { signInWithPopup } from "firebase/auth";
-import axios from "axios";
 
 const SignupPage: React.FC = () => {
   const [user, setUser] = useState(null);
@@ -22,7 +21,6 @@ const SignupPage: React.FC = () => {
   const [errors, setErrors] = useState({});
   const router = useRouter();
 
-  // Handle Google Sign-In
   const handleGoogleSignIn = async () => {
     try {
       const result = await signInWithPopup(auth, provider);
@@ -34,7 +32,7 @@ const SignupPage: React.FC = () => {
     }
   };
 
-  // Validate form data
+
   const validate = () => {
     const newErrors: any = {};
 
@@ -52,18 +50,14 @@ const SignupPage: React.FC = () => {
     if (!formData.agreeTerms) {
       newErrors.agreeTerms = "You must agree to the terms";
     }
-
     return newErrors;
   };
 
- 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    // Example validation function
-    const validationErrors = validate(); // validate() should check for required fields
+
+    const validationErrors = validate(); 
     if (Object.keys(validationErrors).length === 0) {
-        // If no validation errors, proceed with form submission
         try {
             const response = await fetch("http://localhost:5000/api/auth/signup", {
                 method: "POST",
@@ -71,16 +65,17 @@ const SignupPage: React.FC = () => {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                   firstName,
-                    lastName, // replace with actual field variables
-                    email,
-                    password,
-                }),
+                  firstName: formData.firstName,
+                  lastName: formData.lastName, 
+                  email: formData.email,
+                  password: formData.password,
+              }),
             });
-
             const data = await response.json();
             if (response.ok) {
                 console.log("User registered successfully", data);
+                alert('Sign Up successful! Redirecting to the homepage...');
+                router.push("/");
             } else {
                 console.error("Error registering user:", data.message);
             }
@@ -88,9 +83,8 @@ const SignupPage: React.FC = () => {
             console.error("Error submitting form", error);
         }
     } else {
-        // Handle validation errors
         console.error("Form validation failed:", validationErrors);
-        setErrors(validationErrors); // Assuming you're using a state for handling errors
+        setErrors(validationErrors); 
     }
 };
 
@@ -258,18 +252,16 @@ const SignupPage: React.FC = () => {
               {errors.agreeTerms && (
                 <p className="text-red-500 text-sm">{errors.agreeTerms}</p>
               )}
-
               <button
                 type="submit"
                 className="w-full bg-blue-600 text-white py-2 rounded-lg text-md md:text-xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                  Join CareerNet
               </button>
-
               <p className="text-center text-sm">
                 Already have an account?{" "}
-                <Link href="/auth/login">
-                  <span className="text-blue-600">Login</span>
+                <Link href="/login">
+                  <span className="text-blue-600 hover:underline">Login</span>
                 </Link>
               </p>
             </form>

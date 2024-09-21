@@ -7,14 +7,11 @@ const router = express.Router();
 // @route   POST /api/auth/signup
 // @desc    Register new user
 router.post("/signup", async (req, res) => {
-  const { firstName, lastName, email, password, confirmPassword } = req.body;
+  const { firstName, lastName, email, password } = req.body;
 
-  // Basic validation
-  if (!firstName || !lastName || !email || !password || !confirmPassword) {
+
+  if (!firstName || !lastName || !email || !password) {
     return res.status(400).json({ message: "Please fill in all fields" });
-  }
-  if (password !== confirmPassword) {
-    return res.status(400).json({ message: "Passwords do not match" });
   }
 
   try {
@@ -90,5 +87,6 @@ router.post("/login", async (req, res) => {
     res.status(500).json({ message: "Server error", error: err.message });
   }
 });
+
 
 module.exports = router;
