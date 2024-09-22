@@ -15,6 +15,7 @@ const LoginPage: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
 
   // Handle Google Sign-In
@@ -32,6 +33,7 @@ const LoginPage: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
   
     if (!email || !password) {
       setError('Please fill in all fields');
@@ -48,14 +50,17 @@ const LoginPage: React.FC = () => {
       });
   
       const data = await response.json();
-  
+      console.log(data.user.email);
+      
       if (response.ok) {
         localStorage.setItem('token', data.token);
+        localStorage.setItem('userEmail', data.user.email);
         router.push('/');
         alert('Login successful! Redirecting to the homepage...');
       } else {
         setError(data.message);
       }
+  setLoading(false);
     } catch (err) {
       console.error('Error logging in:', err);
       setError('Something went wrong. Please try again later.');
@@ -123,9 +128,10 @@ const LoginPage: React.FC = () => {
               />
               <button
                 type="submit"
+                disabled={loading}
                 className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition"
               >
-                Log in
+                {loading ? 'Logging in...' : 'Log in'}
               </button>
             </form>
             <hr className='border border-gray-500 mt-4' />

@@ -73,6 +73,7 @@ const SignupPage: React.FC = () => {
             });
             const data = await response.json();
             if (response.ok) {
+                localStorage.setItem('userEmail', data.user.email);
                 console.log("User registered successfully", data);
                 alert('Sign Up successful! Redirecting to the homepage...');
                 router.push("/");
