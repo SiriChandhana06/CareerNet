@@ -37,13 +37,13 @@ export default function Categories() {
       ) : (
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 p-5">
           {categories.map((category) => (
-            <div key={category.id} className="relative group">
+            <div key={category.id} className="relative group rounded-xl transition duration-300 hover:bg-black hover:bg-opacity-100 hover:text-white hover:cursor-pointer">
               <img
                 src={category.imageUrl}
                 alt={category.title}
                 className="w-full h-48 object-cover rounded-xl opacity-80"
               />
-              <div className="absolute inset-0 flex justify-center items-center rounded-xl bg-black bg-opacity-50  opacity-100 transition-opacity">
+              <div className="absolute inset-0 flex justify-center items-center rounded-xl bg-black bg-opacity-40  opacity-100 transition-opacity">
                 <h2 className="text-white text-lg font-medium">
                   {category.title}
                 </h2>

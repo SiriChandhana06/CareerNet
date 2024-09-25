@@ -77,7 +77,7 @@ export default function Carousel() {
             <FaArrowRight />
           </button>
       </div>
-      </div>
+      </div> 
       <div className="flex py-2">  
       <div className="relative mt-8 w-full "> 
           {/* Carousel Cards */}
