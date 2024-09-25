@@ -151,6 +151,12 @@ const Navbar: React.FC = () => {
                   </button>
                   {profileIsOpen && (
                     <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2 z-10">
+                      <button
+                          
+                          className="block px-4 py-2 text-sm text-black hover:bg-gray-100 w-full text-left"
+                        >
+                          My Profile
+                        </button>
                       <button onClick={handleSignOut} className="block px-4 py-2 text-sm text-black hover:bg-gray-100 w-full text-left">Logout</button>
                     </div>
                   )}
@@ -164,11 +170,17 @@ const Navbar: React.FC = () => {
                   {profileIsOpen && (
                       <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2 z-10">
                         <button
+                          
+                          className="block px-4 py-2 text-sm text-black hover:bg-gray-100 w-full text-left"
+                        >
+                          My Profile
+                        </button>
+                        <button
                           onClick={handleSignOut}
                           className="block px-4 py-2 text-sm text-black hover:bg-gray-100 w-full text-left"
                         >
                           Logout
-                        </button>
+                        </button>  
                       </div>
                     )}
                 </div>
@@ -220,7 +232,13 @@ const Navbar: React.FC = () => {
                   </button>
                   {profileIsOpen && (
                     <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2 z-10">
-                      <button onClick={handleSignOut} className="block px-4 py-2 text-sm text-black hover:bg-gray-100 w-full text-left">Logout</button>
+                      <button
+                          
+                          className="block px-4 py-2 text-sm text-black hover:bg-gray-100 w-full text-left"
+                        >
+                          My Profile
+                        </button>
+                      <button onClick={handleSignOut} className="block px-4 py-2 text-sm text-black hover:bg-gray-100 w-full text-left">Logout</button>  
                     </div>
                   )}
                 </div>
@@ -232,6 +250,12 @@ const Navbar: React.FC = () => {
                   </button>
                   {profileIsOpen && (
                       <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2 z-10">
+                        <button
+                          
+                          className="block px-4 py-2 text-sm text-black hover:bg-gray-100 w-full text-left"
+                        >
+                          My Profile
+                        </button>
                         <button
                           onClick={handleSignOut}
                           className="block px-4 py-2 text-sm text-black hover:bg-gray-100 w-full text-left"
