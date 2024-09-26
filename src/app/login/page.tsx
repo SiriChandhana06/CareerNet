@@ -7,6 +7,8 @@ import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { auth, provider } from '../../Firebaseauth';
 import { signInWithPopup } from "firebase/auth";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const LoginPage: React.FC = () => {
 
@@ -24,10 +26,13 @@ const LoginPage: React.FC = () => {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
       setUser(user);
-      // Navigate to home page after successful login
-      router.push('/');
+      toast.success('Login successful!');
+      setTimeout(() => {
+        router.push('/');
+      }, 2000);
     } catch (error) {
       console.error("Error signing in with Google:", error);
+      toast.error(`Error signing in with Google:${error.message}`);
     }
   };
 
@@ -55,15 +60,20 @@ const LoginPage: React.FC = () => {
       if (response.ok) {
         localStorage.setItem('token', data.token);
         localStorage.setItem('userEmail', data.user.email);
-        router.push('/');
-        alert('Login successful! Redirecting to the homepage...');
+        toast.success('Login successful!');
+        setTimeout(() => {
+          router.push('/');
+        }, 2000);
+       
       } else {
         setError(data.message);
+        toast.error(`Error: ${error.message}`);
       }
   setLoading(false);
     } catch (err) {
       console.error('Error logging in:', err);
       setError('Something went wrong. Please try again later.');
+      toast.error(`Error logging in: ${err}`)
     }
   };
   
@@ -147,6 +157,16 @@ const LoginPage: React.FC = () => {
           <Image src={login} height={450} width={450} alt='login' />
         </div>
       </div>
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        theme="colored"
+      />
     </div>
   );
 };

@@ -2,10 +2,13 @@
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { usePathname } from 'next/navigation'; // Use usePathname instead of useRouter for easier route detection in client components
+import { usePathname } from 'next/navigation'; 
 import logo from '../Assests/logo.png';
 import { auth } from '../Firebaseauth';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -43,7 +46,7 @@ const Navbar: React.FC = () => {
   };
 
   const toggleMenu = () => {
-    setProfileIsOpen(!profileIsOpen); // Toggle profile dropdown
+    setProfileIsOpen(!profileIsOpen); 
   };
 
   const isActive = (path: string) => activePath === path;
@@ -56,6 +59,7 @@ const Navbar: React.FC = () => {
       localStorage.removeItem('userEmail'); // Remove email from local storage
       setEmail(""); // Reset the email state
       setSession(false); // Reset the session stat // Close the dropdown after signing out
+      toast.success(' You have successfully signed out!!')
     } catch (error) {
       if (error instanceof Error) {
         console.error("Error occurred during sign-out:", error.message);
@@ -277,6 +281,16 @@ const Navbar: React.FC = () => {
           )}
         </div>
       </nav>
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        theme="colored"
+      />
     </div>
   );
 };

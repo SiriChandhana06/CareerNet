@@ -9,6 +9,7 @@ import Categories from '../Components/Categories';
 import Newletter from "../Components/Newletter";
 import Footer from "../Components/Footer";
 import PortfolioSection from "../Components/PortfolioSection";
+import { motion } from 'framer-motion';
 
 export default function Home() {
   const [freelancersCount, setFreelancersCount] = useState(0);
@@ -31,7 +32,7 @@ export default function Home() {
 
 
   return (
-   <div className="bg-blue-300">
+   <div className="bg-blue-300 overflow-x-hidden">
     <div className="">
     <Navbar/>
     </div>
@@ -59,9 +60,12 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <div className="md:w-1/2 mt-8 md:mt-0">
+        <motion.div className="md:w-1/2 mt-8 md:mt-0"
+        initial={{ x: '100vw' }} // Start position off-screen to the left
+        animate={{ x: 0 }}        // Final position (on-screen)
+        transition={{ type: 'spring', stiffness: 100, damping: 20 }} >
           <Image src={home} alt="Home" className="w-full h-full lg:h-[500px] object-cover"/>
-        </div>
+        </motion.div>
       </div>
     <div className="bg-white py-8 mx-10 my-10 md:mx-20 shadow-lg rounded-xl">
       <div className="container mx-auto flex flex-col md:flex-row justify-around items-center space-y-6 md:space-y-0 md:space-x-4">

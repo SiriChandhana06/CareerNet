@@ -7,6 +7,8 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { auth, provider } from "../../Firebaseauth";
 import { signInWithPopup } from "firebase/auth";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const SignupPage: React.FC = () => {
   const [user, setUser] = useState(null);
@@ -26,9 +28,13 @@ const SignupPage: React.FC = () => {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
       setUser(user);
-      router.push("/");
+      toast.success('Login successful!');
+      setTimeout(() => {
+        router.push('/');
+      }, 2000);
     } catch (error) {
       console.error("Error signing in with Google:", error);
+      toast.error(`Error signing in with Google:${error.message}`);
     }
   };
 
@@ -75,16 +81,20 @@ const SignupPage: React.FC = () => {
             if (response.ok) {
                 localStorage.setItem('userEmail', data.user.email);
                 console.log("User registered successfully", data);
-                alert('Sign Up successful! Redirecting to the homepage...');
-                router.push("/");
+                toast.success('Sign Up!');
+                setTimeout(() => {
+                  router.push('/');
+                }, 2000);
             } else {
                 console.error("Error registering user:", data.message);
+                toast.error(`Error: ${error.message}`);
             }
         } catch (error) {
             console.error("Error submitting form", error);
         }
     } else {
         console.error("Form validation failed:", validationErrors);
+        toast.error(`Form validation failed: ${validationErrors}`)
         setErrors(validationErrors); 
     }
 };
@@ -279,6 +289,16 @@ const SignupPage: React.FC = () => {
           />
         </div>
       </div>
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        theme="colored"
+      />
     </div>
   );
 };
