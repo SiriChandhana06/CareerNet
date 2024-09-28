@@ -209,38 +209,38 @@ const Navbar: React.FC = () => {
                   Post a Project
                 </button>
                 {session || user ? (
-                <div ref={dropdownRef}>
-                  <button onClick={toggleMenu} className="flex bg-blue-500 text-white py-2 px-4 rounded-full hover:bg-blue-600 hover:scale-110">
-                    <Image
-                      src={user?.photoURL || "/default-avatar.png"}
-                      alt="User Avatar"
-                      className="h-8 w-8 rounded-full"
-                      width={10}
-                      height={10}
-                    />
-                    <h1 className="ml-2 mt-1">{email || user?.displayName}</h1>
-                  </button>
-                  {profileIsOpen && (
-                    <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2 z-10">
-                      <Link href="/myprofile">
-                        <button className="block px-4 py-2 text-sm text-black hover:bg-gray-100 w-full text-left">My Profile</button>
-                      </Link>
-                      <button
-                        onClick={handleSignOut}
-                        className="block px-4 py-2 text-sm text-black hover:bg-gray-100 w-full text-left"
-                      >
-                        Logout
-                      </button>
-                    </div>
-                  )}
-                </div>
-              ) : (
-                <Link href="/login">
-                  <button className="bg-blue-500 text-white py-2 px-4 rounded-full hover:bg-blue-600 hover:scale-110">
-                    Log In / Sign Up
-                  </button>
-                </Link>
-              )}
+                  <div ref={dropdownRef}>
+                    <button onClick={toggleMenu} className="flex bg-blue-500 text-white py-2 px-4 rounded-full hover:bg-blue-600 hover:scale-110">
+                      <Image
+                        src={user?.photoURL || "/default-avatar.png"}
+                        alt="User Avatar"
+                        className="h-8 w-8 rounded-full"
+                        width={10}
+                        height={10}
+                      />
+                      <h1 className="ml-2 mt-1">{email || user?.displayName}</h1>
+                    </button>
+                    {profileIsOpen && (
+                      <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2 z-10">
+                        <Link href="/myprofile">
+                          <button className="block px-4 py-2 text-sm text-black hover:bg-gray-100 w-full text-left">My Profile</button>
+                        </Link>
+                        <button
+                          onClick={handleSignOut}
+                          className="block px-4 py-2 text-sm text-black hover:bg-gray-100 w-full text-left"
+                        >
+                          Logout
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <Link href="/login">
+                    <button className="bg-blue-500 text-white py-2 px-4 rounded-full hover:bg-blue-600 hover:scale-110">
+                      Log In / Sign Up
+                    </button>
+                  </Link>
+                )}
               </div>
             </div>
           )}
@@ -256,14 +256,12 @@ const Navbar: React.FC = () => {
         pauseOnFocusLoss
         theme="colored"
       />
-
+      
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-        <h2 className="text-xl md:text-2xl text-black text-center font-semibold mb-4">Post <span className='text-blue-500'>Project</span></h2>
         <div>
-          <Postajob/>
+          <Postajob />
         </div>
       </Modal>
-
     </div>
   );
 };
