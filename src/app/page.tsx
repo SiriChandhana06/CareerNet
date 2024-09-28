@@ -10,18 +10,26 @@ import Newletter from "../Components/Newletter";
 import Footer from "../Components/Footer";
 import PortfolioSection from "../Components/PortfolioSection";
 import { motion } from 'framer-motion';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 export default function Home() {
   const [freelancersCount, setFreelancersCount] = useState(0);
   const [workPostedCount, setWorkPostedCount] = useState(0);
 
   useEffect(() => {
+    AOS.init({
+      duration: 1000, 
+    });
+  }, []);
+
+  useEffect(() => {
     const interval1 = setInterval(() => {
-      setFreelancersCount((prevCount) => (prevCount < 500 ? prevCount + 3 : 500));
+      setFreelancersCount((prevCount) => (prevCount < 500 ? prevCount + 1 : 500));
     }, 10); // adjust the speed by changing the interval
 
     const interval2 = setInterval(() => {
-      setWorkPostedCount((prevCount) => (prevCount < 300 ? prevCount + 3 : 300));
+      setWorkPostedCount((prevCount) => (prevCount < 300 ? prevCount + 1 : 300));
     }, 10);
 
     return () => {
@@ -33,8 +41,8 @@ export default function Home() {
 
   return (
    <div className="bg-blue-300 overflow-x-hidden">
-    <div className="">
-    <Navbar/>
+    <div>
+      <Navbar/>
     </div>
     <div className="flex flex-col md:flex-row items-center mx-10 md:mx-5 lg:mx-20">
         <div className="md:w-1/2 text-center md:text-left ml-0 md:ml-20">
@@ -60,12 +68,15 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <motion.div className="md:w-1/2 mt-8 md:mt-0"
+        {/* <motion.div className="md:w-1/2 mt-8 md:mt-0"
         initial={{ x: '100vw' }} // Start position off-screen to the left
         animate={{ x: 0 }}        // Final position (on-screen)
         transition={{ type: 'spring', stiffness: 100, damping: 20 }} >
-          <Image src={home} alt="Home" className="w-full h-full lg:h-[500px] object-cover"/>
-        </motion.div>
+          <Image src={home} alt="Home" className="w-full h-full lg:h-[600px] object-cover"/>
+        </motion.div> */}
+        <div data-aos="fade-left">
+        <Image src={home} alt="Home" className="w-full h-full object-cover"/>
+        </div>
       </div>
     <div className="bg-white py-8 mx-10 my-10 md:mx-20 shadow-lg rounded-xl">
       <div className="container mx-auto flex flex-col md:flex-row justify-around items-center space-y-6 md:space-y-0 md:space-x-4">
@@ -114,11 +125,11 @@ export default function Home() {
     <div className="flex flex-col md:flex-row items-center justify-between py-10 px-4 md:px-10 lg:px-20">
       <div className="relative w-full md:w-1/2 flex justify-center">
         <Image src={girl} alt="girl" className="w-full h-auto"/>
-        <div className="absolute top-10 md:top-10 lg:top-40 left-56 md:left-52 lg:left-96 bg-white p-4 rounded-xl shadow-lg">
+        <div className="absolute top-10 md:top-10 lg:top-40 left-56 md:left-52 lg:left-96 bg-white p-4 rounded-xl shadow-lg" data-aos="flip-left">
           <p className="text-blue-600 text-xl lg:text-2xl font-semibold">{freelancersCount}+</p>
           <p className="text-gray-500 text-xs lg:text-xl">freelancers</p>
         </div>
-        <div className="absolute top-32 md:top-32 lg:top-72 left-48 lg:left-96 bg-white p-4 rounded-xl shadow-lg">
+        <div className="absolute top-32 md:top-32 lg:top-72 left-48 lg:left-96 bg-white p-4 rounded-xl shadow-lg" data-aos="flip-left">
           <p className="text-blue-600 text-lg lg:text-2xl font-semibold">{workPostedCount}+</p>
           <p className="text-gray-500 text-xs lg:text-xl">freelance work Posted</p>
         </div>

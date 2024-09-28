@@ -47,7 +47,7 @@ const Footer = () => {
             <h3 className="text-lg font-bold text-gray-700 mb-4">For Freelancers</h3>
             <ul className="space-y-2">
               <li><a href="#" className="text-gray-600 hover:text-blue-500">Find Work</a></li>
-              <li><a href="#" className="text-gray-600 hover:text-blue-500">Create Account</a></li>
+              <li><a href="/signup" className="text-gray-600 hover:text-blue-500">Create Account</a></li>
             </ul>
           </div>
 
@@ -73,7 +73,7 @@ const Footer = () => {
         
         {/* Footer Bottom */}
         <div className="mt-8 border-t pt-4 text-center text-gray-500">
-          &copy; 2022 Spacelance. All rights reserved.
+          &copy; 2022 CareerNet. All rights reserved.
         </div>
       </div>
     </footer>

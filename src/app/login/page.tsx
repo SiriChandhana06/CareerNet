@@ -146,7 +146,7 @@ const LoginPage: React.FC = () => {
             </form>
             <hr className='border border-gray-500 mt-4' />
             <div className="mt-4 flex justify-center gap-1 text-center">
-              <span>Don’t have an account?</span>
+              <span>Don&apos;t have an account?</span>
               <Link href="/signup">
                 <h1 className="text-blue-600 hover:underline">Sign up</h1>
               </Link>

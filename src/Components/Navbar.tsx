@@ -2,13 +2,14 @@
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { usePathname } from 'next/navigation'; 
+import { usePathname } from 'next/navigation';
 import logo from '../Assests/logo.png';
 import { auth } from '../Firebaseauth';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import Modal from './Model';
+import Postajob from './Postajob';
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -19,6 +20,7 @@ const Navbar: React.FC = () => {
   const [session, setSession] = useState(false);
   const [email, setEmail] = useState("");
   const pathname = usePathname(); // Get the current pathname
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   useEffect(() => {
     // Set the active path based on the current URL
@@ -46,7 +48,7 @@ const Navbar: React.FC = () => {
   };
 
   const toggleMenu = () => {
-    setProfileIsOpen(!profileIsOpen); 
+    setProfileIsOpen(!profileIsOpen);
   };
 
   const isActive = (path: string) => activePath === path;
@@ -64,6 +66,15 @@ const Navbar: React.FC = () => {
       if (error instanceof Error) {
         console.error("Error occurred during sign-out:", error.message);
       }
+    }
+  };
+
+  const handlePostJobClick = () => {
+    if (!user && !session) {
+      toast.info("Please log in or sign up to post a Project.");
+      setIsModalOpen(false); // Ensures the modal doesn't open
+    } else {
+      setIsModalOpen(true); // Opens the modal if the user is logged in
     }
   };
 
@@ -136,64 +147,41 @@ const Navbar: React.FC = () => {
                   Find Freelancers
                 </h1>
               </Link>
-              <Link href="/job">
-                <button className="bg-blue-500 text-white py-2 px-4 rounded-full hover:bg-blue-600 hover:scale-110">
-                  Post a Job
-                </button>
-              </Link>
-              {session ? (
-                <div className="">
-                  <button onClick={toggleMenu} className='flex bg-blue-500 p-2 rounded-full hover:bg-blue-600 hover:scale-110'>
-                  <svg
-							    xmlns="http://www.w3.org/2000/svg"
-							    className="fill-white h-8 w-8"
-							    viewBox="0 0 512 512"
-						      >
-							   <path d="M406.5 399.6C387.4 352.9 341.5 320 288 320H224c-53.5 0-99.4 32.9-118.5 79.6C69.9 362.2 48 311.7 48 256C48 141.1 141.1 48 256 48s208 93.1 208 208c0 55.7-21.9 106.2-57.5 143.6zm-40.1 32.7C334.4 452.4 296.6 464 256 464s-78.4-11.6-110.5-31.7c7.3-36.7 39.7-64.3 78.5-64.3h64c38.8 0 71.2 27.6 78.5 64.3zM256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zm0-272a40 40 0 1 1 0-80 40 40 0 1 1 0 80zm-88-40a88 88 0 1 0 176 0 88 88 0 1 0 -176 0z" />
-						     </svg>
-                  <h1 className="text-white p-1">{email}</h1>
+              <button onClick={handlePostJobClick} className="bg-blue-500 text-white py-2 px-4 rounded-full hover:bg-blue-600 hover:scale-110">
+                Post a Project
+              </button>
+              {session || user ? (
+                <div ref={dropdownRef}>
+                  <button onClick={toggleMenu} className="flex bg-blue-500 text-white py-2 px-4 rounded-full hover:bg-blue-600 hover:scale-110">
+                    <Image
+                      src={user?.photoURL || "/default-avatar.png"}
+                      alt="User Avatar"
+                      className="h-8 w-8 rounded-full"
+                      width={10}
+                      height={10}
+                    />
+                    <h1 className="ml-2 mt-1">{email || user?.displayName}</h1>
                   </button>
                   {profileIsOpen && (
                     <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2 z-10">
+                      <Link href="/myprofile">
+                        <button className="block px-4 py-2 text-sm text-black hover:bg-gray-100 w-full text-left">My Profile</button>
+                      </Link>
                       <button
-                          
-                          className="block px-4 py-2 text-sm text-black hover:bg-gray-100 w-full text-left"
-                        >
-                          My Profile
-                        </button>
-                      <button onClick={handleSignOut} className="block px-4 py-2 text-sm text-black hover:bg-gray-100 w-full text-left">Logout</button>
+                        onClick={handleSignOut}
+                        className="block px-4 py-2 text-sm text-black hover:bg-gray-100 w-full text-left"
+                      >
+                        Logout
+                      </button>
                     </div>
                   )}
                 </div>
-              ) : user ? (
-                <div ref={dropdownRef}>
-                  <button onClick={toggleMenu} className="flex bg-blue-500 text-white py-2 px-4 rounded-full hover:bg-blue-600 hover:scale-110">
-                    <Image src={user.photoURL || "/default-avatar.png"} alt="User Avatar" className="h-8 w-8 rounded-full" width={10} height={10} />
-                    <h1 className="ml-2 mt-1">{user.displayName}</h1>
-                  </button>
-                  {profileIsOpen && (
-                      <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2 z-10">
-                        <button
-                          
-                          className="block px-4 py-2 text-sm text-black hover:bg-gray-100 w-full text-left"
-                        >
-                          My Profile
-                        </button>
-                        <button
-                          onClick={handleSignOut}
-                          className="block px-4 py-2 text-sm text-black hover:bg-gray-100 w-full text-left"
-                        >
-                          Logout
-                        </button>  
-                      </div>
-                    )}
-                </div>
               ) : (
                 <Link href="/login">
-                    <button className="bg-blue-500 text-white py-2 px-4 rounded-full hover:bg-blue-600 hover:scale-110">
-                      Log In / Sign Up
-                    </button>
-                  </Link>
+                  <button className="bg-blue-500 text-white py-2 px-4 rounded-full hover:bg-blue-600 hover:scale-110">
+                    Log In / Sign Up
+                  </button>
+                </Link>
               )}
             </div>
           </div>
@@ -217,65 +205,42 @@ const Navbar: React.FC = () => {
                     Find Freelancers
                   </h1>
                 </Link>
-                <Link href="/job">
-                  <button className="bg-blue-500 text-white py-1 px-3 rounded-lg hover:bg-blue-600">
-                    Post a Job
-                  </button>
-                </Link>
-                {session ? (
-                <div className="">
-                  <button onClick={toggleMenu} className='flex bg-blue-500 p-2 rounded-full hover:bg-blue-600 hover:scale-110'>
-                  <svg
-							    xmlns="http://www.w3.org/2000/svg"
-							    className="fill-white h-8 w-8"
-							    viewBox="0 0 512 512"
-						      >
-							   <path d="M406.5 399.6C387.4 352.9 341.5 320 288 320H224c-53.5 0-99.4 32.9-118.5 79.6C69.9 362.2 48 311.7 48 256C48 141.1 141.1 48 256 48s208 93.1 208 208c0 55.7-21.9 106.2-57.5 143.6zm-40.1 32.7C334.4 452.4 296.6 464 256 464s-78.4-11.6-110.5-31.7c7.3-36.7 39.7-64.3 78.5-64.3h64c38.8 0 71.2 27.6 78.5 64.3zM256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zm0-272a40 40 0 1 1 0-80 40 40 0 1 1 0 80zm-88-40a88 88 0 1 0 176 0 88 88 0 1 0 -176 0z" />
-						     </svg>
-                  <h1 className="text-white p-1">{email}</h1>
+                <button onClick={handlePostJobClick} className="bg-blue-500 text-white py-1 px-3 rounded-lg hover:bg-blue-600">
+                  Post a Project
+                </button>
+                {session || user ? (
+                <div ref={dropdownRef}>
+                  <button onClick={toggleMenu} className="flex bg-blue-500 text-white py-2 px-4 rounded-full hover:bg-blue-600 hover:scale-110">
+                    <Image
+                      src={user?.photoURL || "/default-avatar.png"}
+                      alt="User Avatar"
+                      className="h-8 w-8 rounded-full"
+                      width={10}
+                      height={10}
+                    />
+                    <h1 className="ml-2 mt-1">{email || user?.displayName}</h1>
                   </button>
                   {profileIsOpen && (
                     <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2 z-10">
+                      <Link href="/myprofile">
+                        <button className="block px-4 py-2 text-sm text-black hover:bg-gray-100 w-full text-left">My Profile</button>
+                      </Link>
                       <button
-                          
-                          className="block px-4 py-2 text-sm text-black hover:bg-gray-100 w-full text-left"
-                        >
-                          My Profile
-                        </button>
-                      <button onClick={handleSignOut} className="block px-4 py-2 text-sm text-black hover:bg-gray-100 w-full text-left">Logout</button>  
+                        onClick={handleSignOut}
+                        className="block px-4 py-2 text-sm text-black hover:bg-gray-100 w-full text-left"
+                      >
+                        Logout
+                      </button>
                     </div>
                   )}
                 </div>
-              ) : user ? (
-                <div ref={dropdownRef}>
-                  <button onClick={toggleMenu} className="flex bg-blue-500 text-white py-2 px-4 rounded-full hover:bg-blue-600 hover:scale-110">
-                    <Image src={user.photoURL || "/default-avatar.png"} alt="User Avatar" className="h-8 w-8 rounded-full" width={10} height={10} />
-                    <h1 className="ml-2 mt-1">{user.displayName}</h1>
-                  </button>
-                  {profileIsOpen && (
-                      <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2 z-10">
-                        <button
-                          
-                          className="block px-4 py-2 text-sm text-black hover:bg-gray-100 w-full text-left"
-                        >
-                          My Profile
-                        </button>
-                        <button
-                          onClick={handleSignOut}
-                          className="block px-4 py-2 text-sm text-black hover:bg-gray-100 w-full text-left"
-                        >
-                          Logout
-                        </button>
-                      </div>
-                    )}
-                </div>
               ) : (
-                  <Link href="/login">
-                    <button className="bg-blue-500 text-white py-2 px-4 rounded-full hover:bg-blue-600 hover:scale-110">
-                      Log In / Sign Up
-                    </button>
-                  </Link>
-                )}
+                <Link href="/login">
+                  <button className="bg-blue-500 text-white py-2 px-4 rounded-full hover:bg-blue-600 hover:scale-110">
+                    Log In / Sign Up
+                  </button>
+                </Link>
+              )}
               </div>
             </div>
           )}
@@ -291,6 +256,14 @@ const Navbar: React.FC = () => {
         pauseOnFocusLoss
         theme="colored"
       />
+
+      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+        <h2 className="text-xl md:text-2xl text-black text-center font-semibold mb-4">Post <span className='text-blue-500'>Project</span></h2>
+        <div>
+          <Postajob/>
+        </div>
+      </Modal>
+
     </div>
   );
 };
