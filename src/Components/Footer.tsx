@@ -1,7 +1,7 @@
-import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import logo from '../Assests/logo.png';
+import Modal from './Model';
 
 const Footer = () => {
   return (
@@ -35,7 +35,7 @@ const Footer = () => {
           <div className="w-full md:w-1/4 mb-6 md:mb-0">
             <h3 className="text-lg font-bold text-gray-700 mb-4">For Clients</h3>
             <ul className="space-y-2">
-              <li><a href="#" className="text-gray-600 hover:text-blue-500">Find Freelancers</a></li>
+              <li><a href="/findfreelancers" className="text-gray-600 hover:text-blue-500">Find Freelancers</a></li>
               <li><a href="#" className="text-gray-600 hover:text-blue-500">Post Project</a></li>
               <li><a href="#" className="text-gray-600 hover:text-blue-500">Refund Policy</a></li>
               <li><a href="#" className="text-gray-600 hover:text-blue-500">Privacy Policy</a></li>
@@ -46,7 +46,7 @@ const Footer = () => {
           <div className="w-full md:w-1/4 mb-6 md:mb-0">
             <h3 className="text-lg font-bold text-gray-700 mb-4">For Freelancers</h3>
             <ul className="space-y-2">
-              <li><a href="#" className="text-gray-600 hover:text-blue-500">Find Work</a></li>
+              <li><a href="/findwork" className="text-gray-600 hover:text-blue-500">Find Work</a></li>
               <li><a href="/signup" className="text-gray-600 hover:text-blue-500">Create Account</a></li>
             </ul>
           </div>

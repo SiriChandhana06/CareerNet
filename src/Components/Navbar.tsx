@@ -138,12 +138,12 @@ const Navbar: React.FC = () => {
                 </h1>
               </Link>
               <Link href="/findwork">
-                <h1 className={`hover:text-blue-300 ${isActive('/find-work') ? 'text-blue-500' : ''}`}>
+                <h1 className={`hover:text-blue-300 ${isActive('/findwork') ? 'text-blue-500' : ''}`}>
                   Find Work
                 </h1>
               </Link>
               <Link href="/findfreelancers">
-                <h1 className={`hover:text-blue-300 ${isActive('/find-freelancers') ? 'text-blue-500' : ''}`}>
+                <h1 className={`hover:text-blue-300 ${isActive('/findfreelancers') ? 'text-blue-500' : ''}`}>
                   Find Freelancers
                 </h1>
               </Link>
@@ -196,12 +196,12 @@ const Navbar: React.FC = () => {
                   </h1>
                 </Link>
                 <Link href="/findwork">
-                  <h1 className={`hover:text-gray-300 ${isActive('/find-work') ? 'text-blue-500' : ''}`}>
+                  <h1 className={`hover:text-gray-300 ${isActive('/findwork') ? 'text-blue-500' : ''}`}>
                     Find Work
                   </h1>
                 </Link>
                 <Link href="/findfreelancers">
-                  <h1 className={`hover:text-gray-300 ${isActive('/find-freelancers') ? 'text-blue-500' : ''}`}>
+                  <h1 className={`hover:text-gray-300 ${isActive('/findfreelancers') ? 'text-blue-500' : ''}`}>
                     Find Freelancers
                   </h1>
                 </Link>

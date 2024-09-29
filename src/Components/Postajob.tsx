@@ -94,9 +94,9 @@ const Postajob: React.FC = () => {
                     </div>
 
                     <div>
-                        <label className="block text-gray-700 font-bold mb-2">Upload any images or documents that might be helpful in explaining your brief here.</label>
+                        <label className="block text-gray-700 font-bold mb-2">Upload image </label>
                         <div className="flex items-center border border-gray-300 p-2 rounded">
-                            <input type="file" onChange={handleFileChange} className="hidden" id="fileInput" />
+                            <input type="file" accept='.png, .jpg, .jpeg, .bmp, .tiff' onChange={handleFileChange} className="hidden" id="fileInput" />
                             <label htmlFor="fileInput" className="bg-blue-500 text-white px-4 py-2 rounded cursor-pointer">
                                 Select File
                             </label>
