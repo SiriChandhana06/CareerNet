@@ -63,6 +63,7 @@ const Postajob: React.FC = () => {
 
     const handleReviewSubmit = () => {
         toast.success('You have posted the project successfully!');
+        localStorage.setItem('postedProject', JSON.stringify(formData)); 
         setIsModalOpen(false);
     }
 
@@ -87,7 +88,12 @@ const Postajob: React.FC = () => {
                         <label className="block text-gray-700 font-bold mb-2">Project Description</label>
                         <textarea
                             value={formData.description}
-                            onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                            onChange={(e) => {
+                                const words = e.target.value.split(/\s+/).filter(Boolean);
+                                if (words.length <= 100) {
+                                    setFormData({ ...formData, description: e.target.value });
+                                }
+                            }}
                             className="w-full h-32 border border-gray-300 p-2 rounded"
                             placeholder='Description about the project'
                         />
