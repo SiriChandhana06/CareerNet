@@ -80,21 +80,24 @@ const Postajob: React.FC = () => {
                             value={formData.projectName}
                             onChange={(e) => setFormData({ ...formData, projectName: e.target.value })}
                             className="w-full border border-gray-300 p-2 rounded"
-                            placeholder='E-Commerce Website'
+                            placeholder='eg: E-Commerce Website'
                         />
                     </div>
 
                     <div>
-                        <label className="block text-gray-700 font-bold mb-2">Project Description</label>
+                        <label className="block text-gray-700 font-bold mb-2">Project Description {"(50 Words)"}</label>
                         <textarea
                             value={formData.description}
                             onChange={(e) => {
                                 const words = e.target.value.split(/\s+/).filter(Boolean);
-                                if (words.length <= 100) {
+                                if (words.length <= 50) {
                                     setFormData({ ...formData, description: e.target.value });
                                 }
+                                else {
+                                    toast.error("you have reached limit")
+                                }
                             }}
-                            className="w-full h-32 border border-gray-300 p-2 rounded"
+                            className="w-full h-20 border border-gray-300 p-2 rounded"
                             placeholder='Description about the project'
                         />
                     </div>
