@@ -81,7 +81,6 @@ export default function Carousel() {
       </div> 
       <div className="flex py-2">  
       <div className="relative mt-8 w-full "> 
-          {/* Carousel Cards */}
           <div className='hidden lg:block'>
           <div className="flex space-x-6 items-center overflow-hidden w-full justify-center ">
             {works.slice(currentIndex, currentIndex + 3).map((work, index) => (

@@ -21,14 +21,14 @@ const findwork: React.FC = () => {
       </div>
       <div>
         {projectData ? (
-          <div className="w-[600px] h-54 bg-white shadow-lg rounded-xl p-6 text-center">
+          <div className="w-96 h-54 bg-white shadow-lg rounded-xl p-6 text-center">
             <Image
               src={projectData.file}
               alt='image'
               className="w-12 h-12 mx-auto mb-4 bg-blue-500 rounded-full"
             />
             <h3 className="text-xl font-semibold">{projectData.projectName}</h3>
-            <p className="text-gray-600 mt-2 mx-10 text-center">{projectData.description}</p>
+            <p className="text-gray-600 mt-2  text-center">{projectData.description}</p>
 
             <div className="flex flex-wrap space-x-2 space-y-2 my-2">
               {projectData.skills.map((skill: string, index: number) => (
