@@ -36,16 +36,18 @@ router.post('/', upload.single('file'), async (req, res) => {
     try {
         const { projectName, description, skills, payment, currency, isHourly, email } = req.body;
 
+        const parsedSkills = Array.isArray(skills) ? skills : skills.split(',');
+
         // Create a new project with the uploaded file
         const project = new Project({
             projectName,
             description,
-            skills: JSON.parse(skills),  // Parse skills array from the string
+            skills: parsedSkills, 
             payment,
             currency,
             isHourly: isHourly === 'true',  // Parse boolean from string
             email,
-            fileUrl: `/uploads/${req.file.filename}`  // Save file path
+            // fileUrl: `/uploads/${req.file.filename}`  // Save file path
         });
 
         // Save project to the database

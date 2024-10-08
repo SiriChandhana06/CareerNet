@@ -61,11 +61,37 @@ const Postajob: React.FC = () => {
         setFormData({ ...formData, skills: newSkills });
     };
 
-    const handleReviewSubmit = () => {
-        toast.success('You have posted the project successfully!');
-        localStorage.setItem('postedProject', JSON.stringify(formData)); 
-        setIsModalOpen(false);
-    }
+    // const handleReviewSubmit = () => {
+    //     toast.success('You have posted the project successfully!');
+    //     localStorage.setItem('postedProject', JSON.stringify(formData)); 
+    //     setIsModalOpen(false);
+    // }
+
+    const handleReviewSubmit = async () => {
+        try {
+            const response = await fetch('http://localhost:5000/api/projects', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            });
+    
+            const result = await response.json();
+    
+            if (response.ok) {
+                toast.success('You have posted the project successfully!');
+                localStorage.setItem('postedProject', JSON.stringify(formData)); 
+                setIsModalOpen(false);
+            } else {
+                toast.error(result.message || 'Failed to post project.');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            toast.error('Error posting project.');
+        }
+    };
+    
 
 
     return (
