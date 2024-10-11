@@ -35,11 +35,31 @@ const findwork: React.FC = () => {
     };
 
     fetchProjectData();
+       const loadingTimeout = setTimeout(() => {
+      setLoading(false);
+    }, 2000); 
+
+    return () => clearTimeout(loadingTimeout);
   }, []);
 
-  if (loading) {
-    return <p className="text-center text-gray-600">Loading...</p>;
-  }
+
+
+
+if (loading) {
+    return (
+        <div className="bg-gray-900 text-white min-h-screen">
+            <div className="container mx-auto p-4">
+            <div className="animate-pulse p-4">
+        <div className="h-10 bg-gray-400 rounded mb-4"></div>
+        <div className="h-4 bg-gray-400 rounded mb-2"></div>
+        <div className="h-4 bg-gray-400 rounded mb-2"></div>
+        <div className="h-8 bg-gray-400 rounded mb-4"></div>
+        <div className="h-40 bg-gray-400 rounded"></div>
+    </div> 
+            </div>
+        </div>
+    );
+}
 
   if (error) {
     return <p className="text-center text-red-500">{error}</p>;
@@ -52,9 +72,7 @@ const findwork: React.FC = () => {
 
   return (
     <div className='bg-blue-300'>
-      <div>
-        <Navbar />
-      </div>
+      <div><Navbar/></div>
       <div>
         {projectData.map((project, index) => (
           <div key={index} className="w-96 h-54 bg-white shadow-lg rounded-xl p-6 text-center">
