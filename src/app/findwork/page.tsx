@@ -35,9 +35,9 @@ const findwork: React.FC = () => {
     };
 
     fetchProjectData();
-       const loadingTimeout = setTimeout(() => {
+    const loadingTimeout = setTimeout(() => {
       setLoading(false);
-    }, 2000); 
+    }, 2000);
 
     return () => clearTimeout(loadingTimeout);
   }, []);
@@ -45,48 +45,60 @@ const findwork: React.FC = () => {
 
 
 
-if (loading) {
-    return (
-        <div className="bg-gray-900 text-white min-h-screen">
-            <div className="container mx-auto p-4">
-            <div className="animate-pulse p-4">
-        <div className="h-10 bg-gray-400 rounded mb-4"></div>
-        <div className="h-4 bg-gray-400 rounded mb-2"></div>
-        <div className="h-4 bg-gray-400 rounded mb-2"></div>
-        <div className="h-8 bg-gray-400 rounded mb-4"></div>
-        <div className="h-40 bg-gray-400 rounded"></div>
-    </div> 
-            </div>
-        </div>
-    );
-}
+  // if (loading) {
+  //   return (
+  //     <div className="bg-gray-900 text-white min-h-screen">
+  //       <div className="container mx-auto p-4">
+  //         <div className="animate-pulse p-4">
+  //           <div className="h-10 bg-gray-400 rounded mb-4"></div>
+  //           <div className="h-4 bg-gray-400 rounded mb-2"></div>
+  //           <div className="h-4 bg-gray-400 rounded mb-2"></div>
+  //           <div className="h-8 bg-gray-400 rounded mb-4"></div>
+  //           <div className="h-40 bg-gray-400 rounded"></div>
+  //         </div>
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   if (error) {
     return <p className="text-center text-red-500">{error}</p>;
   }
 
-  if (projectData.length === 0) {
-    return <p className="text-center text-gray-600">No projects posted yet.</p>;
-  }
+  // if (projectData.length === 0 ) {
+  //   return <p className="text-center text-gray-600">No projects posted yet.</p>;
+  // }
 
 
   return (
     <div className='bg-blue-300'>
-      <div><Navbar/></div>
-      <div>
-        {projectData.map((project, index) => (
-          <div key={index} className="w-96 h-54 bg-white shadow-lg rounded-xl p-6 text-center">
-            <Image
-              src={project.fileUrl || '/default-image.jpg'}
-              alt='image'
-              width={10}
-              height={10}
-              className="w-12 h-12 mx-auto mb-4 bg-blue-500 rounded-full"
-            />
-            <h3 className="text-xl font-semibold">{project.projectName}</h3>
-            <p className="text-gray-600 mt-2  text-center">{project.description}</p>
+      <div><Navbar /></div>
+      <div className="flex flex-wrap justify-center gap-6 p-6">
+        {loading ? (
+          // Render loading skeleton only for the cards section
+          <div className="animate-pulse p-4">
+            <div className="w-96 h-54 bg-gray-400 rounded-lg mb-4"></div>
+            <div className="h-4 bg-gray-400 rounded mb-2"></div>
+            <div className="h-4 bg-gray-400 rounded mb-2"></div>
+            <div className="h-8 bg-gray-400 rounded mb-4"></div>
+            <div className="h-40 bg-gray-400 rounded"></div>
+          </div>
+        ) : projectData.length === 0 ? (
+          <p className="text-center text-gray-600">No projects posted yet.</p>
+        ) : (
+          projectData.map((project, index) => (
+            <div key={index} className="w-96 h-54 bg-white shadow-lg rounded-xl p-6 text-center">
+              <Image
+                src={project.fileUrl || '/default-image.jpg'}
+                alt='image'
+                width={10}
+                height={10}
+                className="w-12 h-12 mx-auto mb-4 bg-blue-500 rounded-full"
+              />
+              <h3 className="text-xl font-semibold">{project.projectName}</h3>
+              <p className="text-gray-600 mt-2  text-center">{project.description}</p>
 
-            {/* <div className="flex flex-wrap space-x-2 space-y-2 my-2">
+              {/* <div className="flex flex-wrap space-x-2 space-y-2 my-2">
               {projectData.skills.map((skill: string, index: number) => (
                 <span key={index} className="bg-blue-500 text-white px-2 py-1 rounded-full">
                   {skill}
@@ -94,34 +106,35 @@ if (loading) {
               ))}
             </div> */}
 
-            <div className="flex flex-wrap justify-center space-x-2 my-2">
-              {project.skills.map((skill: string, index: number) => (
-                <span key={index} className="bg-blue-500 text-white px-2 py-1 rounded-full">
-                  {skill}
-                </span>
-              ))}
-            </div>
+              <div className="flex flex-wrap justify-center space-x-2 my-2">
+                {project.skills.map((skill: string, index: number) => (
+                  <span key={index} className="bg-blue-500 text-white px-2 py-1 rounded-full">
+                    {skill}
+                  </span>
+                ))}
+              </div>
 
-            <div className='flex justify-between'>
-              <div>
-                <p className="text-lg font-semibold mt-4">
-                  {project.isHourly ? 'Per Hour' : 'Fixed Payment'}
-                </p>
-                <p className="text-lg font-semibold">
-                  {project.payment} {project.currency}
-                </p>
-              </div>
-              <div>
-                <a
-                  href={`mailto:${project.email}`}
-                  className="text-blue-500 mt-8 block hover:underline"
-                >
-                  Apply now
-                </a>
+              <div className='flex justify-between'>
+                <div>
+                  <p className="text-lg font-semibold mt-4">
+                    {project.isHourly ? 'Per Hour' : 'Fixed Payment'}
+                  </p>
+                  <p className="text-lg font-semibold">
+                    {project.payment} {project.currency}
+                  </p>
+                </div>
+                <div>
+                  <a
+                    href={`mailto:${project.email}`}
+                    className="text-blue-500 mt-8 block hover:underline"
+                  >
+                    Apply now
+                  </a>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))
+        )}
       </div>
     </div>
   )
