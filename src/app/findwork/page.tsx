@@ -26,7 +26,9 @@ const findwork: React.FC = () => {
           throw new Error('Failed to fetch project data');
         }
         const data = await response.json();
-        setProjectData(data); // Set the fetched data (an array of projects)
+        setProjectData(data); 
+        console.log(data);
+
       } catch (err) {
         setError((err as Error).message);
       } finally {
@@ -77,9 +79,9 @@ const findwork: React.FC = () => {
         {loading ? (
           // Render loading skeleton only for the cards section
           <div className="animate-pulse p-4">
-            <div className="w-96 h-54 bg-gray-400 rounded-lg mb-4"></div>
-            <div className="h-4 bg-gray-400 rounded mb-2"></div>
-            <div className="h-4 bg-gray-400 rounded mb-2"></div>
+            <div className="w-96 h-54 bg-gray-400 rounded-full mb-4 "></div>
+            <div className="h-6 bg-gray-400 rounded mb-2"></div>
+            <div className="h-16 bg-gray-400 rounded mb-2"></div>
             <div className="h-8 bg-gray-400 rounded mb-4"></div>
             <div className="h-40 bg-gray-400 rounded"></div>
           </div>
@@ -91,9 +93,9 @@ const findwork: React.FC = () => {
               <Image
                 src={project.fileUrl || '/default-image.jpg'}
                 alt='image'
-                width={10}
-                height={10}
-                className="w-12 h-12 mx-auto mb-4 bg-blue-500 rounded-full"
+                width={20}
+                height={20}
+                className="w-20 h-20 mx-auto object-cover mb-4 bg-blue-500 rounded-full"
               />
               <h3 className="text-xl font-semibold">{project.projectName}</h3>
               <p className="text-gray-600 mt-2  text-center">{project.description}</p>

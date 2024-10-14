@@ -31,10 +31,10 @@ const projectSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    // fileUrl: {
-    //     type: String,
-    //     required: true
-    // },
+    fileUrl: {
+        type: String,
+        required: true
+    },
     postedAt: {
         type: Date,
         default: Date.now

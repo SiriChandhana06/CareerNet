@@ -1,40 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const multer = require('multer');
 const path = require('path');
 const Project = require('../models/project');
 
-// File storage setup with Multer
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, 'uploads/');
-    },
-    filename: function (req, file, cb) {
-        cb(null, `${Date.now()}-${file.originalname}`);
-    }
-});
-
-// File filter to accept specific formats
-const fileFilter = (req, file, cb) => {
-    const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/bmp', 'image/tiff'];
-    if (allowedTypes.includes(file.mimetype)) {
-        cb(null, true);
-    } else {
-        cb(new Error('Invalid file type, only images are allowed!'), false);
-    }
-};
-
-// Initialize multer
-const upload = multer({
-    storage: storage,
-    fileFilter: fileFilter
-});
-
 // @route POST /api/projects
 // @desc Post a new project
-router.post('/', upload.single('file'), async (req, res) => {
+router.post('/', async (req, res) => {
     try {
-        const { projectName, description, skills, payment, currency, isHourly, email } = req.body;
+        const { projectName, description, skills, payment, currency, isHourly, email, fileUrl} = req.body;
 
         const parsedSkills = Array.isArray(skills) ? skills : skills.split(',');
 
@@ -47,6 +20,7 @@ router.post('/', upload.single('file'), async (req, res) => {
             currency,
             isHourly: isHourly === 'true',  // Parse boolean from string
             email,
+            fileUrl,
             // fileUrl: `/uploads/${req.file.filename}`  // Save file path
         });
 

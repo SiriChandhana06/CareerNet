@@ -1,16 +1,38 @@
 "use client";
 import Image from 'next/image';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import computer from '@/Assests/computer.png';
 import Modal from './Model';
+import { initializeApp } from 'firebase/app';
+import { getAuth, onAuthStateChanged, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+
+const firebaseConfig = {
+    apiKey: "AIzaSyCsbWMLGCfVS0g6F2HMQTQrq1lKO_XTxSI",
+    authDomain: "careernet-8baba.firebaseapp.com",
+    projectId: "careernet-8baba",
+    storageBucket: "careernet-8baba.appspot.com",
+    messagingSenderId: "392064431851",
+    appId: "1:392064431851:web:a873f6f6fdcec2896b30ae",
+    measurementId: "G-81J4JH6M6M"
+};
+
+
+const app = initializeApp(firebaseConfig);
+const storage = getStorage(app);
+const auth = getAuth(app);
+const provider = new GoogleAuthProvider();
+
+
 
 const Postajob: React.FC = () => {
+    const [file, setfile] = useState(null);
+    const [fileUrl, setFileUrl] = useState('');
     const [formData, setFormData] = useState({
         projectName: '',
         description: '',
-        file: null,
         skills: [],
         payment: '',
         currency: 'USD',
@@ -21,26 +43,58 @@ const Postajob: React.FC = () => {
     const [skillInput, setSkillInput] = useState('');
     const [skills, setSkills] = useState<string[]>([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isUploading, setIsUploading] = useState(false);
+    const [user, setUser] = useState(null);
+
+    // const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    //     if (e.target.files && e.target.files.length > 0) {
+    //         setFormData({ ...formData, file: e.target.files[0] });
+    //     }
+    // };
+
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+          if (user) {
+            setUser(user);
+          } else {
+            setUser(null);
+          }
+        });
+    
+        return () => unsubscribe();
+      }, []);
+
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files && e.target.files.length > 0) {
-            setFormData({ ...formData, file: e.target.files[0] });
+        const file = e.target.files && e.target.files[0];
+        if (file) {
+            const validTypes = ['image/png', 'image/jpeg', 'image/jpg', 'image/bmp', 'image/tiff'];
+            if (!validTypes.includes(file.type)) {
+                toast.error('Invalid file type. Please upload an image.');
+                return;
+            }
+            if (file && file.size > 10485760) { // 2MB limit
+                toast.error('File size exceeds 10MB.');
+                return;
+            }
+            setFormData(formData);
+            setfile(file);
         }
     };
 
     const handleSkillAdd = () => {
-        if (skillInput && formData.skills.length < 10) {
+        if (skillInput && !formData.skills.includes(skillInput) && formData.skills.length < 10) {
             setFormData({ ...formData, skills: [...formData.skills, skillInput] });
             setSkillInput('');
         }
         else {
-            toast.error('you have reached the limit')
+            toast.error('Skill already added or limit reached!')
         }
     };
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        if (!formData.projectName || !formData.description || !formData.payment || !formData.skills.length || !formData.file || !formData.email) {
+        if (!formData.projectName || !formData.description || !formData.payment || !formData.skills.length || !file || !formData.email) {
             toast.error('Please fill all the required fields.');
             return;
         }
@@ -48,7 +102,7 @@ const Postajob: React.FC = () => {
         console.log('Form submitted');
         setSubmitted(true);
         setIsModalOpen(true);
-        
+
     };
 
     const handleEdit = () => {
@@ -69,19 +123,25 @@ const Postajob: React.FC = () => {
 
     const handleReviewSubmit = async () => {
         try {
+
+            const storageRef = ref(storage, `PostProjects/${file.name}`);
+            await uploadBytes(storageRef, file);
+            const url = await getDownloadURL(storageRef);
+            setFileUrl(url);
+
             const response = await fetch('http://localhost:5000/api/projects', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(formData),
+                body: JSON.stringify({ ...formData, fileUrl: url }),
             });
-    
+
             const result = await response.json();
-    
+
             if (response.ok) {
                 toast.success('You have posted the project successfully!');
-                localStorage.setItem('postedProject', JSON.stringify(formData)); 
+                localStorage.setItem('postedProject', JSON.stringify({ ...formData, fileUrl }));
                 setIsModalOpen(false);
             } else {
                 toast.error(result.message || 'Failed to post project.');
@@ -90,8 +150,11 @@ const Postajob: React.FC = () => {
             console.error('Error:', error);
             toast.error('Error posting project.');
         }
+        finally {
+            setIsUploading(false);
+        }
     };
-    
+
 
 
     return (
@@ -135,7 +198,7 @@ const Postajob: React.FC = () => {
                             <label htmlFor="fileInput" className="bg-blue-500 text-white px-4 py-2 rounded cursor-pointer">
                                 Select File
                             </label>
-                            <span className="ml-4">{formData.file ? formData.file.name : 'No file selected'}</span>
+                            <span className="ml-4">{file ? file.name : 'No file selected'}</span>
                         </div>
                     </div>
 
@@ -269,7 +332,7 @@ const Postajob: React.FC = () => {
                             <button onClick={handleEdit} className="bg-gray-500 text-white px-4 py-2 rounded-xl">
                                 Edit Details
                             </button>
-                            <button onClick={handleReviewSubmit} className="bg-blue-500 text-white px-4 py-2 rounded-xl">Yes, Post My Project</button>
+                            <button onClick={handleReviewSubmit} disabled={isUploading} className="bg-blue-500 text-white px-4 py-2 rounded-xl"> {isUploading ? 'Uploading...' : 'Yes, Post My Project'}</button>
                         </div>
                         <div>
                             <hr className='border border-gray-500' />
