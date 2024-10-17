@@ -1,4 +1,12 @@
 import { NextApiRequest, NextApiResponse } from 'next';
+import graphic from "@/Assests/graphics.png";
+import cartoon from "@/Assests/cartoon.png";
+import illustration from "@/Assests/illustartion.png";
+import flyers from "@/Assests/flyers.png";
+import logodesign from "@/Assests/logo design.png";
+import social from "@/Assests/social.png";
+import article from "@/Assests/article.png";
+import video from "@/Assests/video.png";
 
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -6,42 +14,42 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
       {
         id: 1,
         title: 'Graphic & Design',
-        imageUrl: 'https://tse3.mm.bing.net/th?id=OIP.DDguoMcPMcXII2Uit1sXsgHaHb&pid=Api&P=0&h=180',
+        image: graphic,
       },
       {
         id: 2,
         title: 'Cartoon Animation',
-        imageUrl: 'https://tse3.mm.bing.net/th?id=OIP.DDguoMcPMcXII2Uit1sXsgHaHb&pid=Api&P=0&h=180',
+        image: cartoon,
       },
       {
         id: 3,
         title: 'Illustration',
-        imageUrl: 'https://tse3.mm.bing.net/th?id=OIP.DDguoMcPMcXII2Uit1sXsgHaHb&pid=Api&P=0&h=180',
+        image: illustration,
       },
       {
         id: 4,
         title: 'Flyers & Vouchers',
-        imageUrl: 'https://tse3.mm.bing.net/th?id=OIP.DDguoMcPMcXII2Uit1sXsgHaHb&pid=Api&P=0&h=180',
+        image: flyers,
       },
       {
         id: 5,
         title: 'Logo Design',
-        imageUrl: 'https://tse3.mm.bing.net/th?id=OIP.DDguoMcPMcXII2Uit1sXsgHaHb&pid=Api&P=0&h=180',
+        image: logodesign,
       },
       {
         id: 6,
         title: 'Social Graphics',
-        imageUrl: 'https://tse3.mm.bing.net/th?id=OIP.DDguoMcPMcXII2Uit1sXsgHaHb&pid=Api&P=0&h=180',
+        image: social,
       },
       {
         id: 7,
         title: 'Article Writing',
-        imageUrl: 'https://tse3.mm.bing.net/th?id=OIP.DDguoMcPMcXII2Uit1sXsgHaHb&pid=Api&P=0&h=180',
+        image: article,
       },
       {
         id: 8,
         title: 'Video Editing',
-        imageUrl: 'https://tse3.mm.bing.net/th?id=OIP.DDguoMcPMcXII2Uit1sXsgHaHb&pid=Api&P=0&h=180',
+        image: video,
       },
     ];
     res.status(200).json(categories);

@@ -14,13 +14,105 @@ const MyProfile: React.FC = () => {
   const renderContent = () => {
     switch (activeTab) {
       case 'Profile':
-        return <p>This is the Profile content.</p>;
+        return (
+          <div>
+            <div className='flex justify-between mx-10'>
+              <h1 className='text-2xl font-semibold lg:text-4xl'>Details</h1>
+              <h1 className='flex underline text-xl hover:text-blue-500 hover:cursor-pointer'> Edit Details <svg className='underline hover:text-blue-500' xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="black" d="M5 18.08V19h.92l9.06-9.06l-.92-.92z" opacity="0.3" /><path fill="black" d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75zM5.92 19H5v-.92l9.06-9.06l.92.92zM20.71 5.63l-2.34-2.34a.996.996 0 0 0-1.41 0l-1.83 1.83l3.75 3.75l1.83-1.83a.996.996 0 0 0 0-1.41" /></svg></h1>
+            </div>
+            <div >
+              <div>
+                <div className='mx-32'>
+                  <h1 className='text-2xl font-semibold mt-5'>Name :</h1>
+                  <div className='flex gap-2 mt-2 ml-12 '>
+                    <h1 className='text-xl font-semibold'>First Name</h1>
+                    <h1 className='text-xl font-semibold'>Last Name</h1>
+                  </div>
+                </div>
+                <div className='mx-32'>
+                  <h1 className='text-2xl font-semibold mt-5'>Date Of Birth :</h1>
+                  <div className=' mt-2 ml-12'>
+                    <input
+                      className='underline hover:underline border-b-2 border-blue-500 bg-blue-200 font-semibold focus:outline-none focus:border-transparent'
+                      type='date'
+                    />
+                  </div>
+                </div>
+                <div className='mx-32'>
+                  <h1 className='text-2xl font-semibold mt-5'>Languages Known :</h1>
+                  <div className=' mt-2 ml-12 '>
+                    <h1 className='text-xl font-semibold'>First Language , Second Language , Third Language</h1>
+                  </div>
+                </div>
+                <div className='mx-32'>
+                  <h1 className='text-2xl font-semibold mt-5'>Education :</h1>
+                  <div className=' mt-2 ml-12 '>
+                    <h1 className='text-xl font-semibold'>Scholl</h1>
+                    <h1 className='text-xl mt-2 font-semibold'>College</h1>
+                    <h1 className='text-xl mt-2 font-semibold'>Higher Education</h1>
+                  </div>
+                </div>
+                <div className='mx-32'>
+                  <h1 className='text-2xl font-semibold mt-5'>JOB :</h1>
+                  <div className=' mt-2 ml-12 '>
+                    <h1 className='text-xl font-semibold'>Title Role</h1>
+                    <h1 className='text-xl mt-2 font-semibold'>Company name</h1>
+                    <h1 className='text-xl mt-2 font-semibold'>Description about the role</h1>
+                  </div>
+                </div>
+                <div className='mx-32'>
+                  <h1 className='text-2xl font-semibold mt-5'>Conatact Info:</h1>
+                  <div className=' mt-2 ml-12 '>
+                    <h1 className='text-xl font-semibold'>MAIL Id</h1>
+                    <h1 className='text-xl mt-2 font-semibold'> Contact Number </h1>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
       case 'Experience':
-        return <p>This is the Experience content.</p>;
+        return (
+          <div>
+            <div className="flex justify-center items-center">
+              <div className="bg-white/30 bg-opacity-10 backdrop-filter backdrop-blur-lg rounded-lg shadow-lg p-10">
+                <h1 className='text-2xl font-semibold mt-5'>Role Title</h1>
+                <h1 className='text-2xl font-semibold mt-5'>Company Name</h1>
+                <h1 className='text-xl font-semibold mt-5'>Description</h1>
+                <div className='flex gap-10'>
+                  <div className='flex gap-2'>
+                    <h1 className='text-xl font-semibold mt-5'>From :</h1>
+                    <input className='underline hover:underline border-b-2 mt-5 bg-blue-100 border-blue-500 font-semibold focus:outline-none focus:border-transparent'
+                      type='date' />
+                  </div>
+                  <div className='flex gap-2'>
+                    <h1 className='text-xl font-semibold mt-5'>To :</h1>
+                    <input className='underline hover:underline border-b-2 mt-5 bg-blue-100 border-blue-500 font-semibold focus:outline-none focus:border-transparent'
+                      type='date' />
+                  </div>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <input
+                    type="checkbox"
+                    id="checkbox"
+                    className="h-5 w-5 mt-5 text-blue-600 border-gray-300 bg-blue-200 rounded focus:ring-blue-500"
+                  />
+                  <label htmlFor="checkbox" className="text-gray-700 text-xl mt-5 font-medium">
+                    I&apos;m Currently Working
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
       case 'My Post':
-        return <p>This is the My Post content.</p>;
+        return (
+          <p>This is the My Post content.</p>
+        );
       case 'Applied':
-        return <p>This is the Applied content.</p>;
+        return (
+          <p>This is the Applied content.</p>
+        );
       default:
         return null;
     }
@@ -110,7 +202,7 @@ const MyProfile: React.FC = () => {
         </div>
         <div className='flex justify-center'>
           <div
-            className="bg-white shadow-md rounded-lg overflow-hidden p-4 w-[450px]"
+            className="bg-white shadow-md rounded-lg overflow-hidden p-4 my-4 w-[350px] md:w-[450px]"
           >
             <Image
               src={image}
@@ -132,31 +224,30 @@ const MyProfile: React.FC = () => {
         </div>
       </div>
       <div>
-      <div className="flex flex-col items-center mx-2 md:mx-10">
-      {/* Navigation Bar */}
-      <div className="w-full mt-10">
-        <nav className="flex justify-between border-2 rounded-lg border-gray-200">
-          {['Profile', 'Experience', 'My Post', 'Applied'].map((tab,index) => (
-            <button
-              key={tab}
-              className={`flex-1 text-center py-2 text-xl font-semibold ${
-                activeTab === tab
-                  ? 'bg-blue-500 rounded-lg text-white'
-                  : 'bg-blue-200 text-gray-600'
-              } hover:text-gray-800 ${index !== 0 ? 'border-l-2  border-gray-200' : ''}`}
-              onClick={() => setActiveTab(tab)}
-            >
-              {tab}
-            </button>
-          ))}
-        </nav>
-      </div>
+        <div className="flex flex-col items-center mx-2 md:mx-10">
+          {/* Navigation Bar */}
+          <div className="w-full mt-10">
+            <nav className="flex justify-between border-2 rounded-lg border-gray-200">
+              {['Profile', 'Experience', 'My Post', 'Applied'].map((tab, index) => (
+                <button
+                  key={tab}
+                  className={`flex-1 text-center py-2 text-xl font-semibold ${activeTab === tab
+                    ? 'bg-blue-500 rounded-lg text-white'
+                    : 'bg-blue-200 text-gray-600'
+                    } hover:text-gray-800 ${index !== 0 ? 'border-l-2  border-gray-200' : ''}`}
+                  onClick={() => setActiveTab(tab)}
+                >
+                  {tab}
+                </button>
+              ))}
+            </nav>
+          </div>
 
-      {/* Tab Content */}
-      <div className="w-full max-w-xl mt-6 bg-white p-6 rounded-lg shadow-lg">
-        {renderContent()}
-      </div>
-    </div>
+          {/* Tab Content */}
+          <div className="w-full max-w-6xl my-6 bg-blue-200 p-6 rounded-lg shadow-lg">
+            {renderContent()}
+          </div>
+        </div>
       </div>
     </div>
   )

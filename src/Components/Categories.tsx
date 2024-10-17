@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 interface Category {
   id: number;
@@ -38,8 +39,8 @@ export default function Categories() {
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 p-5">
           {categories.map((category) => (
             <div key={category.id} className="relative group rounded-xl transition duration-300 hover:bg-black hover:bg-opacity-100 hover:text-white hover:cursor-pointer">
-              <img
-                src={category.imageUrl}
+              <Image
+                src={category.image}
                 alt={category.title}
                 className="w-full h-48 object-cover rounded-xl opacity-80"
               />
