@@ -85,7 +85,7 @@ const findwork: React.FC = () => {
             <div className="h-8 bg-gray-400 rounded mb-4"></div>
             <div className="h-40 bg-gray-400 rounded"></div>
           </div>
-        ) : projectData.length == 0 ? (
+        ) : projectData.length === 0 ? (
           <p className="text-center text-gray-600">No projects posted yet.</p>
         ) : (
           projectData.map((project, index) => (

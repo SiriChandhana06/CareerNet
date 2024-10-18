@@ -6,64 +6,81 @@ import profilePic from "@/Assests/coverphoto.webp";
 import coverImage from "@/Assests/coverphoto.webp";
 import image from '@/Assests/logo.png';
 import { useState } from 'react';
+import { useEffect } from 'react';
+import axios from 'axios';
+
 
 const MyProfile: React.FC = () => {
 
   const [activeTab, setActiveTab] = useState('Profile');
+  const [projects, setProjects] = useState([]);
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        const res = await axios.get('http://localhost:5000/api/projects/my-posts'); 
+        setProjects(res.data);
+      } catch (error) {
+        console.error('Error fetching user projects', error);
+      }
+    };
+
+    fetchProjects();
+  }, []);
 
   const renderContent = () => {
     switch (activeTab) {
       case 'Profile':
         return (
           <div>
-            <div className='flex justify-between mx-10'>
+            <div className='flex justify-between mx-4 md:mx-10'>
               <h1 className='text-2xl font-semibold lg:text-4xl'>Details</h1>
               <h1 className='flex underline text-xl hover:text-blue-500 hover:cursor-pointer'> Edit Details <svg className='underline hover:text-blue-500' xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="black" d="M5 18.08V19h.92l9.06-9.06l-.92-.92z" opacity="0.3" /><path fill="black" d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75zM5.92 19H5v-.92l9.06-9.06l.92.92zM20.71 5.63l-2.34-2.34a.996.996 0 0 0-1.41 0l-1.83 1.83l3.75 3.75l1.83-1.83a.996.996 0 0 0 0-1.41" /></svg></h1>
             </div>
             <div >
               <div>
-                <div className='mx-32'>
+                <div className='md:mx-32'>
                   <h1 className='text-2xl font-semibold mt-5'>Name :</h1>
-                  <div className='flex gap-2 mt-2 ml-12 '>
+                  <div className='flex gap-2 mt-2 ml-6 md:ml-12 '>
                     <h1 className='text-xl font-semibold'>First Name</h1>
                     <h1 className='text-xl font-semibold'>Last Name</h1>
                   </div>
                 </div>
-                <div className='mx-32'>
+                <div className='md:mx-32'>
                   <h1 className='text-2xl font-semibold mt-5'>Date Of Birth :</h1>
-                  <div className=' mt-2 ml-12'>
+                  <div className='mt-2 ml-6 md:ml-12'>
                     <input
                       className='underline hover:underline border-b-2 border-blue-500 bg-blue-200 font-semibold focus:outline-none focus:border-transparent'
                       type='date'
                     />
                   </div>
                 </div>
-                <div className='mx-32'>
+                <div className='md:mx-32'>
                   <h1 className='text-2xl font-semibold mt-5'>Languages Known :</h1>
-                  <div className=' mt-2 ml-12 '>
+                  <div className='mt-2 ml-6 md:ml-12'>
                     <h1 className='text-xl font-semibold'>First Language , Second Language , Third Language</h1>
                   </div>
                 </div>
-                <div className='mx-32'>
+                <div className='md:mx-32'>
                   <h1 className='text-2xl font-semibold mt-5'>Education :</h1>
-                  <div className=' mt-2 ml-12 '>
-                    <h1 className='text-xl font-semibold'>Scholl</h1>
+                  <div className='mt-2 ml-6 md:ml-12'>
+                    <h1 className='text-xl font-semibold'>School</h1>
                     <h1 className='text-xl mt-2 font-semibold'>College</h1>
                     <h1 className='text-xl mt-2 font-semibold'>Higher Education</h1>
                   </div>
                 </div>
-                <div className='mx-32'>
+                <div className='md:mx-32'>
                   <h1 className='text-2xl font-semibold mt-5'>JOB :</h1>
-                  <div className=' mt-2 ml-12 '>
+                  <div className='mt-2 ml-6 md:ml-12'>
                     <h1 className='text-xl font-semibold'>Title Role</h1>
                     <h1 className='text-xl mt-2 font-semibold'>Company name</h1>
                     <h1 className='text-xl mt-2 font-semibold'>Description about the role</h1>
                   </div>
                 </div>
-                <div className='mx-32'>
+                <div className='md:mx-32'>
                   <h1 className='text-2xl font-semibold mt-5'>Conatact Info:</h1>
-                  <div className=' mt-2 ml-12 '>
-                    <h1 className='text-xl font-semibold'>MAIL Id</h1>
+                  <div className='mt-2 ml-6 md:ml-12'>
+                    <h1 className='text-xl font-semibold'>Mail Id</h1>
                     <h1 className='text-xl mt-2 font-semibold'> Contact Number </h1>
                   </div>
                 </div>
@@ -79,13 +96,13 @@ const MyProfile: React.FC = () => {
                 <h1 className='text-2xl font-semibold mt-5'>Role Title</h1>
                 <h1 className='text-2xl font-semibold mt-5'>Company Name</h1>
                 <h1 className='text-xl font-semibold mt-5'>Description</h1>
-                <div className='flex gap-10'>
-                  <div className='flex gap-2'>
+                <div className='md:flex gap-10'>
+                  <div className='md:flex gap-2'>
                     <h1 className='text-xl font-semibold mt-5'>From :</h1>
                     <input className='underline hover:underline border-b-2 mt-5 bg-blue-100 border-blue-500 font-semibold focus:outline-none focus:border-transparent'
                       type='date' />
                   </div>
-                  <div className='flex gap-2'>
+                  <div className='md:flex gap-2'>
                     <h1 className='text-xl font-semibold mt-5'>To :</h1>
                     <input className='underline hover:underline border-b-2 mt-5 bg-blue-100 border-blue-500 font-semibold focus:outline-none focus:border-transparent'
                       type='date' />
@@ -107,7 +124,58 @@ const MyProfile: React.FC = () => {
         );
       case 'My Post':
         return (
-          <p>This is the My Post content.</p>
+          <div>
+            <div className="container mx-auto px-4 py-8">
+      <h1 className="text-3xl font-semibold text-center mb-8">My Posted Projects</h1>
+      
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+        {projects.length === 0 ? (
+          <p className="text-center text-gray-600">No projects posted yet.</p>
+        ) : (
+          projects.map((project, index) => (
+            <div key={index} className="w-96 h-54 bg-white shadow-lg rounded-xl p-6 text-center">
+              <Image
+                src={project.fileUrl || '/default-image.jpg'}  // Default image if no fileUrl
+                alt="Project image"
+                width={100}
+                height={100}
+                className="w-20 h-20 mx-auto object-cover mb-4 bg-blue-500 rounded-full"
+              />
+              <h3 className="text-xl font-semibold">{project.projectName}</h3>
+              <p className="text-gray-600 mt-2 text-center">{project.description}</p>
+
+              <div className="flex flex-wrap justify-center space-x-2 my-2">
+                {project.skills.map((skill, index) => (
+                  <span key={index} className="bg-blue-500 text-white px-2 py-1 rounded-full">
+                    {skill}
+                  </span>
+                ))}
+              </div>
+
+              <div className="flex justify-between">
+                <div>
+                  <p className="text-lg font-semibold mt-4">
+                    {project.isHourly ? 'Per Hour' : 'Fixed Payment'}
+                  </p>
+                  <p className="text-lg font-semibold">
+                    {project.payment} {project.currency}
+                  </p>
+                </div>
+                <div>
+                  <a
+                    href={`mailto:${project.email}`}
+                    className="text-blue-500 mt-8 block hover:underline"
+                  >
+                    Apply now
+                  </a>
+                </div>
+              </div>
+            </div>
+          ))
+        )}
+      </div>
+    </div>
+          </div>
         );
       case 'Applied':
         return (
@@ -123,7 +191,8 @@ const MyProfile: React.FC = () => {
       <div>
         <Navbar />
       </div>
-      <div>
+      <div className='mx-0 lg:mx-20'>
+      <div className=''>
         <div className="bg-blue-300 flex flex-col items-center">
           <div className="w-full relative">
             <Image
@@ -174,7 +243,7 @@ const MyProfile: React.FC = () => {
           <h1 className='text-2xl font-bold ml-28 mt-4'>Web Developer</h1>
           <h1 className='ml-4 mt-4 mr-4 lg:mr-40 text-justify'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam cupiditate praesentium facilis autem suscipit facere adipisci eum, officia voluptatem expedita sit quas impedit blanditiis dicta cumque ducimus!</h1>
         </div>
-        <div className='mr-6 ml-6 lg:ml-96 mt-4 md:mt-8 lg:mt-4'>
+        <div className='mr-6 ml-6 lg:ml-80 mt-4 md:mt-8 lg:mt-4'>
           <div><h1 className='text-center font-semibold text-xl'>Social Links</h1></div>
           <div className='flex gap-8 bg-white border rounded-md py-2 px-8 mt-4'>
             <div id='linkedin'>
@@ -248,6 +317,7 @@ const MyProfile: React.FC = () => {
             {renderContent()}
           </div>
         </div>
+      </div>
       </div>
     </div>
   )

@@ -21,6 +21,7 @@ router.post('/', async (req, res) => {
             isHourly: isHourly === 'true',  // Parse boolean from string
             email,
             fileUrl,
+            userId: req.user._id 
             // fileUrl: `/uploads/${req.file.filename}`  // Save file path
         });
 
@@ -49,5 +50,18 @@ router.get('/', async (req, res) => {
         res.status(500).json({ success: false, message: 'Server error' });
     }
 });
+
+// @route GET /api/projects/my-posts
+// @desc Get posts created by the logged-in user
+router.get('/my-posts', async (req, res) => {
+    try {
+        const projects = await Project.find({ userId: req.user._id }).sort({ postedAt: -1 });
+        res.json(projects);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ success: false, message: 'Server error' });
+    }
+});
+
 
 module.exports = router;
