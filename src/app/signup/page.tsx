@@ -30,7 +30,7 @@ const SignupPage: React.FC = () => {
       setUser(user);
       toast.success('Login successful!');
       setTimeout(() => {
-        router.push('/');
+        router.push('/signupnext');
       }, 2000);
     } catch (error) {
       console.error("Error signing in with Google:", error);
@@ -83,7 +83,7 @@ const SignupPage: React.FC = () => {
                 console.log("User registered successfully", data);
                 toast.success('Sign Up!');
                 setTimeout(() => {
-                  router.push('/');
+                  router.push('/signupnext');
                 }, 2000);
             } else {
                 console.error("Error registering user:", data.message);

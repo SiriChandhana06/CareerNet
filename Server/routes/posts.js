@@ -53,15 +53,15 @@ router.get('/', async (req, res) => {
 
 // @route GET /api/projects/my-posts
 // @desc Get posts created by the logged-in user
-router.get('/my-posts', async (req, res) => {
-    try {
-        const projects = await Project.find({ userId: req.user._id }).sort({ postedAt: -1 });
-        res.json(projects);
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ success: false, message: 'Server error' });
-    }
-});
+// router.get('/my-posts', async (req, res) => {
+//     try {
+//         const projects = await Project.find({ userId: req.user._id }).sort({ postedAt: -1 });
+//         res.json(projects);
+//     } catch (err) {
+//         console.error(err);
+//         res.status(500).json({ success: false, message: 'Server error' });
+//     }
+// });
 
 
 module.exports = router;
