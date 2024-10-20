@@ -4,7 +4,7 @@ import Link from "next/link";
 import logo from "../../Assests/logo.png";
 import login from "../../Assests/login.png";
 import { useState } from 'react';
-import { Console } from "console";
+
 
 const signUpNextpage: React.FC = () => {
     const [imageSrc, setImageSrc] = useState('/profileimage.webp');
