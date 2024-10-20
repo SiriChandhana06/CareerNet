@@ -6,12 +6,23 @@ import login from "../../Assests/login.png";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { auth, provider } from "../../Firebaseauth";
+import { User } from 'firebase/auth';
 import { signInWithPopup } from "firebase/auth";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+
+type Errors = {
+  firstName?: string; 
+  lastName?: string;
+  email?: string;
+  password?: string;
+  confirmPassword?: string;
+  agreeTerms?: boolean;
+};
+
 const SignupPage: React.FC = () => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<User | null>(null);;
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -20,7 +31,7 @@ const SignupPage: React.FC = () => {
     confirmPassword: "",
     agreeTerms: false,
   });
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState<Errors>({});
   const router = useRouter();
 
   const handleGoogleSignIn = async () => {
@@ -34,7 +45,7 @@ const SignupPage: React.FC = () => {
       }, 2000);
     } catch (error) {
       console.error("Error signing in with Google:", error);
-      toast.error(`Error signing in with Google:${error.message}`);
+      toast.error(`Error signing in with Google:${error}`);
     }
   };
 
@@ -87,7 +98,7 @@ const SignupPage: React.FC = () => {
                 }, 2000);
             } else {
                 console.error("Error registering user:", data.message);
-                toast.error(`Error: ${error.message}`);
+                toast.error('Error');
             }
         } catch (error) {
             console.error("Error submitting form", error);

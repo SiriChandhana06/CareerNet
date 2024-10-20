@@ -4,9 +4,21 @@ import React from 'react';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
 
+type Project = {
+  fileUrl: string;
+  title: string;
+  description: string;
+  projectName: string;
+  skills: [string];
+  isHourly: boolean;
+  payment: number;
+  currency: string;
+  email: string;
+};
+
 const Findwork: React.FC = () => {
 
-  const [projectData, setProjectData] = useState<any>(null);
+  const [projectData, setProjectData] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -88,7 +100,7 @@ const Findwork: React.FC = () => {
         ) : projectData.length === 0 ? (
           <p className="text-center text-gray-600">No projects posted yet.</p>
         ) : (
-          projectData.map((project, index) => (
+          projectData.map((project: Project, index) => (
             <div key={index} className="w-96 h-54 bg-white shadow-lg rounded-xl p-6 text-center">
               <Image
                 src={project.fileUrl || '/default-image.jpg'}

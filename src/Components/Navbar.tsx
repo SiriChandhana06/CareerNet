@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import logo from '../Assests/logo.png';
 import { auth } from '../Firebaseauth';
+import { User } from 'firebase/auth';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -15,9 +16,9 @@ import { useRouter } from "next/navigation";
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [activePath, setActivePath] = useState<string>('/');
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<User | null>(null);
   const [profileIsOpen, setProfileIsOpen] = useState(false);
-  const dropdownRef = useRef(null);
+  const dropdownRef = useRef<HTMLDivElement | null>(null);
   const [session, setSession] = useState(false);
   const [email, setEmail] = useState("");
   const pathname = usePathname(); 
@@ -84,8 +85,8 @@ const Navbar: React.FC = () => {
   };
 
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setProfileIsOpen(false); // Close dropdown if clicked outside
       }
     };

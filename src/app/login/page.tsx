@@ -6,13 +6,14 @@ import login from '../../Assests/login.png';
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { auth, provider } from '../../Firebaseauth';
+import { User } from 'firebase/auth';
 import { signInWithPopup } from "firebase/auth";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const LoginPage: React.FC = () => {
 
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<User | null>(null);
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -32,7 +33,7 @@ const LoginPage: React.FC = () => {
       }, 2000);
     } catch (error) {
       console.error("Error signing in with Google:", error);
-      toast.error(`Error signing in with Google:${error.message}`);
+      toast.error(`Error signing in with Google:${error}`);
     }
   };
 
@@ -67,7 +68,7 @@ const LoginPage: React.FC = () => {
        
       } else {
         setError(data.message);
-        toast.error(`Error: ${error.message}`);
+        toast.error(`Error: ${error}`);
       }
   setLoading(false);
     } catch (err) {

@@ -9,27 +9,31 @@ import { useState } from 'react';
 const SignUpNextpage: React.FC = () => {
     const [imageSrc, setImageSrc] = useState('/profileimage.webp');
     const [step, setStep] = useState(1);
-    const [languages, setLanguages] = useState([]);
-    const [languageInput, setLanguageInput] = useState('');
+    const [languages, setLanguages] = useState<string[]>([]);
+    const [languageInput, setLanguageInput] = useState<string>('');
     const [dob, setDob] = useState('');
     const [education, setEducation] = useState(['']);
-    const [countryCode, setCountryCode] = useState('+91'); // Default to India
+    const [countryCode, setCountryCode] = useState<string>(""); // Default to India
     const [contactNumber, setContactNumber] = useState('');
-    const [portfolioimage, setPortfolioimage] = useState('');
+    const [portfolioimage, setPortfolioimage] = useState<File | null>(null);
     const [skills, setSkills] = useState<string[]>([]); // Initialize as an array
     const [skillInput, setSkillInput] = useState<string>('');
     const [experiences, setExperiences] = useState([{ title: '', companyName: '', startDate: '', endDate: '', isCurrent: false }]);
     const [error, setError] = useState('');
 
 
-    const handleFileChange = (e) => {
-        const file = e.target.files[0];
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
 
         if (file) {
             const reader = new FileReader();
 
             reader.onload = (event) => {
-                setImageSrc(event.target.result); // Set the image preview
+                const result = event.target?.result;
+                if (typeof result === 'string') {
+                    setImageSrc(result); // Set the image preview
+                }
+
             };
 
             reader.readAsDataURL(file); // Convert the image to base64 string for preview
@@ -43,13 +47,13 @@ const SignUpNextpage: React.FC = () => {
         }
     };
 
-    const removeLang = (index) => {
+    const removeLang = (index: number) => {
         const newLanguages = [...languages]; // Create a copy of the languages array
         newLanguages.splice(index, 1); // Remove the language at the specified index
         setLanguages(newLanguages); // Update the state with the new list
     };
 
-    const handleEducationChange = (index, value) => {
+    const handleEducationChange = (index: number, value: string) => {
         const updatedEducation = [...education];
         updatedEducation[index] = value;
         setEducation(updatedEducation);
@@ -61,17 +65,20 @@ const SignUpNextpage: React.FC = () => {
         }
     };
 
-    const removeEducationInput = (index) => {
+    const removeEducationInput = (index: number) => {
         const updatedEducation = [...education];
         updatedEducation.splice(index, 1); // Remove the input at the specific index
         setEducation(updatedEducation);
     };
 
-    const handleCountryChange = (e) => {
-        setCountryCode(e.target.value);
+
+
+    const handleCountryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        setCountryCode(e.target.value); 
     };
 
-    const handleContactNumberChange = (e) => {
+
+    const handleContactNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setContactNumber(e.target.value);
     };
 
@@ -95,35 +102,37 @@ const SignUpNextpage: React.FC = () => {
     const handleAddExperience = () => {
         // Validate the last experience fields
         const lastExperience = experiences[experiences.length - 1];
-        
+
         if (!lastExperience.title || !lastExperience.companyName || !lastExperience.startDate) {
-          // Show error message if any required field is empty
-          setError('Please fill out all required fields before adding another experience.');
-          return;
+            // Show error message if any required field is empty
+            setError('Please fill out all required fields before adding another experience.');
+            return;
         }
-    
+
         // If all required fields are filled, clear error and add a new form
         setError('');
         setExperiences([...experiences, { title: '', companyName: '', startDate: '', endDate: '', isCurrent: false }]);
-      };
+    };
 
 
-    const handleInputChange = (index, event) => {
+    const handleInputChange = (index: number, event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value, type, checked } = event.target;
         const updatedExperiences = experiences.map((experience, i) => {
-          if (i === index) {
-            return {
-              ...experience,
-              [name]: type === 'checkbox' ? checked : value,
-            };
-          }
-          return experience;
+            if (i === index) {
+                return {
+                    ...experience,
+                    [name]: type === 'checkbox' ? checked : value,
+                };
+            }
+            return experience;
         });
         setExperiences(updatedExperiences);
-      };
+    };
 
 
-    const handleSubmit = (e) => {
+
+
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (step === 1) {
             // Move to the next step when Next is clicked
@@ -409,8 +418,10 @@ const SignUpNextpage: React.FC = () => {
                                                 onChange={handleCountryChange}
                                                 className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2"
                                             >
+
                                                 <option value="+91">India (+91)</option>
-                                                <option value="+1">US (+1)</option>
+                                                <option value="+1">USA (+1)</option>
+                                                <option value="+44">UK (+44)</option>
                                             </select>
 
                                             {/* Contact Number Input */}
@@ -576,7 +587,7 @@ const SignUpNextpage: React.FC = () => {
                                             </div>
                                         ))}
                                         <div className="flex gap-1">
-                                            <button  type="button" onClick={handleAddExperience}><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 48 48"><defs><mask id="ipSAdd0"><g fill="none" stroke-linejoin="round" stroke-width="4"><rect width="36" height="36" x="6" y="6" fill="#fff" stroke="#fff" rx="3" /><path stroke="#000" stroke-linecap="round" d="M24 16v16m-8-8h16" /></g></mask></defs><path fill="#3b82f5" d="M0 0h48v48H0z" mask="url(#ipSAdd0)" /></svg></button>
+                                            <button type="button" onClick={handleAddExperience}><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 48 48"><defs><mask id="ipSAdd0"><g fill="none" stroke-linejoin="round" stroke-width="4"><rect width="36" height="36" x="6" y="6" fill="#fff" stroke="#fff" rx="3" /><path stroke="#000" stroke-linecap="round" d="M24 16v16m-8-8h16" /></g></mask></defs><path fill="#3b82f5" d="M0 0h48v48H0z" mask="url(#ipSAdd0)" /></svg></button>
                                             <h1>Add Another Experience</h1>
                                         </div>
                                         <button

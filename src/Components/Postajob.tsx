@@ -7,6 +7,7 @@ import computer from '@/Assests/computer.png';
 import Modal from './Model';
 import { initializeApp } from 'firebase/app';
 import { getAuth, onAuthStateChanged, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
+import { User } from 'firebase/auth';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
 const firebaseConfig = {
@@ -26,11 +27,21 @@ const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 
 
+interface FormData {
+    projectName: string;
+    description: string;
+    skills: string[];
+    payment: string;
+    currency: string; 
+    isHourly: boolean;  
+    email: string;  
+    file: File | null;    
+}
 
 const Postajob: React.FC = () => {
-    const [file, setfile] = useState(null);
-    const [fileUrl, setFileUrl] = useState('');
-    const [formData, setFormData] = useState({
+    const [file, setfile] = useState<File | null>(null);
+    const [fileUrl, setFileUrl] = useState<string>('');
+    const [formData, setFormData] = useState<FormData>({
         projectName: '',
         description: '',
         skills: [],
@@ -38,13 +49,14 @@ const Postajob: React.FC = () => {
         currency: 'USD',
         isHourly: true,
         email: "",
+        file: null,
     });
     const [submitted, setSubmitted] = useState(false);
     const [skillInput, setSkillInput] = useState('');
     const [skills, setSkills] = useState<string[]>([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isUploading, setIsUploading] = useState(false);
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState<User | null>(null);
 
     // const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     //     if (e.target.files && e.target.files.length > 0) {
@@ -66,7 +78,7 @@ const Postajob: React.FC = () => {
 
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files && e.target.files[0];
+        const file = e.target.files && e.target.files?.[0] || null ;
         if (file) {
             const validTypes = ['image/png', 'image/jpeg', 'image/jpg', 'image/bmp', 'image/tiff'];
             if (!validTypes.includes(file.type)) {
@@ -122,6 +134,13 @@ const Postajob: React.FC = () => {
     // }
 
     const handleReviewSubmit = async () => {
+
+        if (!file) {
+            console.error("No file selected.");
+            return; 
+        }
+
+
         try {
 
             const storageRef = ref(storage, `PostProjects/${file.name}`);

@@ -25,21 +25,21 @@ const portfolios = [
 ];
 
 const PortfolioSection = () => {
-  const carouselRef = useRef(null);
+  const carouselRef = useRef<HTMLDivElement | null>(null);
 
-  const scrollLeft = () => {
-    carouselRef.current.scrollBy({
-      left: -carouselRef.current.offsetWidth,
-      behavior: "smooth",
-    });
-  };
+  // const scrollLeft = () => {
+  //   carouselRef.current.scrollBy({
+  //     left: -carouselRef.current.offsetWidth,
+  //     behavior: "smooth",
+  //   });
+  // };
 
-  const scrollRight = () => {
-    carouselRef.current.scrollBy({
-      left: carouselRef.current.offsetWidth,
-      behavior: "smooth",
-    });
-  };
+  // const scrollRight = () => {
+  //   carouselRef.current.scrollBy({
+  //     left: carouselRef.current.offsetWidth,
+  //     behavior: "smooth",
+  //   });
+  // };
 
   return (
     <section className="px-4 py-10 ">
