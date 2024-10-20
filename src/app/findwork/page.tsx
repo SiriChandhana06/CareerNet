@@ -4,7 +4,7 @@ import React from 'react';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
 
-const findwork: React.FC = () => {
+const Findwork: React.FC = () => {
 
   const [projectData, setProjectData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
@@ -142,4 +142,4 @@ const findwork: React.FC = () => {
   )
 }
 
-export default findwork;
+export default Findwork;

@@ -6,7 +6,7 @@ import login from "../../Assests/login.png";
 import { useState } from 'react';
 
 
-const signUpNextpage: React.FC = () => {
+const SignUpNextpage: React.FC = () => {
     const [imageSrc, setImageSrc] = useState('/profileimage.webp');
     const [step, setStep] = useState(1);
     const [languages, setLanguages] = useState([]);
@@ -606,4 +606,4 @@ const signUpNextpage: React.FC = () => {
     )
 }
 
-export default signUpNextpage;
+export default SignUpNextpage;

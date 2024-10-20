@@ -1,7 +1,7 @@
 import Navbar from "@/Components/Navbar";
 
 
-const findFreelancers: React.FC = () => {
+const FindFreelancers: React.FC = () => {
   return (
     <div>
       <div>
@@ -12,4 +12,4 @@ const findFreelancers: React.FC = () => {
   )
 }
 
-export default findFreelancers;
+export default FindFreelancers;
