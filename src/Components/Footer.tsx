@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import logo from '../Assests/logo.png';
-import Modal from './Model';
+// import Modal from './Model';
 
 const Footer = () => {
   return (
