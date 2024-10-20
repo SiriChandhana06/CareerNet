@@ -4,6 +4,7 @@ import Link from "next/link";
 import logo from "../../Assests/logo.png";
 import login from "../../Assests/login.png";
 import { useState } from 'react';
+import { Console } from "console";
 
 const signUpNextpage: React.FC = () => {
     const [imageSrc, setImageSrc] = useState('/profileimage.webp');
@@ -14,7 +15,12 @@ const signUpNextpage: React.FC = () => {
     const [education, setEducation] = useState(['']);
     const [countryCode, setCountryCode] = useState('+91'); // Default to India
     const [contactNumber, setContactNumber] = useState('');
-    const [portfolioimage,setPortfolioimage] = useState('');
+    const [portfolioimage, setPortfolioimage] = useState('');
+    const [skills, setSkills] = useState<string[]>([]); // Initialize as an array
+    const [skillInput, setSkillInput] = useState<string>('');
+    const [experiences, setExperiences] = useState([{ title: '', companyName: '', startDate: '', endDate: '', isCurrent: false }]);
+    const [error, setError] = useState('');
+
 
     const handleFileChange = (e) => {
         const file = e.target.files[0];
@@ -69,6 +75,53 @@ const signUpNextpage: React.FC = () => {
         setContactNumber(e.target.value);
     };
 
+    const handleSkillAdd = () => {
+        // Add skill if it's not empty, not already included, and under the limit of 10
+        if (skillInput && !skills.includes(skillInput) && skills.length < 10) {
+            setSkills([...skills, skillInput]);
+            setSkillInput('');
+        } else {
+            console.log('Skill already added or limit reached!');
+        }
+    };
+
+    const removeSkill = (index: number) => {
+        const newSkills = [...skills];
+        newSkills.splice(index, 1);
+        setSkills(newSkills);
+    };
+
+
+    const handleAddExperience = () => {
+        // Validate the last experience fields
+        const lastExperience = experiences[experiences.length - 1];
+        
+        if (!lastExperience.title || !lastExperience.companyName || !lastExperience.startDate) {
+          // Show error message if any required field is empty
+          setError('Please fill out all required fields before adding another experience.');
+          return;
+        }
+    
+        // If all required fields are filled, clear error and add a new form
+        setError('');
+        setExperiences([...experiences, { title: '', companyName: '', startDate: '', endDate: '', isCurrent: false }]);
+      };
+
+
+    const handleInputChange = (index, event) => {
+        const { name, value, type, checked } = event.target;
+        const updatedExperiences = experiences.map((experience, i) => {
+          if (i === index) {
+            return {
+              ...experience,
+              [name]: type === 'checkbox' ? checked : value,
+            };
+          }
+          return experience;
+        });
+        setExperiences(updatedExperiences);
+      };
+
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -90,6 +143,12 @@ const signUpNextpage: React.FC = () => {
         }
         if (step === 6) {
             setStep(7);
+        }
+        if (step === 7) {
+            setStep(8);
+        }
+        if (step === 8) {
+            setStep(9);
         }
         else {
             // Handle final form submission
@@ -276,7 +335,7 @@ const signUpNextpage: React.FC = () => {
                                                     value={value}
                                                     onChange={(e) => handleEducationChange(index, e.target.value)}
                                                 />
-                                                {/* Show Remove button (❌) only if more than one input is present */}
+
                                                 {education.length > 1 && (
                                                     <button
                                                         type="button"
@@ -317,7 +376,7 @@ const signUpNextpage: React.FC = () => {
                                         <input
                                             type="text"
                                             name="Role"
-                                            placeholder="Role"
+                                            placeholder="eg: Web Developer"
                                             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2"
                                         />
                                         <input
@@ -343,7 +402,7 @@ const signUpNextpage: React.FC = () => {
                                 {step === 6 && (
                                     <form onSubmit={handleSubmit} className="space-y-4">
                                         <h1 className="block text-gray-700 text-lg ">Contact Info</h1>
-                                        <div className="flex space-x-2">
+                                        <div className="md:flex md:space-x-2">
                                             {/* Country Code Selector */}
                                             <select
                                                 value={countryCode}
@@ -361,7 +420,7 @@ const signUpNextpage: React.FC = () => {
                                                 value={contactNumber}
                                                 onChange={handleContactNumberChange}
                                                 placeholder="Contact Number"
-                                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2"
+                                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 mt-2 md:mt-0"
                                             />
                                         </div>
                                         <button
@@ -389,7 +448,7 @@ const signUpNextpage: React.FC = () => {
                                         <input
                                             type="text"
                                             name="Role"
-                                            placeholder="Role"
+                                            placeholder="eg: Web Developer"
                                             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2"
                                         />
                                         <input
@@ -403,6 +462,128 @@ const signUpNextpage: React.FC = () => {
                                             className="w-full bg-blue-600 text-white py-2 rounded-lg text-md md:text-xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
                                         >
                                             Next
+                                        </button>
+                                    </form>
+                                )}
+
+                                {step === 8 && (
+                                    <form onSubmit={handleSubmit} className="space-y-4">
+                                        <input
+                                            type="text"
+                                            name="Title"
+                                            placeholder="eg: Web Developer"
+                                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2"
+                                        />
+                                        <textarea
+                                            name="Bio"
+                                            placeholder="Bio"
+                                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2"
+                                        />
+                                        <div className="flex items-center space-x-2">
+                                            <input
+                                                type="text"
+                                                value={skillInput}
+                                                onChange={(e) => setSkillInput(e.target.value)}
+                                                className="w-full border border-gray-300 p-2 rounded"
+                                                placeholder='eg: React'
+                                            />
+                                            <button
+                                                type="button"
+                                                onClick={handleSkillAdd}
+                                                className="bg-blue-500 text-white px-4 py-2 rounded"
+                                            >
+                                                Add
+                                            </button>
+                                        </div>
+                                        <div className="flex flex-wrap space-x-2 space-y-2 my-2">
+                                            {skills.map((skill, index) => (
+                                                <div key={index} className="bg-blue-500 text-white px-2 py-1 rounded-full flex items-center space-x-1">
+                                                    <span>{skill}</span>
+                                                    <button
+                                                        type="button"
+                                                        className="text-white text-sm font-bold"
+                                                        onClick={() => removeSkill(index)}
+                                                    >
+                                                        ❌
+                                                    </button>
+                                                </div>
+                                            ))}
+                                        </div>
+                                        <button
+                                            type="submit"
+                                            className="w-full bg-blue-600 text-white py-2 rounded-lg text-md md:text-xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        >
+                                            Next
+                                        </button>
+                                    </form>
+                                )}
+
+                                {step === 9 && (
+                                    <form onSubmit={handleSubmit} className="space-y-4">
+                                        <h1>Add Experience</h1>
+                                        {experiences.map((experience, index) => (
+                                            <div key={index} className="space-y-4">
+                                                <div className="md:flex gap-4">
+                                                    <input
+                                                        type="text"
+                                                        name="title"
+                                                        placeholder="eg: Web Developer"
+                                                        value={experience.title}
+                                                        onChange={(e) => handleInputChange(index, e)}
+                                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2"
+                                                    />
+                                                    <input
+                                                        type="text"
+                                                        name="companyName"
+                                                        placeholder="Company name"
+                                                        value={experience.companyName}
+                                                        onChange={(e) => handleInputChange(index, e)}
+                                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 mt-2 md:mt-0"
+                                                    />
+                                                </div>
+                                                <div className='md:flex gap-10'>
+                                                    <div className='md:flex gap-2'>
+                                                        <h1 className='text-xl font-semibold mt-5'>Started Date:</h1>
+                                                        <input
+                                                            type="date"
+                                                            name="startDate"
+                                                            value={experience.startDate}
+                                                            onChange={(e) => handleInputChange(index, e)}
+                                                            className='underline hover:underline border-b-2 mt-5 border-blue-500 font-semibold focus:outline-none focus:border-transparent'
+                                                        />
+                                                    </div>
+                                                    <div className='md:flex gap-2'>
+                                                        <h1 className='text-xl font-semibold mt-5'>End Date:</h1>
+                                                        <input
+                                                            type="date"
+                                                            name="endDate"
+                                                            value={experience.endDate}
+                                                            onChange={(e) => handleInputChange(index, e)}
+                                                            className='underline hover:underline border-b-2 mt-5 border-blue-500 font-semibold focus:outline-none focus:border-transparent'
+                                                        />
+                                                    </div>
+                                                </div>
+                                                <div className="flex gap-4 items-center mt-4">
+                                                    <input
+                                                        type="checkbox"
+                                                        name="isCurrent"
+                                                        checked={experience.isCurrent}
+                                                        onChange={(e) => handleInputChange(index, e)}
+                                                        className="h-5 w-5"
+                                                    />
+                                                    <label className="text-sm text-gray-600">I&apos;m Currently Working</label>
+                                                </div>
+                                            </div>
+                                        ))}
+                                        <div className="flex gap-1">
+                                            <button  type="button" onClick={handleAddExperience}><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 48 48"><defs><mask id="ipSAdd0"><g fill="none" stroke-linejoin="round" stroke-width="4"><rect width="36" height="36" x="6" y="6" fill="#fff" stroke="#fff" rx="3" /><path stroke="#000" stroke-linecap="round" d="M24 16v16m-8-8h16" /></g></mask></defs><path fill="#3b82f5" d="M0 0h48v48H0z" mask="url(#ipSAdd0)" /></svg></button>
+                                            <h1>Add Another Experience</h1>
+                                        </div>
+                                        <button
+                                            type="submit"
+                                            className="w-full bg-blue-600 text-white py-2 rounded-lg text-md md:text-xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        >
+                                            Submit
                                         </button>
                                     </form>
                                 )}
