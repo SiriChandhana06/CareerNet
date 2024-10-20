@@ -5,28 +5,28 @@ import Image from 'next/image';
 interface Category {
   id: number;
   title: string;
-  imageUrl: string;
+  cimage: string;
 }
 
 export default function Categories() {
-    const [categories, setCategories] = useState<Category[]>([]);
-    const [error, setError] = useState<string | null>(null);
-  
-    useEffect(() => {
-      const fetchCategories = async () => {
-        try {
-          const response = await fetch('/api/categories'); // Corrected path
-          if (!response.ok) {
-            throw new Error('Failed to fetch data');
-          }
-          const data = await response.json();
-          setCategories(data);
-        } catch (err: any) {
-          setError(err.message);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await fetch('/api/categories'); // Corrected path
+        if (!response.ok) {
+          throw new Error('Failed to fetch data');
         }
-      };
-      fetchCategories();
-    }, []);
+        const data = await response.json();
+        setCategories(data);
+      } catch (err: any) {
+        setError(err.message);
+      }
+    };
+    fetchCategories();
+  }, []);
 
   return (
     <div className="flex flex-col items-center">
@@ -40,7 +40,7 @@ export default function Categories() {
           {categories.map((category) => (
             <div key={category.id} className="relative group rounded-xl transition duration-300 hover:bg-black hover:bg-opacity-100 hover:text-white hover:cursor-pointer">
               <Image
-                src={category.image}
+                src={category.cimage}
                 alt={category.title}
                 className="w-full h-48 object-cover rounded-xl opacity-80"
               />

@@ -14,42 +14,42 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
       {
         id: 1,
         title: 'Graphic & Design',
-        image: graphic,
+        cimage: graphic,
       },
       {
         id: 2,
         title: 'Cartoon Animation',
-        image: cartoon,
+        cimage: cartoon,
       },
       {
         id: 3,
         title: 'Illustration',
-        image: illustration,
+        cimage: illustration,
       },
       {
         id: 4,
         title: 'Flyers & Vouchers',
-        image: flyers,
+        cimage: flyers,
       },
       {
         id: 5,
         title: 'Logo Design',
-        image: logodesign,
+        cimage: logodesign,
       },
       {
         id: 6,
         title: 'Social Graphics',
-        image: social,
+        cimage: social,
       },
       {
         id: 7,
         title: 'Article Writing',
-        image: article,
+        cimage: article,
       },
       {
         id: 8,
         title: 'Video Editing',
-        image: video,
+        cimage: video,
       },
     ];
     res.status(200).json(categories);
