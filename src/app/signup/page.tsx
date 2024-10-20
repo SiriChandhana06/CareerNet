@@ -65,7 +65,7 @@ const SignupPage: React.FC = () => {
     const validationErrors = validate(); 
     if (Object.keys(validationErrors).length === 0) {
         try {
-            const response = await fetch("http://localhost:5000/api/auth/signup", {
+            const response = await fetch("https://career-net-server.vercel.app/api/auth/signup", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

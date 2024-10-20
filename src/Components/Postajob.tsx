@@ -129,7 +129,7 @@ const Postajob: React.FC = () => {
             const url = await getDownloadURL(storageRef);
             setFileUrl(url);
 
-            const response = await fetch('http://localhost:5000/api/projects', {
+            const response = await fetch('https://career-net-server.vercel.app/api/projects', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
