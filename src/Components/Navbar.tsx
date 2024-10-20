@@ -20,13 +20,13 @@ const Navbar: React.FC = () => {
   const dropdownRef = useRef(null);
   const [session, setSession] = useState(false);
   const [email, setEmail] = useState("");
-  const pathname = usePathname(); // Get the current pathname
+  const pathname = usePathname(); 
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const router = useRouter();
 
   useEffect(() => {
     // Set the active path based on the current URL
-    setActivePath(pathname);
+    setActivePath(pathname?? "");
 
     const storedEmail = localStorage.getItem('userEmail');
     if (storedEmail) {
