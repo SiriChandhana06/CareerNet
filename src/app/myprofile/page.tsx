@@ -192,7 +192,7 @@ const MyProfile: React.FC = () => {
       <div>
         <Navbar />
       </div>
-      <div className='mx-0 lg:mx-20'>
+      <div className='mx-2 lg:mx-20 mt-16 lg:mt-20'>
       <div className=''>
         <div className="bg-blue-300 flex flex-col items-center">
           <div className="w-full relative">
@@ -200,12 +200,12 @@ const MyProfile: React.FC = () => {
               src={coverImage}
               alt="Cover Image"
               layout='responsive'
-              className="rounded-lg w-full h-48 md:h-64 object-cover block lg:hidden"
+              className="rounded-lg w-full h-48 md:h-64 z-0 object-cover block md:hidden"
             />
             <Image
               src={coverImage}
               alt="Cover Image"
-              className="rounded-lg w-full h-64 object-cover hidden lg:block"
+              className="rounded-lg w-full h-64 object-cover z-0 hidden md:block"
             />
             <div className="absolute -bottom-16 md:-bottom-20 left-24 md:left-48 transform -translate-x-1/2">
               <div className="relative w-32 h-32 md:w-48 md:h-48 rounded-full border-4 border-black overflow-hidden">
@@ -244,7 +244,7 @@ const MyProfile: React.FC = () => {
           <h1 className='text-2xl font-bold ml-28 mt-4'>Web Developer</h1>
           <h1 className='ml-4 mt-4 mr-4 lg:mr-40 text-justify'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam cupiditate praesentium facilis autem suscipit facere adipisci eum, officia voluptatem expedita sit quas impedit blanditiis dicta cumque ducimus!</h1>
         </div>
-        <div className='mr-6 ml-6 lg:ml-80 mt-4 md:mt-8 lg:mt-4'>
+        <div className='mx-4 lg:ml-80 mt-4 md:mt-8 lg:mt-4'>
           <div><h1 className='text-center font-semibold text-xl'>Social Links</h1></div>
           <div className='flex gap-8 bg-white border rounded-md py-2 px-8 mt-4'>
             <div id='linkedin'>
@@ -266,7 +266,7 @@ const MyProfile: React.FC = () => {
         </div>
       </div>
       <div className=''>
-        <div className='flex justify-between mx-10 mt-10'>
+        <div className='flex justify-between md:mx-10 mt-10'>
           <h1 className='text-2xl font-semibold lg:text-4xl'>Portfolio</h1>
           <h1 className='flex underline text-xl hover:text-blue-500 hover:cursor-pointer'>Manage Portfolio<svg className='underline hover:text-blue-500' xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="black" d="M5 18.08V19h.92l9.06-9.06l-.92-.92z" opacity="0.3" /><path fill="black" d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75zM5.92 19H5v-.92l9.06-9.06l.92.92zM20.71 5.63l-2.34-2.34a.996.996 0 0 0-1.41 0l-1.83 1.83l3.75 3.75l1.83-1.83a.996.996 0 0 0 0-1.41" /></svg></h1>
         </div>

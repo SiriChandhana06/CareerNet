@@ -10,6 +10,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Modal from './Model';
 import Postajob from './Postajob';
+import { useRouter } from "next/navigation";
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -21,6 +22,7 @@ const Navbar: React.FC = () => {
   const [email, setEmail] = useState("");
   const pathname = usePathname(); // Get the current pathname
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const router = useRouter();
 
   useEffect(() => {
     // Set the active path based on the current URL
@@ -61,7 +63,10 @@ const Navbar: React.FC = () => {
       localStorage.removeItem('userEmail'); // Remove email from local storage
       setEmail(""); // Reset the email state
       setSession(false); // Reset the session stat // Close the dropdown after signing out
-      toast.success(' You have successfully signed out!!')
+      toast.success(' You have successfully signed out!!');
+      setTimeout(() => {
+        router.push('/');
+      }, 2000);
     } catch (error) {
       if (error instanceof Error) {
         console.error("Error occurred during sign-out:", error.message);
@@ -154,7 +159,7 @@ const Navbar: React.FC = () => {
                 <div ref={dropdownRef}>
                   <button onClick={toggleMenu} className="flex bg-blue-500 text-white py-2 px-4 rounded-full hover:bg-blue-600 hover:scale-110">
                     <Image
-                      src={user?.photoURL || "/default-avatar.png"}
+                      src={user?.photoURL || "/profileimage.webp"}
                       alt="User Avatar"
                       className="h-8 w-8 rounded-full"
                       width={10}
@@ -212,7 +217,7 @@ const Navbar: React.FC = () => {
                   <div ref={dropdownRef}>
                     <button onClick={toggleMenu} className="flex bg-blue-500 text-white py-2 px-4 rounded-full hover:bg-blue-600 hover:scale-110">
                       <Image
-                        src={user?.photoURL || "/default-avatar.png"}
+                        src={user?.photoURL || "/profileimage.webp"}
                         alt="User Avatar"
                         className="h-8 w-8 rounded-full"
                         width={10}
@@ -221,7 +226,7 @@ const Navbar: React.FC = () => {
                       <h1 className="ml-2 mt-1">{email || user?.displayName}</h1>
                     </button>
                     {profileIsOpen && (
-                      <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2 z-10">
+                      <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2 z-auto">
                         <Link href="/myprofile">
                           <button className="block px-4 py-2 text-sm text-black hover:bg-gray-100 w-full text-left">My Profile</button>
                         </Link>
