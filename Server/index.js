@@ -9,7 +9,7 @@ require("dotenv").config();
 const app = express();
 
 const allowedOrigins = [
-  'https://careernet.vercel.app/',
+  'https://careernet.vercel.app',
   'http://localhost:3000'
 ];
 
