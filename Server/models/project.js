@@ -39,11 +39,11 @@ const projectSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     },
-    userId: {  
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        required: true
-    }
+    // userId: {  
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: 'User',
+    //     required: true
+    // }
     
 });
 

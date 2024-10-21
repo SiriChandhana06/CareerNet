@@ -21,7 +21,7 @@ router.post('/', async (req, res) => {
             isHourly: isHourly === 'true',  // Parse boolean from string
             email,
             fileUrl,
-            userId: req.user._id 
+            // userId: req.user._id 
             // fileUrl: `/uploads/${req.file.filename}`  // Save file path
         });
 
