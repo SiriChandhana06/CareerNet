@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import logo from '../Assests/logo.png';
-// import Modal from './Model';
+
 
 const Footer = () => {
   return (
@@ -36,7 +36,7 @@ const Footer = () => {
             <h3 className="text-lg font-bold text-gray-700 mb-4">For Clients</h3>
             <ul className="space-y-2">
               <li><a href="/findfreelancers" className="text-gray-600 hover:text-blue-500">Find Freelancers</a></li>
-              <li><a href="#" className="text-gray-600 hover:text-blue-500">Post Project</a></li>
+              <li><a href="/postproject" className="text-gray-600 hover:text-blue-500">Post Project</a></li>
               <li><a href="#" className="text-gray-600 hover:text-blue-500">Refund Policy</a></li>
               <li><a href="#" className="text-gray-600 hover:text-blue-500">Privacy Policy</a></li>
             </ul>

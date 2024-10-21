@@ -85,7 +85,7 @@ const Findwork: React.FC = () => {
 
 
   return (
-    <div className='bg-blue-300 h-full lg:h-screen'>
+    <div className='bg-blue-300 h-full'>
       <div><Navbar /></div>
       <div className="flex flex-wrap justify-center gap-6 p-6">
         {loading ? (

@@ -4,11 +4,12 @@ import { useState,useEffect } from 'react';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import computer from '@/Assests/computer.png';
-import Modal from './Model';
 import { initializeApp } from 'firebase/app';
 import { getAuth, onAuthStateChanged, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import { User } from 'firebase/auth';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import Navbar from '@/Components/Navbar';
+import { useRouter } from "next/navigation";
 
 const firebaseConfig = {
     apiKey: "AIzaSyCsbWMLGCfVS0g6F2HMQTQrq1lKO_XTxSI",
@@ -54,9 +55,9 @@ const Postajob: React.FC = () => {
     const [submitted, setSubmitted] = useState(false);
     const [skillInput, setSkillInput] = useState('');
     const [skills, setSkills] = useState<string[]>([]);
-    const [isModalOpen, setIsModalOpen] = useState(false);
     const [isUploading, setIsUploading] = useState(false);
     const [user, setUser] = useState<User | null>(null);
+    const router = useRouter();
 
     // const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     //     if (e.target.files && e.target.files.length > 0) {
@@ -113,7 +114,6 @@ const Postajob: React.FC = () => {
         toast.warning('Review the Form')
         console.log('Form submitted');
         setSubmitted(true);
-        setIsModalOpen(true);
 
     };
 
@@ -137,6 +137,8 @@ const Postajob: React.FC = () => {
 
         try {
 
+            setIsUploading(true);
+
             if (!file) {
                 console.error("No file selected.");
                 return; 
@@ -159,8 +161,10 @@ const Postajob: React.FC = () => {
 
             if (response.ok) {
                 toast.success('You have posted the project successfully!');
+                setTimeout(() => {
+                    router.push('/');
+                  }, 2000);
                 localStorage.setItem('postedProject', JSON.stringify({ ...formData, fileUrl }));
-                setIsModalOpen(false);
             } else {
                 toast.error(result.message || 'Failed to post project.');
             }
@@ -176,7 +180,10 @@ const Postajob: React.FC = () => {
 
 
     return (
-        <div className="mx-auto p-6 bg-white/30 rounded-lg shadow-md space-y-4">
+        <div className='bg-blue-300 h-full md:h-screen lg:h-full'>
+            <Navbar/>
+            <div className='mx-4 md:mx-20 py-10'>
+        <div className=" p-6 bg-white/50 rounded-lg shadow-md space-y-4">
             <h2 className="text-xl md:text-2xl text-black text-center font-semibold mb-4">Post <span className='text-blue-500'>Project</span></h2>
             {!submitted ? (
                 <form onSubmit={handleSubmit} className="space-y-4">
@@ -314,11 +321,11 @@ const Postajob: React.FC = () => {
                     </button>
                 </form>
             ) : (
-                <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+                <div>
                     <div className="space-y-4">
                         <h2 className="text-xl font-bold">Are these details correct ?</h2>
-                        <div className="border bg-blue-300 p-4 rounded-lg shadow-lg flex space-x-4">
-                            <div className=" border-r-2 border-black pl-4 pr-8 py-10">
+                        <div className="border bg-blue-300 p-4 rounded-lg shadow-lg md:flex space-x-4">
+                            <div className="border-b-2 md:border-b-0 md:border-r-2 border-black pl-4 pr-8 py-10">
                                 <div className='flex justify-center'>
                                     <Image src={computer} alt='computer' className='h-20 w-auto' />
                                 </div>
@@ -329,7 +336,7 @@ const Postajob: React.FC = () => {
                                     <strong>Payment:</strong> {formData.payment} {formData.currency} ({formData.isHourly ? 'Per Hour' : 'Fixed Payment'})
                                 </p>
                             </div>
-                            <div className='px-10'>
+                            <div className='px-10 mt-4 md:mt-0'>
                                 <h3 className="text-lg font-bold">{formData.projectName}</h3>
                                 <p className='mt-2'>{formData.description}</p>
                                 <p className=" mt-2">
@@ -350,7 +357,7 @@ const Postajob: React.FC = () => {
                             <button onClick={handleEdit} className="bg-gray-500 text-white px-4 py-2 rounded-xl">
                                 Edit Details
                             </button>
-                            <button onClick={handleReviewSubmit} disabled={isUploading} className="bg-blue-500 text-white px-4 py-2 rounded-xl"> {isUploading ? 'Uploading...' : 'Yes, Post My Project'}</button>
+                            <button onClick={handleReviewSubmit} className="bg-blue-500 text-white px-4 py-2 rounded-xl"> {isUploading ? 'Uploading...' : 'Yes, Post My Project'}</button>
                         </div>
                         <div>
                             <hr className='border border-gray-500' />
@@ -358,7 +365,7 @@ const Postajob: React.FC = () => {
                             <h1 className='mt-2'>Copyright © 2024 CareerNet Technology Pvt Limited</h1>
                         </div>
                     </div>
-                </Modal>
+                </div>
             )
             }
             <ToastContainer
@@ -372,6 +379,8 @@ const Postajob: React.FC = () => {
                 theme="colored"
             />
         </div >
+        </div>
+        </div>
     );
 }
-export default Postajob
+export default Postajob;

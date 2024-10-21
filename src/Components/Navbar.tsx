@@ -9,8 +9,6 @@ import { User } from 'firebase/auth';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Modal from './Model';
-import Postajob from './Postajob';
 import { useRouter } from "next/navigation";
 
 const Navbar: React.FC = () => {
@@ -22,7 +20,6 @@ const Navbar: React.FC = () => {
   const [session, setSession] = useState(false);
   const [email, setEmail] = useState("");
   const pathname = usePathname(); 
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -78,16 +75,15 @@ const Navbar: React.FC = () => {
   const handlePostJobClick = () => {
     if (!user && !session) {
       toast.info("Please log in or sign up to post a Project.");
-      setIsModalOpen(false); // Ensures the modal doesn't open
     } else {
-      setIsModalOpen(true); // Opens the modal if the user is logged in
+      router.push('/postproject'); 
     }
   };
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setProfileIsOpen(false); // Close dropdown if clicked outside
+        setProfileIsOpen(false);
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
@@ -262,12 +258,6 @@ const Navbar: React.FC = () => {
         pauseOnFocusLoss
         theme="colored"
       />
-      
-      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-        <div>
-          <Postajob />
-        </div>
-      </Modal>
     </div>
   );
 };
