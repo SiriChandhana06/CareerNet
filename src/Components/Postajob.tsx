@@ -135,14 +135,13 @@ const Postajob: React.FC = () => {
 
     const handleReviewSubmit = async () => {
 
-        if (!file) {
-            console.error("No file selected.");
-            return; 
-        }
-
-
         try {
 
+            if (!file) {
+                console.error("No file selected.");
+                return; 
+            }
+    
             const storageRef = ref(storage, `PostProjects/${file.name}`);
             await uploadBytes(storageRef, file);
             const url = await getDownloadURL(storageRef);
