@@ -93,8 +93,8 @@ export default function Carousel() {
                 <Image
                   src={work.icon}
                   alt={work.title}
-                  height={10}
-                  width={10}
+                  height={72}
+                  width={72}
                   className="w-20 h-20 rounded-full mx-auto mb-4"
                 />
                 <h3 className="text-xl font-semibold">{work.title}</h3>
@@ -123,10 +123,12 @@ export default function Carousel() {
                 key={index}
                 className="w-96 h-54 bg-white shadow-lg rounded-xl p-6 text-center"
               >
-                <img
+                <Image
                   src={work.icon}
                   alt={work.title}
-                  className="w-12 h-12 mx-auto mb-4"
+                  height={80}
+                  width={80}
+                  className="w-20 h-20 mx-auto rounded-full mb-4"
                 />
                 <h3 className="text-xl font-semibold">{work.title}</h3>
                 <p className="text-gray-600 mt-2">{work.description}</p>

@@ -105,8 +105,8 @@ const Findwork: React.FC = () => {
               <Image
                 src={project.fileUrl || '/default-image.jpg'}
                 alt='image'
-                width={20}
-                height={20}
+                height={200}
+                width={200}
                 className="w-20 h-20 mx-auto object-cover mb-4 bg-blue-500 rounded-full"
               />
               <h3 className="text-xl font-semibold">{project.projectName}</h3>

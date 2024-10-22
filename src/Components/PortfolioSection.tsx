@@ -76,8 +76,8 @@ const PortfolioSection = () => {
               <Image
                 src={portfolio.image}
                 alt={portfolio.name}
-                width={24}
-                height={12}
+                width={360}
+                height={360}
                 className="w-full rounded-lg object-cover"
               />
               <div className="mt-4 text-center flex justify-between mx-4">

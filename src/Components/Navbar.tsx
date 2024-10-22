@@ -159,8 +159,8 @@ const Navbar: React.FC = () => {
                       src={user?.photoURL || "/profileimage.webp"}
                       alt="User Avatar"
                       className="h-8 w-8 rounded-full"
-                      width={10}
-                      height={10}
+                      width={32}
+                      height={32}
                     />
                     <h1 className="ml-2 mt-1">{email || user?.displayName}</h1>
                   </button>
@@ -217,8 +217,8 @@ const Navbar: React.FC = () => {
                         src={user?.photoURL || "/profileimage.webp"}
                         alt="User Avatar"
                         className="h-8 w-8 rounded-full"
-                        width={10}
-                        height={10}
+                        width={32}
+                        height={32}
                       />
                       <h1 className="ml-2 mt-1">{email || user?.displayName}</h1>
                     </button>
