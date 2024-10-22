@@ -1,6 +1,8 @@
 "use client";
 import { useState } from 'react';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
+import grapic from "@/Assests/graphics.png";
+import Image from 'next/image';
 
 const works = [
   {
@@ -8,35 +10,35 @@ const works = [
     description: "Need a professional logo with writing underneath for our jewellery company",
     bid: "$500",
     link: "#",
-    icon: "/path-to-logo-icon.png", // Add path to your logo
+    icon: grapic, 
   },
   {
     title: "Graphic Design",
     description: "We need a graphic designer with UI/UX skills for our Furniture company",
     bid: "$500",
     link: "#",
-    icon: "/path-to-graphic-icon.png", // Add path to your icon
+    icon: grapic, 
   },
   {
     title: "Need a SEO",
     description: "Need an SEO for our company who will lift our company to a higher level",
     bid: "$300",
     link: "#",
-    icon: "/path-to-seo-icon.png", // Add path to your SEO icon
+    icon: grapic, 
   },
   {
     title: "Web Development",
     description: "Looking for a full-stack web developer for our ecommerce platform",
     bid: "$700",
     link: "#",
-    icon: "/path-to-webdev-icon.png", // Add path to your webdev icon
+    icon: grapic, 
   },
   {
     title: "Content Writing",
     description: "Need a content writer for product descriptions and blogs",
     bid: "$400",
     link: "#",
-    icon: "/path-to-content-icon.png", // Add path to your content writer icon
+    icon: grapic,
   },
 ];
 
@@ -88,10 +90,12 @@ export default function Carousel() {
                 key={index}
                 className="w-96 h-54 bg-white shadow-lg rounded-xl p-6 text-center"
               >
-                <img
+                <Image
                   src={work.icon}
                   alt={work.title}
-                  className="w-12 h-12 mx-auto mb-4"
+                  height={10}
+                  width={10}
+                  className="w-20 h-20 rounded-full mx-auto mb-4"
                 />
                 <h3 className="text-xl font-semibold">{work.title}</h3>
                 <p className="text-gray-600 mt-2">{work.description}</p>

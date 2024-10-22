@@ -1,7 +1,7 @@
 "use client";
 import Image from 'next/image';
 import { useState,useEffect } from 'react';
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer , toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import computer from '@/Assests/computer.png';
 import { initializeApp } from 'firebase/app';
@@ -101,7 +101,7 @@ const Postajob: React.FC = () => {
             setSkillInput('');
         }
         else {
-            toast.error('Skill already added or limit reached!')
+            toast.error('Skill already added or limit reached!');
         }
     };
 
@@ -111,10 +111,11 @@ const Postajob: React.FC = () => {
             toast.error('Please fill all the required fields.');
             return;
         }
-        toast.warning('Review the Form')
-        console.log('Form submitted');
-        setSubmitted(true);
-
+        else{
+            toast.warning('Review the Form');
+            console.log('Form submitted');
+            setSubmitted(true);
+        }   
     };
 
     const handleEdit = () => {
@@ -208,7 +209,7 @@ const Postajob: React.FC = () => {
                                     setFormData({ ...formData, description: e.target.value });
                                 }
                                 else {
-                                    toast.error("you have reached limit")
+                                    toast.error("you have reached limit");
                                 }
                             }}
                             className="w-full h-20 border border-gray-300 p-2 rounded"

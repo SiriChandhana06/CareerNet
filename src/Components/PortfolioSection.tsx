@@ -1,26 +1,27 @@
 import { useRef } from "react";
 import Image from "next/image";
+import porfolio from "@/Assests/potfolio.webp";
 
 const portfolios = [
   {
     name: "Bunny.design",
     role: "UI/UX Designer",
-    image: "/bunny-design.jpg",
+    image: porfolio,
   },
   {
     name: "Bhaskar Tiwari",
     role: "Graphic Designer",
-    image: "/bhaskar-tiwari.jpg",
+    image: porfolio,
   },
   {
     name: "Aksara Joshi",
     role: "Graphic Designer",
-    image: "/aksara-joshi.jpg",
+    image: porfolio,
   },
   {
     name: "Designer 4",
     role: "Graphic Designer",
-    image: "/designer4.jpg",
+    image: porfolio,
   },
 ];
 
@@ -75,9 +76,9 @@ const PortfolioSection = () => {
               <Image
                 src={portfolio.image}
                 alt={portfolio.name}
-                width={500}
-                height={300}
-                className="w-full object-cover"
+                width={24}
+                height={12}
+                className="w-full rounded-lg object-cover"
               />
               <div className="mt-4 text-center flex justify-between mx-4">
                 <div>
