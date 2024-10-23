@@ -109,6 +109,7 @@ const Postajob: React.FC = () => {
         e.preventDefault();
         if (!formData.projectName || !formData.description || !formData.payment || !formData.skills.length || !file || !formData.email) {
             toast.error('Please fill all the required fields.');
+            console.log('2times');
             return;
         }
         else{

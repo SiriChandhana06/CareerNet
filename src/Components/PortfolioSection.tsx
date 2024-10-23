@@ -26,7 +26,7 @@ const portfolios = [
 ];
 
 const PortfolioSection = () => {
-  const carouselRef = useRef<HTMLDivElement | null>(null);
+  // const carouselRef = useRef<HTMLDivElement | null>(null);
 
   // const scrollLeft = () => {
   //   carouselRef.current.scrollBy({
@@ -65,7 +65,7 @@ const PortfolioSection = () => {
         {/* Carousel */}
         <div className="flex justify-center">
         <div
-          ref={carouselRef}
+          // ref={carouselRef}
           className="flex gap-6 md:gap-10 overflow-x-auto w-[1200px] scrollbar-hide scroll-smooth snap-x mx-6 md:mx-20"
         >
           {portfolios.map((portfolio, index) => (
