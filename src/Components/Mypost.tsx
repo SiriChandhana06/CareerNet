@@ -12,7 +12,6 @@ interface Job {
     fileUrl: string;
     isHourly: boolean;
     email: string;
-    _id: string; // Assuming MongoDB ID
 }
 
 const MyPosts: React.FC = () => {
@@ -23,17 +22,24 @@ const MyPosts: React.FC = () => {
     useEffect(() => {
         const fetchJobs = async () => {
             try {
-                const user = auth.currentUser;
-                if (user) {
-                    const response = await fetch(`https://career-net-server.vercel.app/api/projects?userId=${user.uid}`);
-                    const result = await response.json();
-                    
-                    if (response.ok) {
-                        setJobs(result);
-                    } else {
-                        toast.error(result.message || 'Failed to fetch jobs.');
-                    }
+                const response = await fetch('https://career-net-server.vercel.app/api/projects', {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ userEmail }),
+                });
+                if (!response.ok) {
+                    throw new Error("Network response was not ok");
                 }
+                const data = await response.json();
+                console.log(data); // Log the entire response
+                setJobs(data.posts || []); // Ensure data.posts exists
+                setLoading(false);
+
+
+
+
             } catch (error) {
                 toast.error('Error fetching jobs.');
             } finally {
@@ -73,7 +79,7 @@ const MyPosts: React.FC = () => {
                     ))}
                 </div>
             )}
-            <ToastContainer />
+            {/* <ToastContainer /> */}
         </div>
     );
 };

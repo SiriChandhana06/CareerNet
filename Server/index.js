@@ -53,16 +53,6 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 const projectRoutes = require('./routes/posts');
 app.use('/api/projects', projectRoutes);
 
-app.get('/api/projects', async (req, res) => {
-  const { userId } = req.query;
-
-  try {
-      const projects = await Project.find({ userId }); // Fetch projects posted by the user
-      res.json(projects);
-  } catch (error) {
-      res.status(500).json({ message: 'Failed to fetch projects' });
-  }
-});
 
 app.get('/', (req, res) => {
   res.send('Server is working!');
