@@ -2,7 +2,8 @@ const express = require('express');
 const router = express.Router();
 const path = require('path');
 const Project = require('../models/project');
-const verifyToken = require('../middleware/auth');
+const verifyToken = require('./authMiddleware');
+const project = require('../models/project');
 
 
 
@@ -43,6 +44,23 @@ router.post('/', async (req, res) => {
     }
 });
 
+router.post('/mypost', async (req, res) => {
+    try {
+        const { email} = req.body;
+
+        // Create a new project with the uploaded file
+        const project = await Project.findOne({email});
+
+        res.status(201).json({
+            success: true,
+            project,
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ success: false, message: 'Server error' });
+    }
+});
+
 // @route GET /api/projects
 // @desc Get all posted projects
 router.get('/', async (req, res) => {
@@ -67,26 +85,26 @@ router.get('/', async (req, res) => {
 //     }
 // });
 
-router.post('/', verifyToken, async (req, res) => {
-    try {
-      const userId = req.userId; // Retrieved from the decoded token
+// router.post('/', verifyToken, async (req, res) => {
+//     try {
+//       const userId = req.userId; // Retrieved from the decoded token
   
-      // Fetch the user's email from the User model based on the userId
-      const user = await User.findById(userId);
-      const userEmail = user.email;
+//       // Fetch the user's email from the User model based on the userId
+//       const user = await User.findById(userId);
+//       const userEmail = user.email;
   
-      if (!userEmail) {
-        return res.status(400).json({ error: 'User email is required.' });
-      }
+//       if (!userEmail) {
+//         return res.status(400).json({ error: 'User email is required.' });
+//       }
   
-      // Fetch posts for the authenticated user based on their email
-      const posts = await Project.find({ email: userEmail });
-      res.status(200).json({ posts });
-    } catch (error) {
-      console.error('Error fetching posts:', error);
-      res.status(500).json({ error: 'Failed to fetch posts.' });
-    }
-  });
+//       // Fetch posts for the authenticated user based on their email
+//       const posts = await Project.find({ email: userEmail });
+//       res.status(200).json({ posts });
+//     } catch (error) {
+//       console.error('Error fetching posts:', error);
+//       res.status(500).json({ error: 'Failed to fetch posts.' });
+//     }
+//   });
 
 
 module.exports = router;

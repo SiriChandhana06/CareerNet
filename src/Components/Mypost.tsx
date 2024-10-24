@@ -23,7 +23,7 @@ const MyPosts: React.FC = () => {
             const token = localStorage.getItem('token');
             if (!userEmail) return;
             try {
-                const response = await fetch('https://career-net-server.vercel.app/api/projects', {
+                const response = await fetch('https://career-net-server.vercel.app/api/projects/mypost', {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
