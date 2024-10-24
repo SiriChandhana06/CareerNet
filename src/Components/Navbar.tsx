@@ -35,8 +35,14 @@ const Navbar: React.FC = () => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         setUser(user);
+        setEmail(user.email || ""); // Set the email state from the user
+        localStorage.setItem('userEmail', user.email || ""); // Save email to local storage
+        setSession(true);
       } else {
         setUser(null);
+        localStorage.removeItem('userEmail'); // Clear email from local storage if no user
+        setEmail("");
+        setSession(false);
       }
     });
 

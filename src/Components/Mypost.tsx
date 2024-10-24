@@ -51,7 +51,7 @@ const MyPosts: React.FC = () => {
             }
         };
 
-        const email = 'sirisiri3006@gmail.com'; // You can fetch this from a context or other source
+        const email = localStorage.getItem('userEmail'); // You can fetch this from a context or other source
         fetchJobs(email);
     }, []);
 
