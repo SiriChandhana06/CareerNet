@@ -32,7 +32,6 @@ const FindFreelancers: React.FC = () => {
         <Navbar />
       </div>
       <div>
-
         <section className="px-4 py-10 ">
 
           <div className="relative">

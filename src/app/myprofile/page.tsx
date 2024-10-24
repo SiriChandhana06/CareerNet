@@ -6,27 +6,12 @@ import profilePic from "@/Assests/profileimage.webp";
 import coverImage from "@/Assests/coverphotoimage.webp";
 import image from '@/Assests/logo.png';
 import { useState } from 'react';
-// import { useEffect } from 'react';
-// import axios from 'axios';
+import MyPosts from '@/Components/Mypost';
 
 
 const MyProfile: React.FC = () => {
 
   const [activeTab, setActiveTab] = useState('Profile');
-  // const [projects, setProjects] = useState([]);
-
-  // useEffect(() => {
-  //   const fetchProjects = async () => {
-  //     try {
-  //       const res = await axios.get('http://localhost:5000/api/projects/my-posts'); 
-  //       setProjects(res.data);
-  //     } catch (error) {
-  //       console.error('Error fetching user projects', error);
-  //     }
-  //   };
-
-  //   fetchProjects();
-  // }, []);
 
   const renderContent = () => {
     switch (activeTab) {
@@ -124,7 +109,7 @@ const MyProfile: React.FC = () => {
         );
       case 'My Post':
         return (
-          <p>This is the My post content.</p>
+          <p><MyPosts/></p>
     //       <div>
     //         <div className="container mx-auto px-4 py-8">
     //   <h1 className="text-3xl font-semibold text-center mb-8">My Posted Projects</h1>
@@ -177,10 +162,6 @@ const MyProfile: React.FC = () => {
     //   </div>
     // </div>
     //       </div>
-        );
-      case 'Applied':
-        return (
-          <p>This is the Applied content.</p>
         );
       default:
         return null;
@@ -298,7 +279,7 @@ const MyProfile: React.FC = () => {
           {/* Navigation Bar */}
           <div className="w-full mt-10">
             <nav className="flex justify-between border-2 rounded-lg border-gray-200">
-              {['Profile', 'Experience', 'My Post', 'Applied'].map((tab, index) => (
+              {['Profile', 'Experience', 'My Post'].map((tab, index) => (
                 <button
                   key={tab}
                   className={`flex-1 text-center py-2 text-xl font-semibold ${activeTab === tab

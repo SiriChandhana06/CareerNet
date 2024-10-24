@@ -54,7 +54,7 @@ const PortfolioSection = () => {
       </div>
 
       <div className="relative">
-        {/* Left Arrow */}
+        {/* Left Arrow */}   
         {/* <button
           className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full z-10"
           onClick={scrollLeft}

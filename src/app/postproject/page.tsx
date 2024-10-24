@@ -156,7 +156,7 @@ const Postajob: React.FC = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ ...formData, fileUrl: url }),
+                body: JSON.stringify({ ...formData, fileUrl: url , userId: user?.uid }),
             });
 
             const result = await response.json();
@@ -166,7 +166,7 @@ const Postajob: React.FC = () => {
                 setTimeout(() => {
                     router.push('/');
                   }, 2000);
-                localStorage.setItem('postedProject', JSON.stringify({ ...formData, fileUrl }));
+                localStorage.setItem('postedProject', JSON.stringify({ ...formData, fileUrl ,  userId: user?.uid}));
             } else {
                 toast.error(result.message || 'Failed to post project.');
             }
