@@ -12,6 +12,7 @@ interface Job {
     fileUrl: string;
     isHourly: boolean;
     email: string;
+    _id: string;
 }
 
 const MyPosts: React.FC = () => {
@@ -20,7 +21,8 @@ const MyPosts: React.FC = () => {
     const auth = getAuth();
 
     useEffect(() => {
-        const fetchJobs = async () => {
+        const fetchJobs = async (userEmail: string | null) => {
+            if (!userEmail) return;
             try {
                 const response = await fetch('https://career-net-server.vercel.app/api/projects', {
                     method: "POST",
@@ -36,17 +38,12 @@ const MyPosts: React.FC = () => {
                 console.log(data); // Log the entire response
                 setJobs(data.posts || []); // Ensure data.posts exists
                 setLoading(false);
-
-
-
-
             } catch (error) {
                 toast.error('Error fetching jobs.');
             } finally {
                 setLoading(false);
             }
         };
-
         fetchJobs();
     }, []);
 
