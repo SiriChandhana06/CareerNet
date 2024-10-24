@@ -2,8 +2,6 @@ const express = require('express');
 const router = express.Router();
 const path = require('path');
 const Project = require('../models/project');
-const verifyToken = require('./authMiddleware');
-const project = require('../models/project');
 
 
 

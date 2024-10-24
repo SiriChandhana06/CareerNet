@@ -1,14 +1,17 @@
+"use client";
 import { useEffect, useState } from 'react';
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import Image from 'next/image';
+
 
 interface Job {
     projectName: string;
     description: string;
     skills: string[];
-    payment: string;
+    payment: number; 
     currency: string;
-    fileUrl: string;
+    fileUrl?: string; 
     isHourly: boolean;
     email: string;
     _id: string;
@@ -19,38 +22,45 @@ const MyPosts: React.FC = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const fetchJobs = async (userEmail: string | null) => {
-            const token = localStorage.getItem('token');
-            if (!userEmail) return;
+        const fetchJobs = async (email: string | null) => {
+            if (!email) return;
+
             try {
                 const response = await fetch('https://career-net-server.vercel.app/api/projects/mypost', {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
-                        "Authorization": `Bearer ${token}`,
                     },
-                    body: JSON.stringify({ userEmail }),
+                    body: JSON.stringify({ email }),
                 });
+
                 if (!response.ok) {
                     throw new Error("Network response was not ok");
                 }
+
                 const data = await response.json();
                 console.log(data); // Log the entire response
-                setJobs(data.posts || []); // Ensure data.posts exists
+                console.log(data.project);
+                const projects = Array.isArray(data.project) ? data.project : [data.project];
+                // Check if data.project is an array before setting state
+                setJobs(projects);
                 setLoading(false);
             } catch (error) {
                 toast.error('Error fetching jobs.');
-            } finally {
-                setLoading(false);
+                setLoading(false); // Ensure loading is set to false on error
             }
         };
-        const userEmail = '';
-        fetchJobs(userEmail);
+
+        const email = 'sirisiri3006@gmail.com'; // You can fetch this from a context or other source
+        fetchJobs(email);
     }, []);
 
     if (loading) {
         return <p>Loading your posts...</p>;
     }
+
+    console.log(jobs);
+
 
     return (
         <div className="p-6">
@@ -69,7 +79,7 @@ const MyPosts: React.FC = () => {
                             {job.fileUrl && (
                                 <div>
                                     <strong>Project Image:</strong>
-                                    <img src={job.fileUrl} alt={job.projectName} className="w-full h-40 object-cover" />
+                                    <Image src={job.fileUrl} alt={job.projectName} className="w-full h-40 object-cover" width={400} height={160} />
                                 </div>
                             )}
                             <p><strong>Contact:</strong> {job.email}</p>
@@ -77,7 +87,7 @@ const MyPosts: React.FC = () => {
                     ))}
                 </div>
             )}
-            {/* <ToastContainer /> */}
+            <ToastContainer />
         </div>
     );
 };
