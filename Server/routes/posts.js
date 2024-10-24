@@ -2,6 +2,10 @@ const express = require('express');
 const router = express.Router();
 const path = require('path');
 const Project = require('../models/project');
+const verifyToken = require('../middleware/auth');
+
+
+
 
 // @route POST /api/projects
 // @desc Post a new project
@@ -63,15 +67,20 @@ router.get('/', async (req, res) => {
 //     }
 // });
 
-router.post('/', async (req, res) => {
+router.post('/', verifyToken, async (req, res) => {
     try {
-      const { userEmail } = req.body;
-      console.log(userEmail);
+      const userId = req.userId; // Retrieved from the decoded token
+  
+      // Fetch the user's email from the User model based on the userId
+      const user = await User.findById(userId);
+      const userEmail = user.email;
+  
       if (!userEmail) {
         return res.status(400).json({ error: 'User email is required.' });
       }
+  
+      // Fetch posts for the authenticated user based on their email
       const posts = await Project.find({ email: userEmail });
-      console.log(posts);
       res.status(200).json({ posts });
     } catch (error) {
       console.error('Error fetching posts:', error);

@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { getAuth } from 'firebase/auth';
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -18,16 +17,17 @@ interface Job {
 const MyPosts: React.FC = () => {
     const [jobs, setJobs] = useState<Job[]>([]);
     const [loading, setLoading] = useState(true);
-    const auth = getAuth();
 
     useEffect(() => {
         const fetchJobs = async (userEmail: string | null) => {
+            const token = localStorage.getItem('token');
             if (!userEmail) return;
             try {
                 const response = await fetch('https://career-net-server.vercel.app/api/projects', {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
+                        "Authorization": `Bearer ${token}`,
                     },
                     body: JSON.stringify({ userEmail }),
                 });
@@ -44,7 +44,8 @@ const MyPosts: React.FC = () => {
                 setLoading(false);
             }
         };
-        fetchJobs();
+        const userEmail = '';
+        fetchJobs(userEmail);
     }, []);
 
     if (loading) {
