@@ -32,6 +32,7 @@ const Navbar: React.FC = () => {
       setSession(true);
     }
 
+
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         setUser(user);
@@ -168,7 +169,7 @@ const Navbar: React.FC = () => {
                       width={32}
                       height={32}
                     />
-                    <h1 className="ml-2 mt-1">{email || user?.displayName}</h1>
+                    <h1 className="ml-2 mt-1">{email || user?.email}</h1>
                   </button>
                   {profileIsOpen && (
                     <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2 z-10">

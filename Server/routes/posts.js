@@ -11,7 +11,11 @@ const Project = require('../models/project');
 router.post('/', async (req, res) => {
     try {
         const { projectName, description, skills, payment, currency, isHourly, email, fileUrl} = req.body;
-
+        
+        if (!projectName || !description || !skills || !payment || !currency || !email) {
+            return res.status(400).json({ success: false, message: 'All fields are required except fileUrl' });
+        }
+        
         const parsedSkills = Array.isArray(skills) ? skills : skills.split(',');
 
         // Create a new project with the uploaded file

@@ -9,9 +9,9 @@ interface Job {
     projectName: string;
     description: string;
     skills: string[];
-    payment: number; 
+    payment: number;
     currency: string;
-    fileUrl?: string; 
+    fileUrl?: string;
     isHourly: boolean;
     email: string;
     _id: string;
@@ -68,21 +68,43 @@ const MyPosts: React.FC = () => {
             {jobs.length === 0 ? (
                 <p>You haven&apos;t posted any jobs yet.</p>
             ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="flex flex-wrap justify-center gap-6 p-6">
                     {jobs.map((job) => (
-                        <div key={job._id} className="border p-4 rounded shadow-md bg-white">
-                            <h2 className="text-xl font-bold">{job.projectName}</h2>
-                            <p>{job.description}</p>
-                            <p><strong>Skills:</strong> {job.skills.join(', ')}</p>
-                            <p><strong>Payment:</strong> {job.payment} {job.currency}</p>
-                            <p><strong>Type:</strong> {job.isHourly ? 'Hourly' : 'Fixed'}</p>
+                        <div key={job._id} className="w-96 h-54 bg-white shadow-lg rounded-xl p-6 text-center">
                             {job.fileUrl && (
                                 <div>
-                                    <strong>Project Image:</strong>
-                                    <Image src={job.fileUrl} alt={job.projectName} className="w-full h-40 object-cover" width={400} height={160} />
+                                    {/* <strong>Project Image:</strong> */}
+                                    <Image src={job.fileUrl} alt={job.projectName} className="w-20 h-20 mx-auto object-cover mb-4 bg-blue-500 rounded-full" height={200} width={200} />
                                 </div>
                             )}
-                            <p><strong>Contact:</strong> {job.email}</p>
+                            <h2 className="text-xl font-semibold">{job.projectName}</h2>
+                            <p className="text-gray-600 mt-2  text-center">{job.description}</p>
+                            {/* <p><strong>Skills:</strong> {job.skills.join(', ')}</p> */}
+                            <div className="flex flex-wrap justify-center space-x-2 my-2">
+                                {job.skills.map((skill: string, index: number) => (
+                                    <span key={index} className="bg-blue-500 text-white px-2 py-1 rounded-full">
+                                        {skill}
+                                    </span>
+                                ))}
+                            </div>
+                            <div className='flex justify-between'>
+                                <div>
+                                    <p className="text-lg font-semibold mt-4">
+                                        {job.isHourly ? 'Per Hour' : 'Fixed Payment'}
+                                    </p>
+                                    <p className="text-lg font-semibold">
+                                        {job.payment} {job.currency}
+                                    </p>
+                                </div>
+                                <div className='mt-6'>
+                                    <h1><strong>Contact:</strong> </h1>
+                                    <p className="text-blue-500 block hover:underline">{job.email}</p>
+                                </div>
+                            </div>
+                            {/* <p><strong>Payment:</strong> {job.payment} {job.currency}</p>
+                            <p><strong>Type:</strong> {job.isHourly ? 'Hourly' : 'Fixed'}</p> */}
+                            
+                            {/* <p><strong>Contact:</strong> {job.email}</p> */}
                         </div>
                     ))}
                 </div>
