@@ -78,22 +78,31 @@ const Postajob: React.FC = () => {
     }, []);
 
 
+
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files && e.target.files?.[0] || null;
+        const file = e.target.files && e.target.files[0] || null;
+
+        // Check if the file is valid
         if (file) {
             const validTypes = ['image/png', 'image/jpeg', 'image/jpg', 'image/bmp', 'image/tiff'];
             if (!validTypes.includes(file.type)) {
                 toast.error('Invalid file type. Please upload an image.');
                 return;
             }
-            if (file && file.size > 10485760) { // 2MB limit
+
+            if (file.size > 10485760) { // 10MB limit
                 toast.error('File size exceeds 10MB.');
                 return;
             }
-            setFormData(formData);
-            setfile(file);
+
+
+            setFormData((prevData) => ({
+                ...prevData,
+                file
+            }));
         }
     };
+
 
     const handleSkillAdd = () => {
         if (skillInput && !formData.skills.includes(skillInput) && formData.skills.length < 10) {
@@ -166,7 +175,8 @@ const Postajob: React.FC = () => {
                 setTimeout(() => {
                     router.push('/');
                 }, 2000);
-                localStorage.setItem('postedProject', JSON.stringify({ ...formData, fileUrl: url , userId: user?.uid }));
+                localStorage.setItem('postedProject', JSON.stringify({ ...formData, fileUrl: url, userId: user?.uid }));
+                console.log(formData);
             } else {
                 toast.error(result.message || 'Failed to post project.');
             }
@@ -219,16 +229,16 @@ const Postajob: React.FC = () => {
                             </div>
 
                             <div>
-                                <label className="block text-gray-700 font-bold mb-2">Upload image </label>
+                                <label className="block text-gray-700 font-bold mb-2">Upload image (Optional)</label>
                                 <div className="flex items-center border border-gray-300 p-2 rounded">
-                                    <input type="file" accept='.png, .jpg, .jpeg, .bmp, .tiff' onChange={handleFileChange} className="hidden" id="fileInput" />
+                                    <input type="file" accept=".png, .jpg, .jpeg, .bmp, .tiff" onChange={handleFileChange} className="hidden" id="fileInput" />
                                     <label htmlFor="fileInput" className="bg-blue-500 text-white px-4 py-2 rounded cursor-pointer">
                                         Select File
                                     </label>
-                                    <span className="ml-4">{file ? file.name : 'No file selected'}</span>
+                                    <span className="ml-4">{formData.file ? formData.file.name : 'No file selected'}</span>
                                 </div>
                             </div>
-
+                            
                             <div>
                                 <label className="block text-gray-700 font-bold mb-2">Skills (Max 10)</label>
                                 <div className="flex items-center space-x-2">

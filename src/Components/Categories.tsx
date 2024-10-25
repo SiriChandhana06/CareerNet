@@ -53,7 +53,7 @@ export default function Categories() {
           ))}
         </div>
       )}
-      <Link href="/more-categories">
+      <Link href="/findwork">
         <button className="mt-8 px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
           More Categories
         </button>

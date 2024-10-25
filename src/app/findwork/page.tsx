@@ -22,7 +22,6 @@ const Findwork: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-
   // useEffect(() => {
   //   const storedProject = localStorage.getItem('postedProject');
   //   if (storedProject) {
@@ -54,7 +53,7 @@ const Findwork: React.FC = () => {
           throw new Error('Failed to fetch project data');
         }
         const data = await response.json();
-        setProjectData(data); 
+        setProjectData(data);
         console.log(data);
 
       } catch (err) {
@@ -99,11 +98,23 @@ const Findwork: React.FC = () => {
   //   return <p className="text-center text-gray-600">No projects posted yet.</p>;
   // }
 
-  
+
 
   return (
     <div className='bg-blue-300 h-full'>
       <div><Navbar /></div>
+      <div className='flex justify-center my-10'>
+        <div className="flex flex-col sm:flex-row items-center w-full md:max-w-3xl ">
+          <input
+            type="text"
+            placeholder="Search Here"
+            className="py-3 px-4 rounded-xl border border-gray-300 shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent mb-4 sm:mb-0 sm:mr-4 w-full"
+          />
+          <button className="bg-blue-500 w-40 text-white font-semibold py-3 px-8 rounded-xl shadow-md hover:bg-blue-600 transition-all duration-300">
+            Search
+          </button>
+        </div>
+      </div>
       <div className="flex flex-wrap justify-center gap-6 p-6">
         {loading ? (
           // Render loading skeleton only for the cards section
@@ -120,7 +131,7 @@ const Findwork: React.FC = () => {
           projectData.map((project: Project, index) => (
             <div key={index} className="w-96 h-54 bg-white shadow-lg rounded-xl p-6 text-center">
               <Image
-                src={project.fileUrl && project.fileUrl.trim() !== '' ? project.fileUrl  : randomImages[Math.floor(Math.random() * randomImages.length)] }
+                src={project.fileUrl && project.fileUrl.trim() !== '' ? project.fileUrl : randomImages[Math.floor(Math.random() * randomImages.length)]}
                 alt='image'
                 height={200}
                 width={200}
