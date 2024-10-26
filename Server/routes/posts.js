@@ -51,7 +51,7 @@ router.post('/mypost', async (req, res) => {
         const { email} = req.body;
 
         // Create a new project with the uploaded file
-        const project = await Project.findOne({email});
+        const project = await Project.find({email});
 
         res.status(201).json({
             success: true,

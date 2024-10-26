@@ -21,6 +21,21 @@ const MyPosts: React.FC = () => {
     const [jobs, setJobs] = useState<Job[]>([]);
     const [loading, setLoading] = useState(true);
 
+    const randomImages = [
+        '/Assests/article.png',
+        '/Assests/cartoon.png',
+        '/Assests/flyers.png',
+        '/Assests/graphics.png',
+        '/Assests/illustartion.png',
+        '/Assests/logo design.png',
+        '/Assests/randomimage1.png',
+        '/Assests/randomimage2.png',
+        '/Assests/randomimage3.jpg',
+        '/Assests/randomimage4.jpg',
+        '/Assests/social.png',
+        '/Assests/video.png',
+      ];
+
     useEffect(() => {
         const fetchJobs = async (email: string | null) => {
             if (!email) return;
@@ -74,7 +89,7 @@ const MyPosts: React.FC = () => {
                             {job.fileUrl && (
                                 <div>
                                     {/* <strong>Project Image:</strong> */}
-                                    <Image src={job.fileUrl} alt={job.projectName} className="w-20 h-20 mx-auto object-cover mb-4 bg-blue-500 rounded-full" height={200} width={200} />
+                                    <Image src={job.fileUrl && job.fileUrl.trim() !== '' ? job.fileUrl : randomImages[Math.floor(Math.random() * randomImages.length)]} alt={job.projectName} className="w-20 h-20 mx-auto object-cover mb-4 bg-blue-500 rounded-full" height={200} width={200} />
                                 </div>
                             )}
                             <h2 className="text-xl font-semibold">{job.projectName}</h2>
