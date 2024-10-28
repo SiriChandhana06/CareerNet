@@ -30,20 +30,20 @@ const Findwork: React.FC = () => {
   // }, []);
 
 
-  const randomImages = [
-    '/Assests/article.png',
-    '/Assests/cartoon.png',
-    '/Assests/flyers.png',
-    '/Assests/graphics.png',
-    '/Assests/illustartion.png',
-    '/Assests/logo design.png',
-    '/Assests/randomimage1.png',
-    '/Assests/randomimage2.png',
-    '/Assests/randomimage3.jpg',
-    '/Assests/randomimage4.jpg',
-    '/Assests/social.png',
-    '/Assests/video.png',
-  ];
+  // const randomImages = [
+  //   '/Assests/article.png',
+  //   '/Assests/cartoon.png',
+  //   '/Assests/flyers.png',
+  //   '/Assests/graphics.png',
+  //   '/Assests/illustartion.png',
+  //   '/Assests/logo design.png',
+  //   '/Assests/randomimage1.png',
+  //   '/Assests/randomimage2.png',
+  //   '/Assests/randomimage3.jpg',
+  //   '/Assests/randomimage4.jpg',
+  //   '/Assests/social.png',
+  //   '/Assests/video.png',
+  // ];
 
   useEffect(() => {
     const fetchProjectData = async () => {
@@ -131,7 +131,8 @@ const Findwork: React.FC = () => {
           projectData.map((project: Project, index) => (
             <div key={index} className="w-96 h-54 bg-white shadow-lg rounded-xl p-6 text-center">
               <Image
-                src={project.fileUrl && project.fileUrl.trim() !== '' ? project.fileUrl : randomImages[Math.floor(Math.random() * randomImages.length)]}
+                // src={project.fileUrl && project.fileUrl.trim() !== '' ? project.fileUrl : randomImages[Math.floor(Math.random() * randomImages.length)]}
+                src={project.fileUrl && project.fileUrl.trim() !== '' ? project.fileUrl : '/Assests/article.png'}
                 alt='image'
                 height={200}
                 width={200}

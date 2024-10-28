@@ -48,7 +48,7 @@ const Postajob: React.FC = () => {
         skills: [],
         payment: '',
         currency: 'USD',
-        isHourly: true,
+        isHourly: true ,
         email: "",
         file: null,
     });
@@ -166,7 +166,7 @@ const Postajob: React.FC = () => {
                 body: JSON.stringify({ ...formData, fileUrl: url, userId: user?.uid }),
             });
 
-            console.log(response);
+            console.log(response.formData);
 
             const result = await response.json();
 

@@ -25,7 +25,7 @@ router.post('/', async (req, res) => {
             skills: parsedSkills, 
             payment,
             currency,
-            isHourly: isHourly === 'true',  // Parse boolean from string
+            isHourly:  Boolean (isHourly),  // Parse boolean from string
             email,
             fileUrl,
             // userId: req.user._id 
