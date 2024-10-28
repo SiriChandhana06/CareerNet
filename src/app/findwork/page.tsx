@@ -150,15 +150,19 @@ const Findwork: React.FC = () => {
       <div className="flex flex-wrap justify-center gap-6 p-6">
         {loading ? (
           // Render loading skeleton only for the cards section
-          <div className="animate-pulse p-4">
-            <div className="w-96 h-54 bg-gray-400 rounded-full mb-4 "></div>
-            <div className="h-6 bg-gray-400 rounded mb-2"></div>
-            <div className="h-16 bg-gray-400 rounded mb-2"></div>
-            <div className="h-8 bg-gray-400 rounded mb-4"></div>
-            <div className="h-40 bg-gray-400 rounded"></div>
+          <div className='h-screen'>
+            <div className="animate-pulse p-4">
+              <div className="w-96 h-54 bg-gray-400 rounded-full mb-4 "></div>
+              <div className="h-6 bg-gray-400 rounded mb-2"></div>
+              <div className="h-16 bg-gray-400 rounded mb-2"></div>
+              <div className="h-8 bg-gray-400 rounded mb-4"></div>
+              <div className="h-40 bg-gray-400 rounded"></div>
+            </div>
           </div>
         ) : filteredProjects.length === 0 ? (
+          <div className='h-screen'>
           <p className="text-center text-gray-600">No projects posted yet.</p>
+          </div>
         ) : (
           filteredProjects.map((project: Project, index) => (
             <div key={index} className="w-96 h-54 bg-white shadow-lg rounded-xl p-6 text-center">
