@@ -3,6 +3,7 @@ import Navbar from '@/Components/Navbar';
 import React from 'react';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
 type Project = {
   fileUrl: string;
@@ -21,6 +22,9 @@ const Findwork: React.FC = () => {
   const [projectData, setProjectData] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
+  const [searchQuery, setSearchQuery] = useState<string>("");
+
 
   // useEffect(() => {
   //   const storedProject = localStorage.getItem('postedProject');
@@ -71,6 +75,31 @@ const Findwork: React.FC = () => {
     return () => clearTimeout(loadingTimeout);
   }, []);
 
+  useEffect(() => {
+    const { search } = window.location;
+    const query = new URLSearchParams(search).get("search");
+    if (query) {
+      setSearchQuery(decodeURIComponent(query));
+    }
+  }, []);
+
+
+  const filteredProjects = projectData.filter(project =>
+    project.projectName.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const handleSearch = () => {
+    if (searchQuery.trim()) {
+      router.push(`/findwork?search=${encodeURIComponent(searchQuery)}`);
+    }
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
+  };
+
 
 
 
@@ -107,12 +136,15 @@ const Findwork: React.FC = () => {
         <div className="flex flex-col sm:flex-row items-center w-full md:max-w-3xl ">
           <input
             type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            onKeyPress={handleKeyPress}
             placeholder="Search Here"
-            className="py-3 px-4 rounded-xl border border-gray-300 shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent mb-4 sm:mb-0 sm:mr-4 w-full"
+            className="py-3 px-4 rounded-full border border-gray-300 shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent mb-4 sm:mb-0 sm:mr-4 w-full"
           />
-          <button className="bg-blue-500 w-40 text-white font-semibold py-3 px-8 rounded-xl shadow-md hover:bg-blue-600 transition-all duration-300">
+          {/* <button onClick={handleSearch} className="bg-blue-500 w-40 text-white font-semibold py-3 px-8 rounded-xl shadow-md hover:bg-blue-600 transition-all duration-300">
             Search
-          </button>
+          </button> */}
         </div>
       </div>
       <div className="flex flex-wrap justify-center gap-6 p-6">
@@ -125,10 +157,10 @@ const Findwork: React.FC = () => {
             <div className="h-8 bg-gray-400 rounded mb-4"></div>
             <div className="h-40 bg-gray-400 rounded"></div>
           </div>
-        ) : projectData.length === 0 ? (
+        ) : filteredProjects.length === 0 ? (
           <p className="text-center text-gray-600">No projects posted yet.</p>
         ) : (
-          projectData.map((project: Project, index) => (
+          filteredProjects.map((project: Project, index) => (
             <div key={index} className="w-96 h-54 bg-white shadow-lg rounded-xl p-6 text-center">
               <Image
                 // src={project.fileUrl && project.fileUrl.trim() !== '' ? project.fileUrl : randomImages[Math.floor(Math.random() * randomImages.length)]}
