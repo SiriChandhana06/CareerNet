@@ -10,6 +10,7 @@ import { User } from 'firebase/auth';
 import { signInWithPopup } from "firebase/auth";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { onAuthStateChanged } from "firebase/auth";
 
 const LoginPage: React.FC = () => {
 
@@ -28,6 +29,7 @@ const LoginPage: React.FC = () => {
       const user = result.user;
       setUser(user);
       toast.success('Login successful!');
+      localStorage.setItem('firebaseUser', JSON.stringify({ email: user.email }));
       setTimeout(() => {
         router.push('/');
       }, 2000);
@@ -77,6 +79,18 @@ const LoginPage: React.FC = () => {
       toast.error(`Error logging in: ${err}`)
     }
   };
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+        if (user) {
+            localStorage.setItem('firebaseUser', JSON.stringify({ email: user.email }));
+        } else {
+            localStorage.removeItem('firebaseUser'); // Clear if user logs out
+        }
+    });
+
+    return () => unsubscribe();
+}, []);
   
 
   return (

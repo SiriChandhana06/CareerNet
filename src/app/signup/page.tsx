@@ -4,12 +4,14 @@ import Link from "next/link";
 import logo from "../../Assests/logo.png";
 import login from "../../Assests/login.png";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { auth, provider } from "../../Firebaseauth";
 import { User } from 'firebase/auth';
 import { signInWithPopup } from "firebase/auth";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { onAuthStateChanged } from "firebase/auth";
+
 
 
 type Errors = {
@@ -40,6 +42,7 @@ const SignupPage: React.FC = () => {
       const user = result.user;
       setUser(user);
       toast.success('Login successful!');
+      localStorage.setItem('firebaseUser', JSON.stringify({ email: user.email }));
       setTimeout(() => {
         router.push('/signupnext');
       }, 2000);
@@ -117,6 +120,19 @@ const SignupPage: React.FC = () => {
       [name]: type === "checkbox" ? checked : value,
     });
   };
+
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+        if (user) {
+            localStorage.setItem('firebaseUser', JSON.stringify({ email: user.email }));
+        } else {
+            localStorage.removeItem('firebaseUser'); // Clear if user logs out
+        }
+    });
+
+    return () => unsubscribe();
+}, []);
 
   return (
     <div className="bg-blue-300">

@@ -128,7 +128,6 @@ const Findwork: React.FC = () => {
   // }
 
 
-
   return (
     <div className='bg-blue-300 h-full'>
       <div><Navbar /></div>
@@ -183,7 +182,7 @@ const Findwork: React.FC = () => {
                   {skill}
                 </span>
               ))}
-            </div> */}
+             </div> */}
 
               <div className="flex flex-wrap justify-center space-x-2 my-2">
                 {project.skills.map((skill: string, index: number) => (

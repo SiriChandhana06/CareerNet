@@ -39,7 +39,7 @@ const MyPosts: React.FC = () => {
     useEffect(() => {
         const fetchJobs = async (email: string | null) => {
             if (!email) return;
-
+    
             try {
                 const response = await fetch('https://career-net-server.vercel.app/api/projects/mypost', {
                     method: "POST",
@@ -48,17 +48,14 @@ const MyPosts: React.FC = () => {
                     },
                     body: JSON.stringify({ email }),
                 });
-            
-
+    
                 if (!response.ok) {
                     throw new Error("Network response was not ok");
                 }
-
+    
                 const data = await response.json();
                 console.log(data); // Log the entire response
-                console.log(data.project);
                 const projects = Array.isArray(data.project) ? data.project : [data.project];
-                // Check if data.project is an array before setting state
                 setJobs(projects);
                 setLoading(false);
             } catch (error) {
@@ -66,10 +63,16 @@ const MyPosts: React.FC = () => {
                 setLoading(false); // Ensure loading is set to false on error
             }
         };
-
-        const email = localStorage.getItem('userEmail'); // You can fetch this from a context or other source
+    
+        // Check for Firebase Auth user or fallback to local storage
+        const user = JSON.parse(localStorage.getItem('firebaseUser') || 'null');
+        console.log('Firebase User:', user); // Log the user data
+        const email = user?.email || localStorage.getItem('userEmail'); // Get email from Firebase Auth or local storage
+        console.log('Email:', email); // Log the email being used
         fetchJobs(email);
     }, []);
+    
+
 
     if (loading) {
         return <p>Loading your posts...</p>;
@@ -125,7 +128,7 @@ const MyPosts: React.FC = () => {
                     ))}
                 </div>
             )}
-            <ToastContainer />
+            {/* <ToastContainer /> */}
         </div>
     );
 };
