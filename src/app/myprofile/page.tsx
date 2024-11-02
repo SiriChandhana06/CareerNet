@@ -76,6 +76,10 @@ const MyProfile: React.FC = () => {
       case 'Experience':
         return (
           <div>
+             <div className='flex justify-between mx-4 md:mx-10'>
+              <h1 className='text-2xl font-semibold lg:text-4xl'>Details</h1>
+              <h1 className='flex underline text-xl hover:text-blue-500 hover:cursor-pointer'> Edit Details <svg className='underline hover:text-blue-500' xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="black" d="M5 18.08V19h.92l9.06-9.06l-.92-.92z" opacity="0.3" /><path fill="black" d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75zM5.92 19H5v-.92l9.06-9.06l.92.92zM20.71 5.63l-2.34-2.34a.996.996 0 0 0-1.41 0l-1.83 1.83l3.75 3.75l1.83-1.83a.996.996 0 0 0 0-1.41" /></svg></h1>
+            </div>
             <div className="flex justify-center items-center">
               <div className="bg-white/30 bg-opacity-10 backdrop-filter backdrop-blur-lg rounded-lg shadow-lg p-10">
                 <h1 className='text-2xl font-semibold mt-5'>Role Title</h1>
