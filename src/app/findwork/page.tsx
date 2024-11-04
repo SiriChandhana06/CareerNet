@@ -186,7 +186,7 @@ const Findwork: React.FC = () => {
 
               <div className="flex flex-wrap justify-center space-x-2 my-2">
                 {project.skills.map((skill: string, index: number) => (
-                  <span key={index} className="bg-blue-500 text-white px-2 py-1 rounded-full">
+                  <span key={index} className="bg-blue-500 text-white px-2 py-1 rounded-full my-1">
                     {skill}
                   </span>
                 ))}

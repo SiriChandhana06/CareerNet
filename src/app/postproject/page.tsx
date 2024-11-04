@@ -439,7 +439,7 @@ const Postajob: React.FC = () => {
                                             <Image src={computer} alt='computer' className='h-20 w-auto' />
                                         </div>
                                         <p className="mt-2">
-                                            <strong>File:</strong> {formData.file ? formData.file.name : 'No file selected'}
+                                            <strong>File:</strong> {formData.fileName || 'No file selected'}
                                         </p>
                                         <p className="mt-2">
                                             <strong>Payment:</strong> {formData.payment} {formData.currency} ({formData.isHourly ? 'Per Hour' : 'Fixed Payment'})
