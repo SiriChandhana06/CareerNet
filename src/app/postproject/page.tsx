@@ -37,7 +37,10 @@ interface FormData {
     isHourly: boolean;
     email: string;
     file: File | null;
+    fileBase64: string | null;
+    fileName: string;
 }
+
 
 const Postajob: React.FC = () => {
     const [file, setfile] = useState<File | null>(null);
@@ -48,9 +51,11 @@ const Postajob: React.FC = () => {
         skills: [],
         payment: '',
         currency: 'USD',
-        isHourly: true ,
+        isHourly: true,
         email: "",
         file: null,
+        fileBase64: null,
+        fileName: '',
     });
     const [submitted, setSubmitted] = useState(false);
     const [skillInput, setSkillInput] = useState('');
@@ -79,6 +84,30 @@ const Postajob: React.FC = () => {
 
 
 
+    // const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    //     const file = e.target.files && e.target.files[0] || null;
+
+    //     // Check if the file is valid
+    //     if (file) {
+    //         const validTypes = ['image/png', 'image/jpeg', 'image/jpg', 'image/bmp', 'image/tiff'];
+    //         if (!validTypes.includes(file.type)) {
+    //             toast.error('Invalid file type. Please upload an image.');
+    //             return;
+    //         }
+
+    //         if (file.size > 10485760) { // 10MB limit
+    //             toast.error('File size exceeds 10MB.');
+    //             return;
+    //         }
+
+
+    //         setFormData((prevData) => ({
+    //             ...prevData,
+    //             file
+    //         }));
+    //     }
+    // };
+
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files && e.target.files[0] || null;
 
@@ -95,11 +124,28 @@ const Postajob: React.FC = () => {
                 return;
             }
 
-
-            setFormData((prevData) => ({
-                ...prevData,
-                file
-            }));
+            // If the user is not authenticated, convert the file to base64
+            if (!user) {
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                    const base64String = reader.result as string;
+                    setFormData((prevData) => ({
+                        ...prevData,
+                        fileBase64: base64String,
+                        fileName: file.name, // Store the file name for display
+                        file: null,
+                    }));
+                };
+                reader.readAsDataURL(file);
+            } else {
+                // If authenticated, set the file directly
+                setFormData((prevData) => ({
+                    ...prevData,
+                    file,
+                    fileBase64: null,
+                    fileName: file.name, // Store the file name for display
+                }));
+            }
         }
     };
 
@@ -144,29 +190,75 @@ const Postajob: React.FC = () => {
     //     setIsModalOpen(false);
     // }
 
+    // const handleReviewSubmit = async () => {
+
+    //     try {
+
+    //         setIsUploading(true);
+
+    //         let url = ' ';
+
+    //         if (file) {
+    //             const storageRef = ref(storage, `PostProjects/${file.name}`);
+    //             await uploadBytes(storageRef, file);
+    //             const url = await getDownloadURL(storageRef);
+    //             setFileUrl(url);
+    //         }
+    //         const response = await fetch('https://career-net-server.vercel.app/api/projects', {
+    //             method: 'POST',
+    //             headers: {
+    //                 'Content-Type': 'application/json',
+    //             },
+    //             body: JSON.stringify({ ...formData, fileUrl: url, userId: user?.uid }),
+    //         });
+
+    //         console.log(response.formData);
+
+    //         const result = await response.json();
+
+    //         if (response.ok) {
+    //             toast.success('You have posted the project successfully!');
+    //             setTimeout(() => {
+    //                 router.push('/');
+    //             }, 2000);
+    //             localStorage.setItem('postedProject', JSON.stringify({ ...formData, fileUrl: url, userId: user?.uid }));
+    //             console.log(formData);
+    //         } else {
+    //             toast.error(result.message || 'Failed to post project.');
+    //         }
+    //     } catch (error) {
+    //         console.error('Error:', error);
+    //         toast.error('Error posting project.');
+    //     }
+    //     finally {
+    //         setIsUploading(false);
+    //     }
+    // };
+
     const handleReviewSubmit = async () => {
-
         try {
-
             setIsUploading(true);
+            let fileUrl = ' ';
 
-            let url = ' ';
-
-            if (file) {
-                const storageRef = ref(storage, `PostProjects/${file.name}`);
-                await uploadBytes(storageRef, file);
-                const url = await getDownloadURL(storageRef);
-                setFileUrl(url);
+            if (formData.file && user) {
+                // If user is authenticated, upload to Firebase Storage
+                const storageRef = ref(storage, `PostProjects/${formData.file.name}`);
+                await uploadBytes(storageRef, formData.file);
+                fileUrl = await getDownloadURL(storageRef);
+            } else if (formData.fileBase64) {
+                // If user is not authenticated, store base64 string
+                fileUrl = formData.fileBase64;
+                console.log(formData.fileBase64);
             }
+
+            // Post data to the backend
             const response = await fetch('https://career-net-server.vercel.app/api/projects', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ ...formData, fileUrl: url, userId: user?.uid }),
+                body: JSON.stringify({ ...formData, fileUrl: fileUrl || '', userId: user?.uid }),
             });
-
-            console.log(response.formData);
 
             const result = await response.json();
 
@@ -175,16 +267,14 @@ const Postajob: React.FC = () => {
                 setTimeout(() => {
                     router.push('/');
                 }, 2000);
-                localStorage.setItem('postedProject', JSON.stringify({ ...formData, fileUrl: url, userId: user?.uid }));
-                console.log(formData);
+                localStorage.setItem('postedProject', JSON.stringify({ ...formData, fileUrl: fileUrl || '', userId: user?.uid }));
             } else {
                 toast.error(result.message || 'Failed to post project.');
             }
         } catch (error) {
             console.error('Error:', error);
             toast.error('Error posting project.');
-        }
-        finally {
+        } finally {
             setIsUploading(false);
         }
     };
@@ -231,14 +321,21 @@ const Postajob: React.FC = () => {
                             <div>
                                 <label className="block text-gray-700 font-bold mb-2">Upload image (Optional)</label>
                                 <div className="flex items-center border border-gray-300 p-2 rounded">
-                                    <input type="file" accept=".png, .jpg, .jpeg, .bmp, .tiff" onChange={handleFileChange} className="hidden" id="fileInput" />
+                                    <input
+                                        type="file"
+                                        accept=".png, .jpg, .jpeg, .bmp, .tiff"
+                                        onChange={handleFileChange}
+                                        className="hidden"
+                                        id="fileInput"
+                                    />
                                     <label htmlFor="fileInput" className="bg-blue-500 text-white px-4 py-2 rounded cursor-pointer">
                                         Select File
                                     </label>
-                                    <span className="ml-4">{formData.file ? formData.file.name : 'No file selected'}</span>
+                                    <span className="ml-4">{formData.fileName || 'No file selected'}</span>
                                 </div>
                             </div>
-                            
+
+
                             <div>
                                 <label className="block text-gray-700 font-bold mb-2">Skills (Max 10)</label>
                                 <div className="flex items-center space-x-2">

@@ -28,8 +28,10 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+// app.use(express.json());
+// app.use(express.urlencoded({ extended: true }));
+app.use(express.json({ limit: '10mb' })); // Increase to 10 MB
+app.use(express.urlencoded({ extended: true, limit: '10mb' })); // Increase to 10 MB
 
 
 mongoose.connect(process.env.MONGO_URI, {
