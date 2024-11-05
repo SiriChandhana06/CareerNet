@@ -173,9 +173,7 @@ export default function Home() {
             Find The Best <span className="text-blue-600">Freelancers</span> Here
           </h1>
           <p className="mt-4 text-gray-600">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut erat bibendum ornare urna, cursus eget convallis.
-            Feugiat imperdiet posuere justo, ultrices interdum sed orci nunc, mattis. Ipsum viverra viverra neque adipiscing
-            arcu, quam dictum. Dui mi viverra dui, sit accumsan, tincidunt massa. Dui cras magnis.
+            Discover top talent and elevate your projects with the best freelancers here. Whether you&apos;re looking for skilled developers, creative designers, marketing experts, or content specialists, our platform connects you with professionals who bring experience and dedication to every task. From short-term gigs to long-term collaborations, find freelancers who match your unique project needs and vision. Start building your dream team today and turn your ideas into reality with ease and expertise.
           </p>
         </div>
       </div>
