@@ -113,7 +113,7 @@ const Postajob: React.FC = () => {
 
         // Check if the file is valid
         if (file) {
-            const validTypes = ['image/png', 'image/jpeg', 'image/jpg', 'image/bmp', 'image/tiff'];
+            const validTypes = ['image/png', 'image/jpeg', 'image/jpg', 'image/bmp', 'image/tiff' , 'image/webp'];
             if (!validTypes.includes(file.type)) {
                 toast.error('Invalid file type. Please upload an image.');
                 return;
@@ -323,7 +323,7 @@ const Postajob: React.FC = () => {
                                 <div className="flex items-center border border-gray-300 p-2 rounded">
                                     <input
                                         type="file"
-                                        accept=".png, .jpg, .jpeg, .bmp, .tiff"
+                                        accept=".png, .jpg, .jpeg, .bmp, .tiff , .webp"
                                         onChange={handleFileChange}
                                         className="hidden"
                                         id="fileInput"
