@@ -7,6 +7,7 @@ import coverImage from "@/Assests/coverphotoimage.webp";
 import image from '@/Assests/logo.png';
 import { useState } from 'react';
 import MyPosts from '@/Components/Mypost';
+import Footer from '@/Components/Footer';
 
 
 const MyProfile: React.FC = () => {
@@ -304,6 +305,9 @@ const MyProfile: React.FC = () => {
           </div>
         </div>
       </div>
+      </div>
+      <div>
+        <Footer/>
       </div>
     </div>
   )

@@ -1,6 +1,7 @@
 import Navbar from "@/Components/Navbar";
 import Image from "next/image";
 import porfolio from "@/Assests/potfolio.webp";
+import Footer from "@/Components/Footer";
 
 const portfolios = [
   {
@@ -69,6 +70,9 @@ const FindFreelancers: React.FC = () => {
             </div>
           </div>
         </section>
+      </div>
+      <div>
+        <Footer/>
       </div>
     </div>
   )

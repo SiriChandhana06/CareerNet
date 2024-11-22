@@ -10,6 +10,7 @@ import { User } from 'firebase/auth';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import Navbar from '@/Components/Navbar';
 import { useRouter } from "next/navigation";
+import Footer from '@/Components/Footer';
 
 const firebaseConfig = {
     apiKey: "AIzaSyCsbWMLGCfVS0g6F2HMQTQrq1lKO_XTxSI",
@@ -542,6 +543,9 @@ const Postajob: React.FC = () => {
                         theme="colored"
                     />
                 </div >
+            </div>
+            <div>
+                <Footer/>
             </div>
         </div>
     );
