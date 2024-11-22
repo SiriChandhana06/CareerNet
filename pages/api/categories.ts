@@ -13,7 +13,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     const categories = [
       {
         id: 1,
-        title: 'Graphic & Design',
+        title: 'Graphic Design',
         cimage: graphic,
       },
       {
@@ -28,7 +28,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
       },
       {
         id: 4,
-        title: 'Flyers & Vouchers',
+        title: 'Web Development',
         cimage: flyers,
       },
       {

@@ -10,11 +10,11 @@ const Project = require('../models/project');
 // @desc Post a new project
 router.post('/', async (req, res) => {
     try {
-        const { projectName, description, skills, payment, currency, isHourly, email, fileUrl} = req.body;
+        const { projectName, description, skills, payment, currency, isHourly, email, fileUrl , category} = req.body;
         
-        if (!projectName || !description || !skills || !payment || !currency || !email) {
-            return res.status(400).json({ success: false, message: 'All fields are required except fileUrl' });
-        }
+        // if (!projectName || !description || !skills || !payment || !currency || !email || !category) {
+        //     return res.status(400).json({ success: false, message: 'All fields are required except fileUrl' });
+        // }
         
         const parsedSkills = Array.isArray(skills) ? skills : skills.split(',');
 
@@ -23,6 +23,7 @@ router.post('/', async (req, res) => {
             projectName,
             description,
             skills: parsedSkills, 
+            category,
             payment,
             currency,
             isHourly:  Boolean (isHourly),  // Parse boolean from string

@@ -14,6 +14,11 @@ const projectSchema = new mongoose.Schema({
         type: [String],
         required: true
     },
+    category: {
+        type: String,
+        enum: ['Graphic Design', 'Cartoon Animation' , 'Illustration' , 'Web Development', 'Logo Design' , 'Social Graphics' , 'Article Writing' , 'Video Editing' , 'App Development' , 'AI & ML' , 'UI & UX' , 'Digital Marketing', 'Photography' , 'Others'], 
+        default:'Others'
+      },
     payment: {
         type: Number,
         required: true

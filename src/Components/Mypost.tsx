@@ -15,6 +15,7 @@ interface Job {
     isHourly: boolean;
     email: string;
     _id: string;
+    category: string;
 }
 
 const MyPosts: React.FC = () => {
@@ -183,6 +184,9 @@ const MyPosts: React.FC = () => {
                                     </span>
                                 ))}
                             </div>
+                            <p className='mt-2'>
+                            <strong>Category:</strong> <span className="">{job.category}</span>
+                            </p>
                             <div className='flex justify-between'>
                                 <div>
                                     <p className="text-lg font-semibold mt-4">

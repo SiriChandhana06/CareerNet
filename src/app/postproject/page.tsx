@@ -39,6 +39,7 @@ interface FormData {
     file: File | null;
     fileBase64: string | null;
     fileName: string;
+    category: string;
 }
 
 
@@ -56,6 +57,7 @@ const Postajob: React.FC = () => {
         file: null,
         fileBase64: null,
         fileName: '',
+        category: '',
     });
     const [submitted, setSubmitted] = useState(false);
     const [skillInput, setSkillInput] = useState('');
@@ -63,6 +65,23 @@ const Postajob: React.FC = () => {
     const [isUploading, setIsUploading] = useState(false);
     const [user, setUser] = useState<User | null>(null);
     const router = useRouter();
+
+    const category = [
+        "Graphic Design",
+        "Cartoon Animation",
+        "Illustration",
+        "Web Development",
+        "Logo Design",
+        "Social Graphics",
+        "Article Writing",
+        "Video Editing",
+        "App Development",
+        "AI & ML",
+        "UI & UX",
+        "Digital Marketing",
+        "Photography",
+        "Others",
+    ];
 
     // const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     //     if (e.target.files && e.target.files.length > 0) {
@@ -113,7 +132,7 @@ const Postajob: React.FC = () => {
 
         // Check if the file is valid
         if (file) {
-            const validTypes = ['image/png', 'image/jpeg', 'image/jpg', 'image/bmp', 'image/tiff' , 'image/webp'];
+            const validTypes = ['image/png', 'image/jpeg', 'image/jpg', 'image/bmp', 'image/tiff', 'image/webp'];
             if (!validTypes.includes(file.type)) {
                 toast.error('Invalid file type. Please upload an image.');
                 return;
@@ -160,9 +179,17 @@ const Postajob: React.FC = () => {
         }
     };
 
+    // const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    //     const { value } = e.target;
+    //     setFormData((prevData) => ({
+    //         ...prevData,
+    //         selectedTitle: value,
+    //     }));
+    // };
+
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        if (!formData.projectName || !formData.description || !formData.payment || !formData.skills.length || !formData.email) {
+        if (!formData.projectName || !formData.description || !formData.payment || !formData.skills.length || !formData.email || !formData.category) {
             toast.error('Please fill all the required fields.');
             console.log('2times');
             return;
@@ -370,6 +397,30 @@ const Postajob: React.FC = () => {
                                 </div>
                             </div>
 
+                            <div className="">
+                                <label htmlFor="titleDropdown" className="block text-lg font-medium mb-2">
+                                    Select a Title:
+                                </label>
+                                <select
+                                    id="titleDropdown"
+                                    value={formData.category}
+                                    // onChange={handleTitleChange}
+                                    onChange={(e) =>
+                                        setFormData({ ...formData, category: e.target.value })
+                                      }
+                                    className="border border-gray-300 p-2 rounded-md w-full"
+                                >
+                                    <option value="" disabled>
+                                        -- Select an option --
+                                    </option>
+                                    {category.map((title, index) => (
+                                        <option key={index} value={title}>
+                                            {title}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+
                             <div>
                                 <label className="block text-gray-700 font-bold mb-2">Payment</label>
                                 <div className="flex items-center space-x-2">
@@ -444,6 +495,9 @@ const Postajob: React.FC = () => {
                                         <p className="mt-2">
                                             <strong>Payment:</strong> {formData.payment} {formData.currency} ({formData.isHourly ? 'Per Hour' : 'Fixed Payment'})
                                         </p>
+                                    <p className="mt-2">
+                                        <strong>Selected Title:</strong> <span className="">{formData.category}</span>
+                                    </p>
                                     </div>
                                     <div className='px-10 mt-4 md:mt-0'>
                                         <h3 className="text-lg font-bold">{formData.projectName}</h3>
