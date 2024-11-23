@@ -36,31 +36,31 @@ const Findwork: React.FC = () => {
     setDropdownOpen(!isDropdownOpen);
   };
 
-//   const toggleDropdown = (id: string) => {
-//     setIsDropdownOpen((prevId) => (prevId === id ? null : id));
-// };
+  //   const toggleDropdown = (id: string) => {
+  //     setIsDropdownOpen((prevId) => (prevId === id ? null : id));
+  // };
 
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-        if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-            setDropdownOpen(false);
-        }
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setDropdownOpen(false);
+      }
     };
 
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
-}, []);
+  }, []);
 
 
-const handleTitleClick = (title: string) => {
-  const sectionId = title.toLowerCase().replace(/ /g, '-'); // Convert title to valid ID
-  const element = document.getElementById(sectionId);
-  if (element) {
-    element.scrollIntoView({ behavior: 'smooth' }); // Smooth scroll to section
-  }
-  setDropdownOpen(false); // Close dropdown after clicking
-};
+  const handleTitleClick = (title: string) => {
+    const sectionId = title.toLowerCase().replace(/ /g, '-'); // Convert title to valid ID
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' }); // Smooth scroll to section
+    }
+    setDropdownOpen(false); // Close dropdown after clicking
+  };
 
 
 
@@ -305,6 +305,11 @@ const handleTitleClick = (title: string) => {
             <div className="animate-spin rounded-full h-14 w-14 border-t-2 border-b-2 border-blue-700"></div>
           </div>
         )}
+        {!loading && filteredProjects.length === 0 && (
+          <div className="text-center text-gray-600 mt-10">
+            <p>No data found for {searchQuery}.</p>
+          </div>
+        )}
         {title.map((currentTitle, index) => {
           // Convert title to a valid HTML ID
           const id = currentTitle.toLowerCase().replace(/ /g, '-');
@@ -320,7 +325,6 @@ const handleTitleClick = (title: string) => {
           return (
             <section key={index} id={id} className="py-10">
               <div className="">
-                {/* Title and Underline */}
                 <div className="relative">
                   <p className="text-lg mt-10 font-medium">{currentTitle}</p>
                   <span className="absolute left-0 top-full mt-1 w-56 md:w-96 h-[2px] bg-blue-500"></span>
