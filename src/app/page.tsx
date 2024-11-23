@@ -86,7 +86,7 @@ export default function Home() {
             </Link>
             <div className="relative w-full md:w-auto ">
               <input
-                type="search"
+                type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onKeyPress={handleKeyPress}

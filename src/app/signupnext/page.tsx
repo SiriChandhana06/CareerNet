@@ -20,6 +20,22 @@ const SignUpNextpage: React.FC = () => {
     const [skillInput, setSkillInput] = useState<string>('');
     const [experiences, setExperiences] = useState([{ title: '', companyName: '', startDate: '', endDate: '', isCurrent: false }]);
     const [error, setError] = useState('');
+    const category = [
+        "Graphic Design",
+        "Cartoon Animation",
+        "Illustration",
+        "Web Development",
+        "Logo Design",
+        "Social Graphics",
+        "Article Writing",
+        "Video Editing",
+        "App Development",
+        "AI & ML",
+        "UI & UX",
+        "Digital Marketing",
+        "Photography",
+        "Others",
+    ];
 
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -74,7 +90,7 @@ const SignUpNextpage: React.FC = () => {
 
 
     const handleCountryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        setCountryCode(e.target.value); 
+        setCountryCode(e.target.value);
     };
 
 
@@ -160,7 +176,6 @@ const SignUpNextpage: React.FC = () => {
             setStep(9);
         }
         else {
-            // Handle final form submission
             console.log('Form submitted');
         }
     };
@@ -468,6 +483,29 @@ const SignUpNextpage: React.FC = () => {
                                             placeholder="Portfolio Link"
                                             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2"
                                         />
+                                        <div className="">
+                                            <label htmlFor="titleDropdown" className="block text-lg font-medium mb-2">
+                                                Select Your Domain 
+                                            </label>
+                                            <select
+                                                id="titleDropdown"
+                                                // value={formData.category}
+                                                // onChange={handleTitleChange}
+                                                // onChange={(e) =>
+                                                //     setFormData({ ...formData, category: e.target.value })
+                                                // }
+                                                className="border border-gray-300 p-2 rounded-md w-full"
+                                            >
+                                                <option value="" disabled>
+                                                    -- Select an option --
+                                                </option>
+                                                {category.map((title, index) => (
+                                                    <option key={index} value={title}>
+                                                        {title}
+                                                    </option>
+                                                ))}
+                                            </select>
+                                        </div>
                                         <button
                                             type="submit"
                                             className="w-full bg-blue-600 text-white py-2 rounded-lg text-md md:text-xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
