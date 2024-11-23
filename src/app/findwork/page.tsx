@@ -2,7 +2,7 @@
 import Navbar from '@/Components/Navbar';
 import React from 'react';
 import Image from 'next/image';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { FaFilter } from "react-icons/fa";
 import Footer from '@/Components/Footer';
@@ -27,6 +27,41 @@ const Findwork: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState<string>("");
+  const [isDropdownOpen, setDropdownOpen] = useState(false);
+  // const [isDropdownOpen, setIsDropdownOpen] = useState<string | null>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+
+  const toggleDropdown = () => {
+    setDropdownOpen(!isDropdownOpen);
+  };
+
+//   const toggleDropdown = (id: string) => {
+//     setIsDropdownOpen((prevId) => (prevId === id ? null : id));
+// };
+
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+        if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+            setDropdownOpen(false);
+        }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+}, []);
+
+
+const handleTitleClick = (title: string) => {
+  const sectionId = title.toLowerCase().replace(/ /g, '-'); // Convert title to valid ID
+  const element = document.getElementById(sectionId);
+  if (element) {
+    element.scrollIntoView({ behavior: 'smooth' }); // Smooth scroll to section
+  }
+  setDropdownOpen(false); // Close dropdown after clicking
+};
+
 
 
   // useEffect(() => {
@@ -55,6 +90,7 @@ const Findwork: React.FC = () => {
 
   useEffect(() => {
     const fetchProjectData = async () => {
+      setLoading(true);
       try {
         const response = await fetch('https://career-net-server.vercel.app/api/projects');
         if (!response.ok) {
@@ -123,6 +159,9 @@ const Findwork: React.FC = () => {
   //   );
   // }
 
+
+
+
   if (error) {
     return <p className="text-center text-red-500">{error}</p>;
   }
@@ -133,6 +172,7 @@ const Findwork: React.FC = () => {
 
 
   const title = ['Graphic Design', 'Cartoon Animation', 'Illustration', 'Web Development', 'Logo Design', 'Social Graphics', 'Article Writing', 'Video Editing', 'App Development', 'AI & ML', 'UI & UX', 'Digital Marketing', 'Photography', 'Others'];
+
 
 
   return (
@@ -148,12 +188,29 @@ const Findwork: React.FC = () => {
             placeholder="Search Here"
             className="py-3 px-4 rounded-full border border-gray-300 shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent mb-4 sm:mb-0 sm:mr-4 w-full"
           />
-          <button className="bg-blue-500 flex gap-2 text-white font-semibold py-3 px-8 rounded-xl shadow-md hover:bg-blue-600 transition-all duration-300">
-            <div>
-              Filter
-            </div>
-            <span className='mt-1'> <FaFilter /> </span>
-          </button>
+          <div className="relative">
+            <button
+              className="bg-blue-500 flex gap-2 text-white font-semibold py-3 px-8 rounded-xl shadow-md hover:bg-blue-600 transition-all duration-300"
+              // onClick={toggleDropdown}
+              onClick={toggleDropdown}
+            >
+              <div>Filter</div>
+              <span className="mt-1"><FaFilter /></span>
+            </button>
+
+            {/* Dropdown menu */}
+            {isDropdownOpen && (
+              <div className="absolute mt-2 bg-white shadow-lg rounded-xl w-64 p-4 z-10" ref={dropdownRef}>
+                <ul className="space-y-2">
+                  {title.map((item, index) => (
+                    <li key={index} className="cursor-pointer hover:bg-gray-100 p-2 rounded-lg" onClick={() => handleTitleClick(item)}>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
           {/* <button onClick={handleSearch} className="bg-blue-500 w-40 text-white font-semibold py-3 px-8 rounded-xl shadow-md hover:bg-blue-600 transition-all duration-300">
             Search
           </button> */}
@@ -243,75 +300,96 @@ const Findwork: React.FC = () => {
 
 
       <div className="m-4 md:m-20">
-        {title.map((currentTitle, index) => (
-          <div key={index} className="">
-            <div className='relative'>
-              <p className="text-lg mt-10 font-medium">{currentTitle}</p>
-              <span className="absolute left-0 top-full mt-1 w-56 md:w-96 h-[2px] bg-blue-500"></span>
-            </div>
-
-            {/* Filter and display projects matching the current title */}
-            <div className="flex gap-6 overflow-x-auto p-2 md:p-6 w-[350px] md:w-full scrollbar-hide">
-              {filteredProjects
-                .filter((project: Project) => project.category === currentTitle)
-                .map((project: Project, index) => (
-                  <div
-                    key={index}
-                    className="w-80 md:w-96 h-54 bg-white shadow-lg rounded-xl p-6 text-center flex-shrink-0"
-                  >
-                    <Image
-                      src={
-                        project.fileUrl && project.fileUrl.trim() !== ""
-                          ? project.fileUrl
-                          : "/Assests/article.png"
-                      }
-                      alt="image"
-                      height={200}
-                      width={200}
-                      className="w-20 h-20 mx-auto object-cover mb-4 bg-blue-500 rounded-full"
-                    />
-                    <h3 className="text-xl font-semibold">{project.projectName}</h3>
-                    <p className="text-gray-600 mt-2 text-center">
-                      {project.description}
-                    </p>
-
-                    <div className="flex flex-wrap justify-center space-x-2 my-2">
-                      {project.skills.map((skill: string, index: number) => (
-                        <span
-                          key={index}
-                          className="bg-blue-500 text-white px-2 py-1 rounded-full my-1"
-                        >
-                          {skill}
-                        </span>
-                      ))}
-                    </div>
-
-                    <div className="flex justify-between">
-                      <div>
-                        <p className="text-lg font-semibold mt-4">
-                          {project.isHourly ? "Per Hour" : "Fixed Payment"}
-                        </p>
-                        <p className="text-lg font-semibold">
-                          {project.payment} {project.currency}
-                        </p>
-                      </div>
-                      <div>
-                        <a
-                          href={`mailto:${project.email}`}
-                          className="text-blue-500 mt-8 block hover:underline"
-                        >
-                          Apply now
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-            </div>
+        {loading && (
+          <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center z-50">
+            <div className="animate-spin rounded-full h-14 w-14 border-t-2 border-b-2 border-blue-700"></div>
           </div>
-        ))}
+        )}
+        {title.map((currentTitle, index) => {
+          // Convert title to a valid HTML ID
+          const id = currentTitle.toLowerCase().replace(/ /g, '-');
+
+          // Filter the projects for the current category
+          const filteredProjectsForCategory = filteredProjects.filter(
+            (project: Project) => project.category === currentTitle
+          );
+
+          // Only render section if there are projects
+          if (filteredProjectsForCategory.length === 0) return null;
+
+          return (
+            <section key={index} id={id} className="py-10">
+              <div className="">
+                {/* Title and Underline */}
+                <div className="relative">
+                  <p className="text-lg mt-10 font-medium">{currentTitle}</p>
+                  <span className="absolute left-0 top-full mt-1 w-56 md:w-96 h-[2px] bg-blue-500"></span>
+                </div>
+
+                {/* Display the filtered projects */}
+                <div className="flex gap-6 overflow-x-auto p-2 md:p-6 w-[350px] md:w-full scrollbar-hide">
+                  {filteredProjectsForCategory.map((project: Project, index) => (
+                    <div
+                      key={index}
+                      className="w-80 md:w-96 h-54 bg-white shadow-lg rounded-xl p-6 text-center flex-shrink-0"
+                    >
+                      <Image
+                        src={
+                          project.fileUrl && project.fileUrl.trim() !== ""
+                            ? project.fileUrl
+                            : "/Assests/article.png"
+                        }
+                        alt="image"
+                        height={200}
+                        width={200}
+                        className="w-20 h-20 mx-auto object-cover mb-4 bg-blue-500 rounded-full"
+                      />
+                      <h3 className="text-xl font-semibold">{project.projectName}</h3>
+                      <p className="text-gray-600 mt-2 text-center">
+                        {project.description}
+                      </p>
+
+                      <div className="flex flex-wrap justify-center space-x-2 my-2">
+                        {project.skills.map((skill: string, index: number) => (
+                          <span
+                            key={index}
+                            className="bg-blue-500 text-white px-2 py-1 rounded-full my-1"
+                          >
+                            {skill}
+                          </span>
+                        ))}
+                      </div>
+
+                      <div className="flex justify-between">
+                        <div>
+                          <p className="text-lg font-semibold mt-4">
+                            {project.isHourly ? "Per Hour" : "Fixed Payment"}
+                          </p>
+                          <p className="text-lg font-semibold">
+                            {project.payment} {project.currency}
+                          </p>
+                        </div>
+                        <div>
+                          <a
+                            href={`mailto:${project.email}`}
+                            className="text-blue-500 mt-8 block hover:underline"
+                          >
+                            Apply now
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </section>
+          );
+        })}
       </div>
+
+
       <div>
-        <Footer/>
+        <Footer />
       </div>
     </div>
   )
