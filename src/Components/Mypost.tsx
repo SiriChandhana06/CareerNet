@@ -3,6 +3,7 @@ import { useEffect , useRef , useState } from 'react';
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import Image from 'next/image';
+import { IoWarningOutline } from "react-icons/io5";
 
 
 interface Job {
@@ -115,7 +116,7 @@ const MyPosts: React.FC = () => {
         <div className="p-6">
             <h1 className="text-2xl font-bold mb-4">My Posted Jobs</h1>
             {jobs.length === 0 ? (
-                <p>You haven&apos;t posted any jobs yet.</p>
+                <p className='flex justify-center gap-1'> <IoWarningOutline className='text-4xl text-blue-500 ' /> <span className='font-semibold mt-2'>You haven&apos;t posted any jobs yet.</span></p>
             ) : (
                 <div className="flex flex-wrap justify-center gap-6 p-6">
                     {jobs.map((job) => (

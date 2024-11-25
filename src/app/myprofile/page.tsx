@@ -8,6 +8,7 @@ import image from '@/Assests/logo.png';
 import { useState } from 'react';
 import MyPosts from '@/Components/Mypost';
 import Footer from '@/Components/Footer';
+import { IoWarningOutline } from "react-icons/io5";
 
 
 const MyProfile: React.FC = () => {
@@ -22,17 +23,27 @@ const MyProfile: React.FC = () => {
   //   firstname: 'siri', lastname: 'k', dob: '06-11-2003', languages: '',school: 'sdfghj, dcfvgbn', college: 'sdfghj', higherEducation: 'fgh', jobTitle: 'asdfgh', company: 'sdfg', roleDescription: 'fghj', email: 'ghj', contact: '4567676',
   // }]
 
-  const details = userDetails[0]; 
+  const details = userDetails[0];
   const isDetailsProvided = Object.values(details).some((value) => value);
 
   // const x =[{
   //   roleTitle:'aswd', companyName:'fdg', description:'dfg', from:'32-23-2032', to:'23-23-5040',
   // }]
 
-  const x =[{}]
+  const x = [{}]
 
-  const xdetails = x[0]; 
+  const xdetails = x[0];
   const isxDetailsProvided = Object.values(xdetails).some((value) => value);
+
+
+  // const port =[{
+  //     img: image ,Title:'aswd', role:'fdg', link:'23-23-5040',
+  //   }]
+
+  const port = [{}]
+
+  const portdetails = port[0];
+  const isportdetailsProvided = Object.values(portdetails).some((value) => value);
 
   const renderContent = () => {
     switch (activeTab) {
@@ -118,8 +129,8 @@ const MyProfile: React.FC = () => {
                   </div>
                 </div>
               ) : (
-                <h1 className="text-2xl text-center mt-5 font-semibold">
-                  No details provided
+                <h1 className="text-center mt-5 flex justify-center gap-1">
+                  <IoWarningOutline className='text-4xl text-blue-500 ' /> <span className='mt-2 font-semibold'>No details provided</span>
                 </h1>
               )}
             </div>
@@ -133,38 +144,38 @@ const MyProfile: React.FC = () => {
               <h1 className='flex underline text-xl hover:text-blue-500 hover:cursor-pointer'> {isxDetailsProvided ? "Edit Details" : "Fill Details"} <svg className='underline hover:text-blue-500' xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="black" d="M5 18.08V19h.92l9.06-9.06l-.92-.92z" opacity="0.3" /><path fill="black" d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75zM5.92 19H5v-.92l9.06-9.06l.92.92zM20.71 5.63l-2.34-2.34a.996.996 0 0 0-1.41 0l-1.83 1.83l3.75 3.75l1.83-1.83a.996.996 0 0 0 0-1.41" /></svg></h1>
             </div>
             {isxDetailsProvided ? (
-            <div className="flex justify-center items-center">
-              <div className="bg-white/30 bg-opacity-10 backdrop-filter backdrop-blur-lg rounded-lg shadow-lg p-10">
-                <h1 className='text-2xl font-semibold mt-5'>{xdetails.roleTitle}</h1>
-                <h1 className='text-2xl font-semibold mt-5'>{xdetails.companyName}</h1>
-                <h1 className='text-xl font-semibold mt-5'>{xdetails.description}</h1>
-                <div className='md:flex gap-10'>
-                  <div className='md:flex gap-2'>
-                    <h1 className='text-xl font-semibold mt-5'>{xdetails.from}</h1>
-                    <input className='underline hover:underline border-b-2 mt-5 bg-blue-100 border-blue-500 font-semibold focus:outline-none focus:border-transparent'
-                      type='date' />
+              <div className="flex justify-center items-center">
+                <div className="bg-white/30 bg-opacity-10 backdrop-filter backdrop-blur-lg rounded-lg shadow-lg p-10">
+                  <h1 className='text-2xl font-semibold mt-5'>{xdetails.roleTitle}</h1>
+                  <h1 className='text-2xl font-semibold mt-5'>{xdetails.companyName}</h1>
+                  <h1 className='text-xl font-semibold mt-5'>{xdetails.description}</h1>
+                  <div className='md:flex gap-10'>
+                    <div className='md:flex gap-2'>
+                      <h1 className='text-xl font-semibold mt-5'>{xdetails.from}</h1>
+                      <input className='underline hover:underline border-b-2 mt-5 bg-blue-100 border-blue-500 font-semibold focus:outline-none focus:border-transparent'
+                        type='date' />
+                    </div>
+                    <div className='md:flex gap-2'>
+                      <h1 className='text-xl font-semibold mt-5'>{xdetails.to}</h1>
+                      <input className='underline hover:underline border-b-2 mt-5 bg-blue-100 border-blue-500 font-semibold focus:outline-none focus:border-transparent'
+                        type='date' />
+                    </div>
                   </div>
-                  <div className='md:flex gap-2'>
-                    <h1 className='text-xl font-semibold mt-5'>{xdetails.to}</h1>
-                    <input className='underline hover:underline border-b-2 mt-5 bg-blue-100 border-blue-500 font-semibold focus:outline-none focus:border-transparent'
-                      type='date' />
+                  <div className="flex items-center space-x-2">
+                    <input
+                      type="checkbox"
+                      id="checkbox"
+                      className="h-5 w-5 mt-5 text-blue-600 border-gray-300 bg-blue-200 rounded focus:ring-blue-500"
+                    />
+                    <label htmlFor="checkbox" className="text-gray-700 text-xl mt-5 font-medium">
+                      I&apos;m Currently Working
+                    </label>
                   </div>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <input
-                    type="checkbox"
-                    id="checkbox"
-                    className="h-5 w-5 mt-5 text-blue-600 border-gray-300 bg-blue-200 rounded focus:ring-blue-500"
-                  />
-                  <label htmlFor="checkbox" className="text-gray-700 text-xl mt-5 font-medium">
-                    I&apos;m Currently Working
-                  </label>
                 </div>
               </div>
-            </div>
             ) : (
-              <h1 className="text-2xl text-center mt-5 font-semibold">
-                No details provided
+              <h1 className="text-center mt-5 flex justify-center gap-1">
+                <IoWarningOutline className='text-4xl text-blue-500 ' /> <span className='mt-2 font-semibold'>No details provided</span>
               </h1>
             )}
           </div>
@@ -308,34 +319,44 @@ const MyProfile: React.FC = () => {
             </div>
           </div>
         </div>
+
         <div className=''>
           <div className='flex justify-between md:mx-10 mt-10'>
             <h1 className='text-2xl font-semibold lg:text-4xl'>Portfolio</h1>
-            <h1 className='flex underline text-xl hover:text-blue-500 hover:cursor-pointer'>Manage Portfolio<svg className='underline hover:text-blue-500' xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="black" d="M5 18.08V19h.92l9.06-9.06l-.92-.92z" opacity="0.3" /><path fill="black" d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75zM5.92 19H5v-.92l9.06-9.06l.92.92zM20.71 5.63l-2.34-2.34a.996.996 0 0 0-1.41 0l-1.83 1.83l3.75 3.75l1.83-1.83a.996.996 0 0 0 0-1.41" /></svg></h1>
+            <h1 className='flex underline text-xl hover:text-blue-500 hover:cursor-pointer'> {isportdetailsProvided ? "Manage Portfolio" : "Fill Portfolio"} <svg className='underline hover:text-blue-500' xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="black" d="M5 18.08V19h.92l9.06-9.06l-.92-.92z" opacity="0.3" /><path fill="black" d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75zM5.92 19H5v-.92l9.06-9.06l.92.92zM20.71 5.63l-2.34-2.34a.996.996 0 0 0-1.41 0l-1.83 1.83l3.75 3.75l1.83-1.83a.996.996 0 0 0 0-1.41" /></svg></h1>
           </div>
-          <div className='flex justify-center'>
-            <div
-              className="bg-white shadow-md rounded-lg overflow-hidden p-4 my-4 w-[350px] md:w-[450px]"
-            >
-              <Image
-                src={image}
-                alt='Title'
-                className="w-full h-56 object-cover"
-              />
-              <div className="mt-4 text-center flex justify-between mx-4">
-                <div>
-                  <h3 className="text-xl font-semibold">Title</h3>
-                  <p className="text-gray-500">Role</p>
-                </div>
-                <div className="mt-4">
-                  <a href="#" className="text-blue-500 font-semibold">
-                    →
-                  </a>
+          {isportdetailsProvided ? (
+            <div className='flex justify-center'>
+              <div
+                className="bg-white shadow-md rounded-lg overflow-hidden p-4 my-4 w-[350px] md:w-[450px]"
+              >
+                <Image
+                  src={portdetails.img}
+                  alt='Title'
+                  className="w-full h-56 object-cover"
+                />
+                <div className="mt-4 text-center flex justify-between mx-4">
+                  <div>
+                    <h3 className="text-xl font-semibold">{portdetails.Title}</h3>
+                    <p className="text-gray-500">{portdetails.role}</p>
+                  </div>
+                  <div className="mt-4">
+                    <a href={portdetails.link} className="text-blue-500 font-semibold">
+                      →
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+          ) : (
+            <div className=' flex justify-center'>
+              <h1 className="bg-white shadow-md rounded-lg overflow-hidden p-4 my-4 w-[350px] md:w-[450px]  flex justify-center">
+                <IoWarningOutline className='text-4xl text-blue-500' /> <span className='mt-2 font-semibold'>No details provided</span>
+              </h1>
+            </div>
+          )}
         </div>
+
         <div>
           <div className="flex flex-col items-center mx-2 md:mx-10">
             {/* Navigation Bar */}
