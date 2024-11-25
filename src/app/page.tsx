@@ -47,7 +47,6 @@ export default function Home() {
     };
   }, []);
 
-
   const handleSearch = () => {
     if (searchQuery.trim()) {
       router.push(`/findwork?search=${encodeURIComponent(searchQuery)}`);
