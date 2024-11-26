@@ -57,13 +57,13 @@ interface PortfolioDetails {
 
 
 interface BioDetails {
-  biotitle?: string; 
-  bio?: string; 
-  sl1?: string; 
-  sl2?: string;  
-  sl3?: string;   
-  sl4?: string; 
-  sl5?: string; 
+  biotitle: string; 
+  bio: string; 
+  sl1: string; 
+  sl2: string;  
+  sl3: string;   
+  sl4: string; 
+  sl5: string; 
 }
 
 
