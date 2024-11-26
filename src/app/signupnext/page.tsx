@@ -59,21 +59,21 @@ const SignUpNextpage: React.FC = () => {
 
     const handleCoverFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files.length > 0) {
-            setFileName(e.target.files[0].name); // Get the selected file's name
+            setFileName(e.target.files[0].name); 
         }
     };
     
     const handleAddLanguage = () => {
         if (languageInput.trim() !== '') {
             setLanguages([...languages, languageInput]);
-            setLanguageInput(''); // Clear the input after adding the language
+            setLanguageInput(''); 
         }
     };
 
     const removeLang = (index: number) => {
-        const newLanguages = [...languages]; // Create a copy of the languages array
-        newLanguages.splice(index, 1); // Remove the language at the specified index
-        setLanguages(newLanguages); // Update the state with the new list
+        const newLanguages = [...languages]; 
+        newLanguages.splice(index, 1); 
+        setLanguages(newLanguages); 
     };
 
     const handleEducationChange = (index: number, value: string) => {
