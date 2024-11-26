@@ -16,12 +16,13 @@ import { MdMailOutline } from "react-icons/md";
 import { LiaTelegram } from "react-icons/lia";
 import coi from '@/Assests/coverphoto.webp';
 import poi from '@/Assests/girl.png';
+import { StaticImageData } from "next/image";
 
 
-// interface ImageDetails {
-//   ci: string | null; 
-//   pi: string | null; 
-// }
+interface ImageDetails {
+  ci: string | StaticImageData ; 
+  pi: string | StaticImageData ; 
+}
 
 interface XDetails {
   roleTitle: string; 
@@ -30,6 +31,7 @@ interface XDetails {
   from: string; 
   to: string; 
 }
+
 
 interface UserDetails {
   firstname: string;
@@ -114,9 +116,9 @@ const MyProfile: React.FC = () => {
 
   // const ima = [{ ci: coi , pi: poi }]
 
-  const ima = [{ ci: coi, pi: poi }];
+  // const ima:ImageDetails[] = [{ ci: coi, pi: poi }];
 
-  // const ima:ImageDetails[] = [];
+  const ima:ImageDetails[] = [];
 
   const imadetails = ima[0];
   const isimadetailsprovided = Object.values(imadetails).some((value) => value);
