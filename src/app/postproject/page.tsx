@@ -43,7 +43,6 @@ interface FormData {
     category: string;
 }
 
-
 const Postajob: React.FC = () => {
     const [file, setfile] = useState<File | null>(null);
     const [fileUrl, setFileUrl] = useState<string>('');

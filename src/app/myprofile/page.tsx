@@ -18,11 +18,10 @@ import coi from '@/Assests/coverphoto.webp';
 import poi from '@/Assests/girl.png';
 
 
-interface ImageDetails {
-  ci: string; 
-  pi: string; 
-}
-
+// interface ImageDetails {
+//   ci: string | null; 
+//   pi: string | null; 
+// }
 
 interface XDetails {
   roleTitle: string; 
@@ -115,9 +114,9 @@ const MyProfile: React.FC = () => {
 
   // const ima = [{ ci: coi , pi: poi }]
 
-  // const ima: ImageDetails[] = [{ ci: coi, pi: poi }];
+  const ima = [{ ci: coi, pi: poi }];
 
-  const ima:ImageDetails[] = [];
+  // const ima:ImageDetails[] = [];
 
   const imadetails = ima[0];
   const isimadetailsprovided = Object.values(imadetails).some((value) => value);
