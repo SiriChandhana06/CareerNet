@@ -8,6 +8,7 @@ import { useState } from 'react';
 
 const SignUpNextpage: React.FC = () => {
     const [imageSrc, setImageSrc] = useState('/profileimage.webp');
+    const [fileName, setFileName] = useState<string | null>(null);
     const [step, setStep] = useState(1);
     const [languages, setLanguages] = useState<string[]>([]);
     const [languageInput, setLanguageInput] = useState<string>('');
@@ -56,6 +57,12 @@ const SignUpNextpage: React.FC = () => {
         }
     };
 
+    const handleCoverFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files && e.target.files.length > 0) {
+            setFileName(e.target.files[0].name); // Get the selected file's name
+        }
+    };
+    
     const handleAddLanguage = () => {
         if (languageInput.trim() !== '') {
             setLanguages([...languages, languageInput]);
@@ -246,6 +253,22 @@ const SignUpNextpage: React.FC = () => {
                                             placeholder="username"
                                             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2"
                                         />
+                                        <div>
+                                            <label className="block text-gray-700 font-bold mb-2">Cover Image </label>
+                                            <div className="flex items-center border border-gray-300 p-2 rounded">
+                                                <input
+                                                    type="file"
+                                                    accept=".png, .jpg, .jpeg, .bmp, .tiff , .webp"
+                                                    onChange={handleCoverFileChange}
+                                                    className="hidden"
+                                                    id="fileInput"
+                                                />
+                                                <label htmlFor="fileInput" className="bg-blue-500 text-white px-4 py-2 rounded cursor-pointer">
+                                                    Select File
+                                                </label>
+                                                <span className="ml-4">{fileName || 'No file selected'}</span>
+                                            </div>
+                                        </div>
                                         <button
                                             type="submit"
                                             className="w-full bg-blue-600 text-white py-2 rounded-lg text-md md:text-xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -485,7 +508,7 @@ const SignUpNextpage: React.FC = () => {
                                         />
                                         <div className="">
                                             <label htmlFor="titleDropdown" className="block text-lg font-medium mb-2">
-                                                Select Your Domain 
+                                                Select Your Domain
                                             </label>
                                             <select
                                                 id="titleDropdown"

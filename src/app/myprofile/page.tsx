@@ -14,6 +14,8 @@ import { LuGithub } from "react-icons/lu";
 import { FaXTwitter } from "react-icons/fa6";
 import { MdMailOutline } from "react-icons/md";
 import { LiaTelegram } from "react-icons/lia";
+import coi from '@/Assests/coverphoto.webp';
+import poi from '@/Assests/girl.png';
 
 
 const MyProfile: React.FC = () => {
@@ -59,6 +61,14 @@ const MyProfile: React.FC = () => {
 
   const biodetails = bio[0];
   const isbiotextProvided = Object.values(biodetails).some((value) => value);
+
+
+  // const ima = [{ ci: coi , pi: poi }]
+
+  const ima = [{}]
+
+  const imadetails = ima[0];
+  const isimadetailsprovided = Object.values(imadetails).some((value) => value);
 
   const renderContent = () => {
     switch (activeTab) {
@@ -266,20 +276,23 @@ const MyProfile: React.FC = () => {
           <div className="bg-blue-300 flex flex-col items-center">
             <div className="w-full relative">
               <Image
-                src={coverImage}
+                // src={coverImage}
+                src={isimadetailsprovided ? imadetails.ci : coverImage}
                 alt="Cover Image"
                 layout='responsive'
                 className="rounded-lg w-full h-48 md:h-64 z-0 object-cover block md:hidden"
               />
               <Image
-                src={coverImage}
+                // src={coverImage}
+                src={isimadetailsprovided ? imadetails.ci : coverImage}
                 alt="Cover Image"
                 className="rounded-lg w-full h-64 object-cover z-0 hidden md:block"
               />
               <div className="absolute -bottom-16 md:-bottom-20 left-24 md:left-48 transform -translate-x-1/2">
                 <div className="relative w-32 h-32 md:w-48 md:h-48 rounded-full border-4 border-black overflow-hidden">
                   <Image
-                    src={profilePic}
+                    // src={profilePic}
+                    src={isimadetailsprovided ? imadetails.pi : profilePic}
                     alt="Profile Image"
                     layout="fill"
                     objectFit="cover"
