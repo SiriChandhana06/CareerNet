@@ -76,10 +76,17 @@ const SignupPage: React.FC = () => {
     return newErrors;
   };
 
+ 
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     const validationErrors = validate();
+
+    const formattedErrors = Object.entries(validationErrors)
+    .map(([field, message]) => `${message}`)
+    .join(', ');
+
     if (Object.keys(validationErrors).length === 0) {
       try {
         const response = await fetch("https://career-net-server.vercel.app/api/auth/signup", {
@@ -99,21 +106,22 @@ const SignupPage: React.FC = () => {
         if (response.ok) {
           localStorage.setItem('userEmail', data.user.email);
           // toast.error("User registered successfully", data);
-          console.log("User registered successfully", data);
+          console.log("User registered successfully", data.user.email);
           toast.success('Sign Up!');
           setTimeout(() => {
             router.push('/signupnext');
           }, 2000);
         } else {
           console.error("Error registering user:", data.message);
-          toast.error("Error registering user:", data.message);
+          // toast.error("Error registering user:",data.message);
+          toast.error(`Error registering user: ${data.message}`);
         }
       } catch (error) {
         console.error("Error submitting form", error);
       }
     } else {
-      console.error("Form validation failed:", validationErrors);
-      toast.error(`Form validation failed: ${validationErrors}`)
+      console.error("Form validation failed:", formattedErrors);
+      toast.error(`Form validation failed: ${formattedErrors}`)
       setErrors(validationErrors);
     }
   };
