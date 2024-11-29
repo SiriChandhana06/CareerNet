@@ -158,7 +158,6 @@ const SignUpNextpage: React.FC = () => {
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (step === 1) {
-            // Move to the next step when Next is clicked
             setStep(2);
         }
         if (step === 2) {
@@ -246,13 +245,6 @@ const SignUpNextpage: React.FC = () => {
 
                                             <p className="mt-2 text-gray-600">Click to upload image</p>
                                         </div>
-
-                                        <input
-                                            type="text"
-                                            name="username"
-                                            placeholder="username"
-                                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2"
-                                        />
                                         <div>
                                             <label className="block text-gray-700 font-bold mb-2">Cover Image </label>
                                             <div className="flex items-center border border-gray-300 p-2 rounded">

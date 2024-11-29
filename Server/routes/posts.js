@@ -26,7 +26,7 @@ router.post('/', async (req, res) => {
             category,
             payment,
             currency,
-            isHourly:  Boolean (isHourly),  // Parse boolean from string
+            isHourly:  Boolean (isHourly),  
             email,
             fileUrl,
             // userId: req.user._id 

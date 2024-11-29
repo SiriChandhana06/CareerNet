@@ -15,12 +15,13 @@ import { onAuthStateChanged } from "firebase/auth";
 
 
 type Errors = {
-  firstName?: string; 
+  firstName?: string;
   lastName?: string;
   email?: string;
   password?: string;
   confirmPassword?: string;
   agreeTerms?: boolean;
+  userName ?: string;
 };
 
 const SignupPage: React.FC = () => {
@@ -32,6 +33,7 @@ const SignupPage: React.FC = () => {
     password: "",
     confirmPassword: "",
     agreeTerms: false,
+    userName : "",
   });
   const [errors, setErrors] = useState<Errors>({});
   const router = useRouter();
@@ -58,6 +60,7 @@ const SignupPage: React.FC = () => {
 
     if (!formData.firstName) newErrors.firstName = "First name is required";
     if (!formData.lastName) newErrors.lastName = "Last name is required";
+    if (!formData.userName) newErrors.userName = "User name is required";
     if (!formData.email) {
       newErrors.email = "Email is required";
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
@@ -76,42 +79,44 @@ const SignupPage: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const validationErrors = validate(); 
+    const validationErrors = validate();
     if (Object.keys(validationErrors).length === 0) {
-        try {
-            const response = await fetch("https://career-net-server.vercel.app/api/auth/signup", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                  firstName: formData.firstName,
-                  lastName: formData.lastName, 
-                  email: formData.email,
-                  password: formData.password,
-              }),
-            });
-            const data = await response.json();
-            if (response.ok) {
-                localStorage.setItem('userEmail', data.user.email);
-                console.log("User registered successfully", data);
-                toast.success('Sign Up!');
-                setTimeout(() => {
-                  router.push('/signupnext');
-                }, 2000);
-            } else {
-                console.error("Error registering user:", data.message);
-                toast.error('Error');
-            }
-        } catch (error) {
-            console.error("Error submitting form", error);
+      try {
+        const response = await fetch("https://career-net-server.vercel.app/api/auth/signup", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            firstName: formData.firstName,
+            lastName: formData.lastName,
+            email: formData.email,
+            password: formData.password,
+            userName: formData.userName,
+          }),
+        });
+        const data = await response.json();
+        if (response.ok) {
+          localStorage.setItem('userEmail', data.user.email);
+          // toast.error("User registered successfully", data);
+          console.log("User registered successfully", data);
+          toast.success('Sign Up!');
+          setTimeout(() => {
+            router.push('/signupnext');
+          }, 2000);
+        } else {
+          console.error("Error registering user:", data.message);
+          toast.error("Error registering user:", data.message);
         }
+      } catch (error) {
+        console.error("Error submitting form", error);
+      }
     } else {
-        console.error("Form validation failed:", validationErrors);
-        toast.error(`Form validation failed: ${validationErrors}`)
-        setErrors(validationErrors); 
+      console.error("Form validation failed:", validationErrors);
+      toast.error(`Form validation failed: ${validationErrors}`)
+      setErrors(validationErrors);
     }
-};
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
@@ -124,15 +129,15 @@ const SignupPage: React.FC = () => {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-        if (user) {
-            localStorage.setItem('firebaseUser', JSON.stringify({ email: user.email }));
-        } else {
-            localStorage.removeItem('firebaseUser'); // Clear if user logs out
-        }
+      if (user) {
+        localStorage.setItem('firebaseUser', JSON.stringify({ email: user.email }));
+      } else {
+        localStorage.removeItem('firebaseUser'); // Clear if user logs out
+      }
     });
 
     return () => unsubscribe();
-}, []);
+  }, []);
 
   return (
     <div className="bg-blue-300">
@@ -198,11 +203,9 @@ const SignupPage: React.FC = () => {
                   placeholder="First Name"
                   value={formData.firstName}
                   onChange={handleChange}
-                  className={`w-full px-4 py-2 border ${
-                    errors.firstName ? "border-red-500" : "border-gray-300"
-                  } rounded-lg focus:outline-none focus:ring-2 ${
-                    errors.firstName ? "focus:ring-red-500" : "focus:ring-blue-400"
-                  }`}
+                  className={`w-full px-4 py-2 border ${errors.firstName ? "border-red-500" : "border-gray-300"
+                    } rounded-lg focus:outline-none focus:ring-2 ${errors.firstName ? "focus:ring-red-500" : "focus:ring-blue-400"
+                    }`}
                 />
                 <input
                   type="text"
@@ -210,24 +213,31 @@ const SignupPage: React.FC = () => {
                   placeholder="Last Name"
                   value={formData.lastName}
                   onChange={handleChange}
-                  className={`w-full px-4 py-2 border ${
-                    errors.lastName ? "border-red-500" : "border-gray-300"
-                  } rounded-lg focus:outline-none focus:ring-2 ${
-                    errors.lastName ? "focus:ring-red-500" : "focus:ring-blue-400"
-                  }`}
+                  className={`w-full px-4 py-2 border ${errors.lastName ? "border-red-500" : "border-gray-300"
+                    } rounded-lg focus:outline-none focus:ring-2 ${errors.lastName ? "focus:ring-red-500" : "focus:ring-blue-400"
+                    }`}
                 />
               </div>
+              <input
+                type="text"
+                name="userName"
+                placeholder="username"
+                value={formData.userName}
+                onChange={handleChange}
+                // className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2"
+                className={`w-full px-4 py-2 border ${errors.lastName ? "border-red-500" : "border-gray-300"
+                } rounded-lg focus:outline-none focus:ring-2 ${errors.lastName ? "focus:ring-red-500" : "focus:ring-blue-400"
+                }`}
+              />
               <input
                 type="email"
                 name="email"
                 placeholder="Email"
                 value={formData.email}
                 onChange={handleChange}
-                className={`w-full px-4 py-2 border ${
-                  errors.email ? "border-red-500" : "border-gray-300"
-                } rounded-lg focus:outline-none focus:ring-2 ${
-                  errors.email ? "focus:ring-red-500" : "focus:ring-blue-400"
-                }`}
+                className={`w-full px-4 py-2 border ${errors.email ? "border-red-500" : "border-gray-300"
+                  } rounded-lg focus:outline-none focus:ring-2 ${errors.email ? "focus:ring-red-500" : "focus:ring-blue-400"
+                  }`}
               />
               {errors.email && (
                 <p className="text-red-500 text-sm">{errors.email}</p>
@@ -239,13 +249,11 @@ const SignupPage: React.FC = () => {
                   placeholder="Password"
                   value={formData.password}
                   onChange={handleChange}
-                  className={`w-full px-4 py-2 border ${
-                    errors.password ? "border-red-500" : "border-gray-300"
-                  } rounded-lg focus:outline-none focus:ring-2 ${
-                    errors.password
+                  className={`w-full px-4 py-2 border ${errors.password ? "border-red-500" : "border-gray-300"
+                    } rounded-lg focus:outline-none focus:ring-2 ${errors.password
                       ? "focus:ring-red-500"
                       : "focus:ring-blue-400"
-                  }`}
+                    }`}
                 />
                 {errors.password && (
                   <p className="text-red-500 text-sm">{errors.password}</p>
@@ -258,15 +266,13 @@ const SignupPage: React.FC = () => {
                   placeholder="Confirm Password"
                   value={formData.confirmPassword}
                   onChange={handleChange}
-                  className={`w-full px-4 py-2 border ${
-                    errors.confirmPassword
+                  className={`w-full px-4 py-2 border ${errors.confirmPassword
                       ? "border-red-500"
                       : "border-gray-300"
-                  } rounded-lg focus:outline-none focus:ring-2 ${
-                    errors.confirmPassword
+                    } rounded-lg focus:outline-none focus:ring-2 ${errors.confirmPassword
                       ? "focus:ring-red-500"
                       : "focus:ring-blue-400"
-                  }`}
+                    }`}
                 />
                 {errors.confirmPassword && (
                   <p className="text-red-500 text-sm">
@@ -294,7 +300,7 @@ const SignupPage: React.FC = () => {
                 type="submit"
                 className="w-full bg-blue-600 text-white py-2 rounded-lg text-md md:text-xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
-                 Join CareerNet
+                Join CareerNet
               </button>
               <p className="text-center text-sm">
                 Already have an account?{" "}

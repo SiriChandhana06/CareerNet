@@ -77,22 +77,27 @@ const MyProfile: React.FC = () => {
   //   firstname: 'siri', lastname: 'k', dob: '06-11-2003', languages: 'asdfghj, vghj ,vgh', school: 'sdfghj, dcfvgbn', college: 'sdfghj', higherEducation: 'fgh', jobTitle: 'asdfgh', company: 'sdfg', roleDescription: 'fghj', email: 'ghj', contact: '4567676',
   // }]
   const userDetails:UserDetails[] = [];
-  // const userDetails = [{
+  // const userDetails:UserDetails[] = [{
   //   firstname: 'siri', lastname: 'k', dob: '06-11-2003', languages: '',school: 'sdfghj, dcfvgbn', college: 'sdfghj', higherEducation: 'fgh', jobTitle: 'asdfgh', company: 'sdfg', roleDescription: 'fghj', email: 'ghj', contact: '4567676',
   // }]
 
   const details = userDetails[0];
-  const isDetailsProvided = Object.values(details).some((value) => value);
+  // const isDetailsProvided = Object.values(details).some((value) => value);
+  const isDetailsProvided = details 
+  ? Object.values(details).some((value) => value)
+  : false;
 
-  // const x =[{
+  // const x:XDetails[] =[{
   //   roleTitle:'aswd', companyName:'fdg', description:'dfg', from:'32-23-2032', to:'23-23-5040',
   // }]
 
   const x:XDetails[]  = [];
 
   const xdetails= x[0];
-  const isxDetailsProvided = Object.values(xdetails).some((value) => value);
-
+  // const isxDetailsProvided = Object.values(xdetails).some((value) => value);
+  const isxDetailsProvided = xdetails 
+  ? Object.values(xdetails).some((value) => value)
+  : false;
 
   // const port =[{
   //     img: image ,Title:'aswd', role:'fdg', link:'23-23-5040',
@@ -101,17 +106,23 @@ const MyProfile: React.FC = () => {
   const port:PortfolioDetails[] = [];
 
   const portdetails = port[0];
-  const isportdetailsProvided = Object.values(portdetails).some((value) => value);
+  // const isportdetailsProvided = Object.values(portdetails).some((value) => value);
+  const isportdetailsProvided = portdetails 
+  ? Object.values(portdetails).some((value) => value)
+  : false;
 
 
-  // const bio = [{
+  // const bio:BioDetails[] = [{
   //   biotitle: 'aswd', bio: 'fdg', sl1: 'sdfcv', sl2: 'sdfg', sl3: 'sdfg', sl4: 'dfcvg', sl5: 'sdfgv',
   // }]
 
   const bio:BioDetails[] = [];
 
   const biodetails = bio[0];
-  const isbiotextProvided = Object.values(biodetails).some((value) => value);
+  // const isbiotextProvided = Object.values(biodetails).some((value) => value);
+  const isbiotextProvided = biodetails 
+  ? Object.values(biodetails).some((value) => value)
+  : false;
 
 
   // const ima = [{ ci: coi , pi: poi }]
@@ -121,7 +132,10 @@ const MyProfile: React.FC = () => {
   const ima:ImageDetails[] = [];
 
   const imadetails = ima[0];
-  const isimadetailsprovided = Object.values(imadetails).some((value) => value);
+  // const isimadetailsprovided = Object.values(imadetails).some((value) => value);
+  const isimadetailsprovided = portdetails 
+  ? Object.values(portdetails).some((value) => value)
+  : false;
 
   const renderContent = () => {
     switch (activeTab) {
