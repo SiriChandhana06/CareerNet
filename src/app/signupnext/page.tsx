@@ -4,6 +4,8 @@ import Link from "next/link";
 import logo from "../../Assests/logo.png";
 import login from "../../Assests/login.png";
 import { useState } from 'react';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 
 const SignUpNextpage: React.FC = () => {
@@ -59,21 +61,21 @@ const SignUpNextpage: React.FC = () => {
 
     const handleCoverFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files.length > 0) {
-            setFileName(e.target.files[0].name); 
+            setFileName(e.target.files[0].name);
         }
     };
-    
+
     const handleAddLanguage = () => {
         if (languageInput.trim() !== '') {
             setLanguages([...languages, languageInput]);
-            setLanguageInput(''); 
+            setLanguageInput('');
         }
     };
 
     const removeLang = (index: number) => {
-        const newLanguages = [...languages]; 
-        newLanguages.splice(index, 1); 
-        setLanguages(newLanguages); 
+        const newLanguages = [...languages];
+        newLanguages.splice(index, 1);
+        setLanguages(newLanguages);
     };
 
     const handleEducationChange = (index: number, value: string) => {
@@ -155,34 +157,53 @@ const SignUpNextpage: React.FC = () => {
 
 
 
+    // const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    //     e.preventDefault();
+    //     if (step === 1) {
+    //         setStep(2);
+    //     }
+    //     if (step === 2) {
+    //         setStep(3);
+    //     }
+    //     if (step === 3) {
+    //         setStep(4);
+    //     }
+    //     if (step === 4) {
+    //         setStep(5);
+    //     }
+    //     if (step === 5) {
+    //         setStep(6);
+    //     }
+    //     if (step === 6) {
+    //         setStep(7);
+    //     }
+    //     if (step === 7) {
+    //         setStep(8);
+    //     }
+    //     if (step === 8) {
+    //         setStep(9);
+    //     }
+    //     else {
+    //         console.log('Form submitted');
+    //     }
+    // };
+
+
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        if (step === 1) {
-            setStep(2);
+        if (step < 9) {
+            setStep(step + 1);
+        } else {
+            console.log("Form submitted");
         }
-        if (step === 2) {
-            setStep(3);
-        }
-        if (step === 3) {
-            setStep(4);
-        }
-        if (step === 4) {
-            setStep(5);
-        }
-        if (step === 5) {
-            setStep(6);
-        }
-        if (step === 6) {
-            setStep(7);
-        }
-        if (step === 7) {
-            setStep(8);
-        }
-        if (step === 8) {
-            setStep(9);
-        }
-        else {
-            console.log('Form submitted');
+    };
+
+    const handleBack = () => {
+        if (step > 1) {
+            setStep(step - 1);
+        } else {
+            console.log("Already at the first step");
+            toast.info("Already at the first step");
         }
     };
 
@@ -190,7 +211,7 @@ const SignUpNextpage: React.FC = () => {
         <div>
             <div>
                 <div className="bg-blue-300">
-                    <Link href="/">
+                    <div onClick={(e) => { e.preventDefault(); handleBack(); }}>
                         <div className="flex justify-start">
                             <button className="bg-gray-200 mt-4 ml-10 rounded-xl px-4 py-3">
                                 <svg
@@ -203,7 +224,7 @@ const SignUpNextpage: React.FC = () => {
                                 </svg>
                             </button>
                         </div>
-                    </Link>
+                    </div>
 
                     <div className="lg:grid lg:grid-cols-2 bg-blue-300 h-screen lg:h-full py-10 md:py-20 px-10">
                         <div className="flex justify-center items-center ">
@@ -666,6 +687,16 @@ const SignUpNextpage: React.FC = () => {
                     </div>
                 </div>
             </div>
+            <ToastContainer
+                position="top-center"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                theme="colored"
+            />
         </div>
     )
 }
