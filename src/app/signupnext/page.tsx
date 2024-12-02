@@ -7,7 +7,6 @@ import { useState } from 'react';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-
 const SignUpNextpage: React.FC = () => {
     const [imageSrc, setImageSrc] = useState('/profileimage.webp');
     const [fileName, setFileName] = useState<string | null>(null);
