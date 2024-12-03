@@ -7,43 +7,43 @@ const userSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   userName: { type: String, required: true, unique: true },
-  // profileSrc: { type: String },
-  // coverSrc: { type: String },
-  // dob: { type: String },
-  // languages: { type: [String] },
-  // socialLinks: { type: [String] },
-  // education: { type: [String] },
-  // currentlyWorkingCompany: { type: String },
-  // currentlyWorkingRole: { type: String },
-  // currentlyWorkingDescription: { type: String },
-  // countryCode: {
-  //   type: String,
-  //   enum: ['India', 'USA', 'UK'],
-  //   default: 'India'
-  // },
-  // contactNumber: { type: String },
-  // portfolioSrc: { type: String },
-  // portfolioRole: { type: String },
-  // portfolioLink: { type: String },
-  // portfolioDomain: {
-  //   type: String,
-  //   enum: ['Graphic Design', 'Cartoon Animation', 'Illustration', 'Web Development', 'Logo Design', 'Social Graphics', 'Article Writing', 'Video Editing', 'App Development', 'AI & ML', 'UI & UX', 'Digital Marketing', 'Photography', 'Others'],
-  //   default: 'Others'
-  // },
-  // bioTitle: { type: String },
-  // bio: { type: String },
-  // bioSkills: {
-  //   type: [String],
-  //   required: true
-  // },
-  // experienceCompanyRole: { type: [String] },
-  // experienceCompanyName: { type: [String] },
-  // experienceStartDate: { type: [String] },
-  // experienceEndDate: { type: [String] },
-  // isCurrently: {
-  //   type: Boolean,
-  //   default: true
-  // },
+  profileSrc: { type: String },
+  coverSrc: { type: String },
+  dob: { type: String },
+  languages: { type: [String] },
+  socialLinks: { type: [String] },
+  education: { type: [String] },
+  currentlyWorkingCompany: { type: String },
+  currentlyWorkingRole: { type: String },
+  currentlyWorkingDescription: { type: String },
+  countryCode: {
+    type: String,
+    enum: ['India', 'USA', 'UK'],
+    default: 'India'
+  },
+  contactNumber: { type: String },
+  portfolioSrc: { type: String },
+  portfolioRole: { type: String },
+  portfolioLink: { type: String },
+  portfolioDomain: {
+    type: String,
+    enum: ['Graphic Design', 'Cartoon Animation', 'Illustration', 'Web Development', 'Logo Design', 'Social Graphics', 'Article Writing', 'Video Editing', 'App Development', 'AI & ML', 'UI & UX', 'Digital Marketing', 'Photography', 'Others'],
+    default: 'Others'
+  },
+  bioTitle: { type: String },
+  bio: { type: String },
+  bioSkills: {
+    type: [String],
+    required: true
+  },
+  experienceCompanyRole: { type: [String] },
+  experienceCompanyName: { type: [String] },
+  experienceStartDate: { type: [String] },
+  experienceEndDate: { type: [String] },
+  isCurrently: {
+    type: [Boolean],
+    default: false
+  },
   createdAt: { type: Date, default: Date.now },
 });
 

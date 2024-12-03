@@ -298,6 +298,14 @@ router.post("/signup", async (req, res) => {
   }
 });
 
+
+
+//@route POST /api/auth/signupnext
+
+
+
+
+
 // @route   POST /api/auth/login
 // @desc    Login user and get token
 router.post("/login", async (req, res) => {
