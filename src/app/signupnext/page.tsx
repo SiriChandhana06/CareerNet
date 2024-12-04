@@ -195,7 +195,7 @@ const SignUpNextpage: React.FC = () => {
         } else {
             console.log("Form submitted");
         }
-    };
+    }; 
 
     const handleBack = () => {
         if (step > 1) {
