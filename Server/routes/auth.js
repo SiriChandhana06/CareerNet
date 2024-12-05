@@ -422,6 +422,43 @@ router.post("/signup", async (req, res) => {
 });
 
 
+router.post("/check-availability", async (req, res) => {
+  const { email, userName } = req.body;
+
+  try {
+    if (!email && !userName) {
+      return res
+        .status(400)
+        .json({ message: "Email or username is required for validation." });
+    }
+
+    const errors = {};
+
+    // Check email
+    if (email) {
+      const existingEmail = await User.findOne({ email });
+      if (existingEmail) {
+        errors.email = "Email already exists.";
+      }
+    }
+
+    // Check username
+    if (userName) {
+      const existingUserName = await User.findOne({ userName });
+      if (existingUserName) {
+        errors.userName = "Username already exists.";
+      }
+    }
+
+    if (Object.keys(errors).length > 0) {
+      return res.status(409).json({ message: "Validation errors", errors });
+    }
+
+    res.status(200).json({ message: "Email and username are available." });
+  } catch (err) {
+    res.status(500).json({ message: "Server error", error: err.message });
+  }
+});
 
 
 

@@ -69,9 +69,9 @@ const SignupPage: React.FC = () => {
   };
 
 
-  const validate1 = () => {
-    const newErrors: any = {};
-    // const newErrors: Record<string, string> = {};
+  const validate1 = async () => {
+    // const newErrors: any = {};
+    const newErrors: Record<string, string> = {};
     // if (step === 1) {
     if (!formData.firstName) newErrors.firstName = "First name is required";
     if (!formData.lastName) newErrors.lastName = "Last name is required";
@@ -98,6 +98,32 @@ const SignupPage: React.FC = () => {
     //   newErrors.dob = "Date of Birth is invalid";
     // }
     // }
+
+    if (formData.email && formData.userName && Object.keys(newErrors).length === 0) {
+      try {
+        const response = await fetch(
+          "https://career-net-server.vercel.app/api/auth/check-availability",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              email: formData.email,
+              userName: formData.userName,
+            }),
+          }
+        );
+        const data = await response.json();
+  
+        if (response.status === 409) {
+          if (data.errors.email) newErrors.email = data.errors.email;
+          if (data.errors.userName) newErrors.userName = data.errors.userName;
+        }
+      } catch (error) {
+        console.error("Error validating email and username:", error);
+        newErrors.general = "Unable to validate email or username. Please try again.";
+      }
+    }
+
     return newErrors;
   };
 
@@ -317,7 +343,7 @@ const SignupPage: React.FC = () => {
   };
 
 
-  const handleNextSubmit = (e: React.FormEvent) => {
+  const handleNextSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     // const validationErrors = validate1();
     // const validationErrors = validate(step);
@@ -337,7 +363,8 @@ const SignupPage: React.FC = () => {
       //   handleSubmit(e); 
       // }
       if (step === 1) {
-        const validationErrors = validate1();
+        // const validationErrors = validate1();
+        const validationErrors = await validate1();
         // validate1();
         if (Object.keys(validationErrors).length === 0) {
           setStep(2); // Only proceed to Step 2 if no validation errors
