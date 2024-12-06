@@ -4,7 +4,7 @@ import Link from "next/link";
 import logo from "../../Assests/logo.png";
 import login from "../../Assests/login.png";
 import { useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState, useEffect, ChangeEvent } from "react";
 import { auth, provider } from "../../Firebaseauth";
 import { User } from 'firebase/auth';
 import { signInWithPopup } from "firebase/auth";
@@ -24,6 +24,11 @@ type Errors = {
   userName?: string;
 };
 
+interface SocialLink {
+  platform: string;
+  url: string;
+}
+
 const SignupPage: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);
   const [imageSrc, setImageSrc] = useState('/profileimage.webp');
@@ -40,10 +45,33 @@ const SignupPage: React.FC = () => {
   const [languages, setLanguages] = useState<string[]>([]);
   const [languageInput, setLanguageInput] = useState<string>('');
   const [dob, setDob] = useState('');
+  const [socialLinks, setSocialLinks] =  useState<SocialLink[]>([
+    { platform: "LinkedIn", url: "" },
+    { platform: "GitHub", url: "" },
+    { platform: "Twitter", url: "" },
+    { platform: "Telegram", url: "" },
+  ]);
   const [education, setEducation] = useState(['']);
+  const [currentlyWorking, setCurrentlyWorking] = useState([
+    {
+      currentlyWorkingCompany: "",
+      currentlyWorkingRole: "",
+      currentlyWorkingDescription: "",
+    }
+  ])
   const [countryCode, setCountryCode] = useState<string>(""); // Default to India
   const [contactNumber, setContactNumber] = useState('');
+  const [portfolio, setPortfolio] = useState([
+    {
+      portfolioSrc: "",
+      portfolioRole: "",
+      portfolioLink: "",
+      portfolioDomain:"",
+    }
+  ])
   const [portfolioimage, setPortfolioimage] = useState<File | null>(null);
+  const [bioTitle, setBioTitle] = useState('');
+  const [bio, setBio] = useState('');
   const [skills, setSkills] = useState<string[]>([]); // Initialize as an array
   const [skillInput, setSkillInput] = useState<string>('');
   const [experiences, setExperiences] = useState([{ title: '', companyName: '', startDate: '', endDate: '', isCurrent: false }]);
@@ -113,7 +141,7 @@ const SignupPage: React.FC = () => {
           }
         );
         const data = await response.json();
-  
+
         if (response.status === 409) {
           if (data.errors.email) newErrors.email = data.errors.email;
           if (data.errors.userName) newErrors.userName = data.errors.userName;
@@ -142,8 +170,8 @@ const SignupPage: React.FC = () => {
     const newErrors: any = {};
 
     if (contactNumber && !/^\d{10}$/.test(contactNumber)) {
-        newErrors.contactNumber = "Contact number must be 10 digits";
-      }
+      newErrors.contactNumber = "Contact number must be 10 digits";
+    }
     return newErrors;
 
   }
@@ -183,6 +211,34 @@ const SignupPage: React.FC = () => {
     newLanguages.splice(index, 1);
     setLanguages(newLanguages);
   };
+
+  const handleSocialInputChange = (index: number, event: ChangeEvent<HTMLInputElement>) => {
+    const updatedLinks = [...socialLinks];
+    updatedLinks[index].url = event.target.value;
+    setSocialLinks(updatedLinks);
+  };
+
+  const handleCurrntlyWorkingInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setCurrentlyWorking((prevState) =>
+      prevState.map((job) =>
+        job.currentlyWorkingRole === "" ? 
+          {
+            ...job,
+            [name]: value,
+          } : job
+      )
+    );
+  };
+
+  const handleBioTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setBioTitle(e.target.value);
+  };
+
+  const handleBioChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setBio(e.target.value);
+  };
+
 
   const handleEducationChange = (index: number, value: string) => {
     const updatedEducation = [...education];
@@ -315,6 +371,12 @@ const SignupPage: React.FC = () => {
           email: formData.email,
           password: formData.password,
           userName: formData.userName,
+          dob: dob,
+          languages: languages,
+          socialLinks: socialLinks,
+          education: education,
+          countryCode: countryCode,
+          contactNumber: contactNumber,
         }),
       });
       const data = await response.json();
@@ -357,79 +419,79 @@ const SignupPage: React.FC = () => {
     // }
 
     // if (Object.keys(validationErrors).length === 0) {
-      // if (step < 10) {
-      //   setStep(step + 1); 
-      // } else {
-      //   handleSubmit(e); 
-      // }
-      if (step === 1) {
-        // const validationErrors = validate1();
-        const validationErrors = await validate1();
-        // validate1();
-        if (Object.keys(validationErrors).length === 0) {
-          setStep(2); // Only proceed to Step 2 if no validation errors
-        } else {
-          setErrors(validationErrors); // Set errors for display
-          toast.error(
-            `Form validation failed: ${Object.entries(validationErrors)
-              .map(([field, message]) => `${message}`)
-              .join(", ")}`
-          );
-        }
+    // if (step < 10) {
+    //   setStep(step + 1); 
+    // } else {
+    //   handleSubmit(e); 
+    // }
+    if (step === 1) {
+      // const validationErrors = validate1();
+      const validationErrors = await validate1();
+      // validate1();
+      if (Object.keys(validationErrors).length === 0) {
+        setStep(2); // Only proceed to Step 2 if no validation errors
+      } else {
+        setErrors(validationErrors); // Set errors for display
+        toast.error(
+          `Form validation failed: ${Object.entries(validationErrors)
+            .map(([field, message]) => `${message}`)
+            .join(", ")}`
+        );
       }
-      if (step === 2) {
-        setStep(3);
+    }
+    if (step === 2) {
+      setStep(3);
+    }
+    if (step === 3) {
+      // validate3();
+      // setStep(4);
+      const validationErrors = validate3();
+      // validate1();
+      if (Object.keys(validationErrors).length === 0) {
+        setStep(4);
+      } else {
+        setErrors(validationErrors);
+        toast.error(
+          `Form validation failed: ${Object.entries(validationErrors)
+            .map(([field, message]) => `${message}`)
+            .join(", ")}`
+        );
       }
-      if (step === 3) {
-        // validate3();
-        // setStep(4);
-        const validationErrors = validate3();
-        // validate1();
-        if (Object.keys(validationErrors).length === 0) {
-          setStep(4); 
-        } else {
-          setErrors(validationErrors); 
-          toast.error(
-            `Form validation failed: ${Object.entries(validationErrors)
-              .map(([field, message]) => `${message}`)
-              .join(", ")}`
-          );
-        }
+    }
+    if (step === 4) {
+      setStep(5);
+    }
+    if (step === 5) {
+      setStep(6);
+    }
+    if (step === 6) {
+      setStep(7);
+    }
+    if (step === 7) {
+      // setStep(8);
+      const validationErrors = validate7();
+      // validate1();
+      if (Object.keys(validationErrors).length === 0) {
+        setStep(8);
+      } else {
+        setErrors(validationErrors);
+        toast.error(
+          `Form validation failed: ${Object.entries(validationErrors)
+            .map(([field, message]) => `${message}`)
+            .join(", ")}`
+        );
       }
-      if (step === 4) {
-        setStep(5);
-      }
-      if (step === 5) {
-        setStep(6);
-      }
-      if (step === 6) {
-        setStep(7);
-      }
-      if (step === 7) {
-        // setStep(8);
-        const validationErrors = validate7();
-        // validate1();
-        if (Object.keys(validationErrors).length === 0) {
-          setStep(8); 
-        } else {
-          setErrors(validationErrors); 
-          toast.error(
-            `Form validation failed: ${Object.entries(validationErrors)
-              .map(([field, message]) => `${message}`)
-              .join(", ")}`
-          );
-        }
-      }
-      if (step === 8) {
-        setStep(9);
-      }
-      if (step === 9) {
-        setStep(10);
-      }
-      if (step === 10) {
-        console.log('Form submitted');
-        handleSubmit(e);
-      }
+    }
+    if (step === 8) {
+      setStep(9);
+    }
+    if (step === 9) {
+      setStep(10);
+    }
+    if (step === 10) {
+      console.log('Form submitted');
+      handleSubmit(e);
+    }
     // } else {
     //   setErrors(validationErrors);
     //   toast.error(
@@ -808,7 +870,7 @@ const SignupPage: React.FC = () => {
                 <h1 className="text-center text-2xl font-bold mt-4 mb-6">
                   Create Your Profile
                 </h1>
-                <h1 className="block text-gray-700 text-lg ">Enter Social Links</h1>
+                {/* <h1 className="block text-gray-700 text-lg ">Enter Social Links</h1>
                 <input
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2"
                   placeholder="LinkedIn Url"
@@ -830,7 +892,26 @@ const SignupPage: React.FC = () => {
                   className="w-full bg-blue-600 text-white py-2 rounded-lg text-md md:text-xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                   Next
+                </button> */}
+                <h1 className="block text-gray-700 text-lg">Enter Social Links</h1>
+                {socialLinks.map((link, index) => (
+                  <div key={index} className="mb-4">
+                    <input
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2"
+                      placeholder={`${link.platform} Url`}
+                      type="url"
+                      value={link.url}
+                      onChange={(e) => handleSocialInputChange(index, e)}
+                    />
+                  </div>
+                ))}
+                <button
+                  type="submit"
+                  className="w-full bg-blue-600 text-white py-2 rounded-lg text-md md:text-xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  Next
                 </button>
+
               </form>
             )}
 
@@ -927,17 +1008,23 @@ const SignupPage: React.FC = () => {
                 <input
                   type="text"
                   name="Role"
+                  value={currentlyWorking[0].currentlyWorkingRole}
+                  onChange={handleCurrntlyWorkingInputChange}
                   placeholder="eg: Web Developer"
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2"
                 />
                 <input
                   type="text"
                   name="companyname"
+                  value={currentlyWorking[0].currentlyWorkingCompany}
+                  onChange={handleCurrntlyWorkingInputChange}
                   placeholder="company name"
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2"
                 />
                 <textarea
                   name="description"
+                  value={currentlyWorking[0].currentlyWorkingDescription}
+                  onChange={handleCurrntlyWorkingInputChange}
                   placeholder="Description about the role"
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2"
                 />
@@ -1107,11 +1194,15 @@ const SignupPage: React.FC = () => {
                 <input
                   type="text"
                   name="Title"
+                  value={bioTitle} 
+                  onChange={handleBioTitleChange}
                   placeholder="eg: Web Developer"
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2"
                 />
                 <textarea
                   name="Bio"
+                  value={bio} 
+                  onChange={handleBioChange}
                   placeholder="Bio"
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2"
                 />

@@ -301,6 +301,128 @@ const router = express.Router();
 // @route   POST /api/auth/signup
 // @desc    Register new user
 
+// router.post("/signup", async (req, res) => {
+//   const { firstName, lastName, email, password, userName, ...optionalFields } = req.body;
+
+//   // Validate required fields
+//   if (!firstName || !lastName || !email || !password || !userName) {
+//     return res.status(400).json({ message: "Please fill in all required fields" });
+//   }
+
+//   try {
+//     // Check if email already exists
+//     const existingUser = await User.findOne({ email });
+//     if (existingUser) {
+//       return res.status(400).json({ message: "User already exists" });
+//     }
+
+//     // Check if username already exists
+//     const existingUserName = await User.findOne({ userName });
+//     if (existingUserName) {
+//       return res.status(400).json({ message: "Username already exists" });
+//     }
+
+//     // Parse optional fields only if they are provided
+//     const optionalData = {
+//       bioSkills: optionalFields.bioSkills
+//         ? Array.isArray(optionalFields.bioSkills)
+//           ? optionalFields.bioSkills
+//           : optionalFields.bioSkills.split(",")
+//         : undefined,
+//       profileSrc: optionalFields.profileSrc || undefined,
+//       coverSrc: optionalFields.coverSrc || undefined,
+//       dob: optionalFields.dob || undefined,
+//       languages: optionalFields.languages
+//         ? Array.isArray(optionalFields.languages)
+//           ? optionalFields.languages
+//           : optionalFields.languages.split(",")
+//         : undefined,
+//       socialLinks: optionalFields.socialLinks
+//         ? Array.isArray(optionalFields.socialLinks)
+//           ? optionalFields.socialLinks
+//           : optionalFields.socialLinks.split(",")
+//         : undefined,
+//       education: optionalFields.education
+//         ? Array.isArray(optionalFields.education)
+//           ? optionalFields.education
+//           : optionalFields.education.split(",")
+//         : undefined,
+//       currentlyWorkingCompany: optionalFields.currentlyWorkingCompany || undefined,
+//       currentlyWorkingRole: optionalFields.currentlyWorkingRole || undefined,
+//       currentlyWorkingDescription: optionalFields.currentlyWorkingDescription || undefined,
+//       countryCode: optionalFields.countryCode || undefined,
+//       contactNumber: optionalFields.contactNumber || undefined,
+//       portfolioSrc: optionalFields.portfolioSrc || undefined,
+//       portfolioRole: optionalFields.portfolioRole || undefined,
+//       portfolioLink: optionalFields.portfolioLink || undefined,
+//       portfolioDomain: optionalFields.portfolioDomain || undefined,
+//       bioTitle: optionalFields.bioTitle || undefined,
+//       bio: optionalFields.bio || undefined,
+//       experienceCompanyRole: optionalFields.experienceCompanyRole
+//         ? Array.isArray(optionalFields.experienceCompanyRole)
+//           ? optionalFields.experienceCompanyRole
+//           : optionalFields.experienceCompanyRole.split(",")
+//         : undefined,
+//       experienceCompanyName: optionalFields.experienceCompanyName
+//         ? Array.isArray(optionalFields.experienceCompanyName)
+//           ? optionalFields.experienceCompanyName
+//           : optionalFields.experienceCompanyName.split(",")
+//         : undefined,
+//       experienceStartDate: optionalFields.experienceStartDate
+//         ? Array.isArray(optionalFields.experienceStartDate)
+//           ? optionalFields.experienceStartDate
+//           : optionalFields.experienceStartDate.split(",")
+//         : undefined,
+//       experienceEndDate: optionalFields.experienceEndDate
+//         ? Array.isArray(optionalFields.experienceEndDate)
+//           ? optionalFields.experienceEndDate
+//           : optionalFields.experienceEndDate.split(",")
+//         : undefined,
+//       isCurrently: optionalFields.isCurrently ? Boolean(optionalFields.isCurrently) : undefined,
+//     };
+
+//     // Create a new user with required and optional fields
+//     const newUser = new User({
+//       firstName,
+//       lastName,
+//       email,
+//       password,
+//       userName,
+//       ...optionalData, // Spread optional fields
+//     });
+
+//     // Save the user
+//     await newUser.save();
+
+//     // Generate token
+//     const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
+//       expiresIn: "1h",
+//     });
+
+//     res.status(201).json({
+//       message: "User registered successfully",
+//       user: {
+//         id: newUser._id,
+//         firstName: newUser.firstName,
+//         lastName: newUser.lastName,
+//         email: newUser.email,
+//         userName: newUser.userName,
+//       },
+//       token,
+//     });
+//   } catch (err) {
+//     // Handle unique constraint errors
+//     if (err.code === 11000) {
+//       const duplicateKey = Object.keys(err.keyValue)[0];
+//       return res.status(400).json({ message: `${duplicateKey} already exists` });
+//     }
+
+//     res.status(500).json({ message: "Server error", error: err.message });
+//   }
+// });
+
+
+
 router.post("/signup", async (req, res) => {
   const { firstName, lastName, email, password, userName, ...optionalFields } = req.body;
 
@@ -328,7 +450,7 @@ router.post("/signup", async (req, res) => {
         ? Array.isArray(optionalFields.bioSkills)
           ? optionalFields.bioSkills
           : optionalFields.bioSkills.split(",")
-        : undefined,
+        : [],
       profileSrc: optionalFields.profileSrc || undefined,
       coverSrc: optionalFields.coverSrc || undefined,
       dob: optionalFields.dob || undefined,
@@ -336,49 +458,46 @@ router.post("/signup", async (req, res) => {
         ? Array.isArray(optionalFields.languages)
           ? optionalFields.languages
           : optionalFields.languages.split(",")
-        : undefined,
+        : [],
       socialLinks: optionalFields.socialLinks
-        ? Array.isArray(optionalFields.socialLinks)
-          ? optionalFields.socialLinks
-          : optionalFields.socialLinks.split(",")
-        : undefined,
+        ? optionalFields.socialLinks.map(link => ({
+            platform: link.platform,
+            url: link.url,
+          }))
+        : [],
       education: optionalFields.education
         ? Array.isArray(optionalFields.education)
           ? optionalFields.education
           : optionalFields.education.split(",")
-        : undefined,
-      currentlyWorkingCompany: optionalFields.currentlyWorkingCompany || undefined,
-      currentlyWorkingRole: optionalFields.currentlyWorkingRole || undefined,
-      currentlyWorkingDescription: optionalFields.currentlyWorkingDescription || undefined,
-      countryCode: optionalFields.countryCode || undefined,
+        : [],
+      currentlyWorking: optionalFields.currentlyWorking
+        ? optionalFields.currentlyWorking.map(job => ({
+            currentlyWorkingCompany: job.currentlyWorkingCompany,
+            currentlyWorkingRole: job.currentlyWorkingRole,
+            currentlyWorkingDescription: job.currentlyWorkingDescription,
+          }))
+        : [],
+      countryCode: optionalFields.countryCode || 'India', // Default to 'India' if not provided
       contactNumber: optionalFields.contactNumber || undefined,
-      portfolioSrc: optionalFields.portfolioSrc || undefined,
-      portfolioRole: optionalFields.portfolioRole || undefined,
-      portfolioLink: optionalFields.portfolioLink || undefined,
-      portfolioDomain: optionalFields.portfolioDomain || undefined,
+      portfolio: optionalFields.portfolio
+        ? optionalFields.portfolio.map(item => ({
+            portfolioSrc: item.portfolioSrc,
+            portfolioRole: item.portfolioRole,
+            portfolioLink: item.portfolioLink,
+            portfolioDomain: item.portfolioDomain || 'Others', // Default to 'Others' if not provided
+          }))
+        : [],
       bioTitle: optionalFields.bioTitle || undefined,
       bio: optionalFields.bio || undefined,
-      experienceCompanyRole: optionalFields.experienceCompanyRole
-        ? Array.isArray(optionalFields.experienceCompanyRole)
-          ? optionalFields.experienceCompanyRole
-          : optionalFields.experienceCompanyRole.split(",")
-        : undefined,
-      experienceCompanyName: optionalFields.experienceCompanyName
-        ? Array.isArray(optionalFields.experienceCompanyName)
-          ? optionalFields.experienceCompanyName
-          : optionalFields.experienceCompanyName.split(",")
-        : undefined,
-      experienceStartDate: optionalFields.experienceStartDate
-        ? Array.isArray(optionalFields.experienceStartDate)
-          ? optionalFields.experienceStartDate
-          : optionalFields.experienceStartDate.split(",")
-        : undefined,
-      experienceEndDate: optionalFields.experienceEndDate
-        ? Array.isArray(optionalFields.experienceEndDate)
-          ? optionalFields.experienceEndDate
-          : optionalFields.experienceEndDate.split(",")
-        : undefined,
-      isCurrently: optionalFields.isCurrently ? Boolean(optionalFields.isCurrently) : undefined,
+      experiences: optionalFields.experiences
+        ? optionalFields.experiences.map(exp => ({
+            title: exp.title,
+            companyName: exp.companyName,
+            startDate: exp.startDate,
+            endDate: exp.endDate,
+            isCurrently: exp.isCurrently || false,
+          }))
+        : [],
     };
 
     // Create a new user with required and optional fields
@@ -426,6 +545,7 @@ router.post("/check-availability", async (req, res) => {
   const { email, userName } = req.body;
 
   try {
+
     if (!email && !userName) {
       return res
         .status(400)
@@ -458,6 +578,7 @@ router.post("/check-availability", async (req, res) => {
   } catch (err) {
     res.status(500).json({ message: "Server error", error: err.message });
   }
+  
 });
 
 
