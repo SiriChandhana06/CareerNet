@@ -31,12 +31,12 @@ const userSchema = new mongoose.Schema({
   socialLinks: { type: [socialLinkSchema], default: [], },
   education: { type: [String] },
 
-  currentlyWorking: 
-    {
-      currentlyWorkingCompany: { type: String, default: ""  },
-      currentlyWorkingRole: { type: String, default: ""  },
-      currentlyWorkingDescription: { type: String, default: ""  },
-    },
+  // currentlyWorking: [
+  //   {
+  //     currentlyWorkingCompany: { type: String, default: ""  },
+  //     currentlyWorkingRole: { type: String, default: ""  },
+  //     currentlyWorkingDescription: { type: String, default: ""  },
+  //   }],
 
   countryCode: {
     type: String,

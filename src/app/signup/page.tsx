@@ -4,7 +4,7 @@ import Link from "next/link";
 import logo from "../../Assests/logo.png";
 import login from "../../Assests/login.png";
 import { useRouter } from "next/navigation";
-import { useState, useEffect, ChangeEvent } from "react";
+import { useState, useEffect } from "react";
 import { auth, provider } from "../../Firebaseauth";
 import { User } from 'firebase/auth';
 import { signInWithPopup } from "firebase/auth";
@@ -52,11 +52,11 @@ const SignupPage: React.FC = () => {
     { platform: "Telegram", url: "" },
   ]);  
   const [education, setEducation] = useState(['']);
-  const [currentlyWorking, setCurrentlyWorking] = useState({
-    currentlyWorkingCompany: "",
-    currentlyWorkingRole: "",
-    currentlyWorkingDescription: "",
-  });
+  // const [currentlyWorking, setCurrentlyWorking] = useState({
+  //   currentlyWorkingCompany: "",
+  //   currentlyWorkingRole: "",
+  //   currentlyWorkingDescription: "",
+  // });
   const [countryCode, setCountryCode] = useState<string>(""); // Default to India
   const [contactNumber, setContactNumber] = useState('');
   const [portfolio, setPortfolio] = useState([
@@ -164,7 +164,7 @@ const SignupPage: React.FC = () => {
 
   }
 
-  const validate7 = () => {
+  const validate6 = () => {
     const newErrors: any = {};
 
     if (contactNumber && !/^\d{10}$/.test(contactNumber)) {
@@ -220,15 +220,15 @@ const SignupPage: React.FC = () => {
   };
   
 
-  const handleCurrentlyWorkingInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    setCurrentlyWorking((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
+  // const handleCurrentlyWorkingInputChange = (
+  //   e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  // ) => {
+  //   const { name, value } = e.target;
+  //   setCurrentlyWorking((prevState) => ({
+  //     ...prevState,
+  //     [name]: value,
+  //   }));
+  // };
   
 
   const handleBioTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -364,11 +364,11 @@ const SignupPage: React.FC = () => {
 
     const filteredSocialLinks = socialLinks.map((link) => ({
       platform: link.platform,
-      url: link.url.trim() ? link.url : null, // Set empty URLs to null
+      url: link.url.trim() ? link.url : null, 
     }));
 
     try {
-      const response = await fetch("http://localhost:5000/api/auth/signup", {
+      const response = await fetch("https://career-net-server.vercel.app/api/auth/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -477,15 +477,15 @@ const SignupPage: React.FC = () => {
     if (step === 5) {
       setStep(6);
     }
+    // if (step === 6) {
+    //   setStep(7);
+    // }
     if (step === 6) {
-      setStep(7);
-    }
-    if (step === 7) {
       // setStep(8);
-      const validationErrors = validate7();
+      const validationErrors = validate6();
       // validate1();
       if (Object.keys(validationErrors).length === 0) {
-        setStep(8);
+        setStep(7);
       } else {
         setErrors(validationErrors);
         toast.error(
@@ -495,13 +495,13 @@ const SignupPage: React.FC = () => {
         );
       }
     }
+    if (step === 7) {
+      setStep(8);
+    }
     if (step === 8) {
       setStep(9);
     }
     if (step === 9) {
-      setStep(10);
-    }
-    if (step === 10) {
       console.log('Form submitted');
       handleSubmit(e);
     }
@@ -995,7 +995,7 @@ const SignupPage: React.FC = () => {
               </form>
             )}
 
-            {step === 6 && (
+            {/* {step === 6 && (
               <form
                 onSubmit={handleNextSubmit}
                 //  onSubmit={handleSubmit} 
@@ -1048,9 +1048,9 @@ const SignupPage: React.FC = () => {
                   Next
                 </button>
               </form>
-            )}
+            )} */}
 
-            {step === 7 && (
+            {step === 6 && (
               <form
                 onSubmit={handleNextSubmit}
                 // onSubmit={handleSubmit} 
@@ -1105,7 +1105,7 @@ const SignupPage: React.FC = () => {
               </form>
             )}
 
-            {step === 8 && (
+            {step === 7 && (
               <form
                 onSubmit={handleNextSubmit}
                 // onSubmit={handleSubmit} 
@@ -1182,7 +1182,7 @@ const SignupPage: React.FC = () => {
               </form>
             )}
 
-            {step === 9 && (
+            {step === 8 && (
               <form
                 onSubmit={handleNextSubmit}
                 // onSubmit={handleSubmit} 
@@ -1258,7 +1258,7 @@ const SignupPage: React.FC = () => {
               </form>
             )}
 
-            {step === 10 && (
+            {step === 9 && (
               <form
                 onSubmit={handleNextSubmit}
                 //  onSubmit={handleSubmit} 

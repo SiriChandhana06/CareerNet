@@ -470,13 +470,13 @@ router.post("/signup", async (req, res) => {
           ? optionalFields.education
           : optionalFields.education.split(",")
         : [],
-      currentlyWorking: optionalFields.currentlyWorking
-        ? optionalFields.currentlyWorking.map(job => ({
-            currentlyWorkingCompany: job.currentlyWorkingCompany,
-            currentlyWorkingRole: job.currentlyWorkingRole,
-            currentlyWorkingDescription: job.currentlyWorkingDescription,
-          }))
-        : [],
+      // currentlyWorking: optionalFields.currentlyWorking
+      //   ? optionalFields.currentlyWorking.map(job => ({
+      //       currentlyWorkingCompany: job.currentlyWorkingCompany,
+      //       currentlyWorkingRole: job.currentlyWorkingRole,
+      //       currentlyWorkingDescription: job.currentlyWorkingDescription,
+      //     }))
+      //   : [],
       countryCode: optionalFields.countryCode || 'India', // Default to 'India' if not provided
       contactNumber: optionalFields.contactNumber || undefined,
       portfolio: optionalFields.portfolio
