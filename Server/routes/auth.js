@@ -518,6 +518,8 @@ router.post("/signup", async (req, res) => {
       expiresIn: "1h",
     });
 
+    // console.log(req.body);
+
     res.status(201).json({
       message: "User registered successfully",
       user: {

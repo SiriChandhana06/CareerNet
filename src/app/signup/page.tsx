@@ -45,12 +45,12 @@ const SignupPage: React.FC = () => {
   const [languages, setLanguages] = useState<string[]>([]);
   const [languageInput, setLanguageInput] = useState<string>('');
   const [dob, setDob] = useState('');
-  const [socialLinks, setSocialLinks] =  useState<SocialLink[]>([
+  const [socialLinks, setSocialLinks] = useState<SocialLink[]>([
     { platform: "LinkedIn", url: "" },
     { platform: "GitHub", url: "" },
     { platform: "Twitter", url: "" },
     { platform: "Telegram", url: "" },
-  ]);
+  ]);  
   const [education, setEducation] = useState(['']);
   const [currentlyWorking, setCurrentlyWorking] = useState({
     currentlyWorkingCompany: "",
@@ -72,7 +72,7 @@ const SignupPage: React.FC = () => {
   const [bio, setBio] = useState('');
   const [skills, setSkills] = useState<string[]>([]); // Initialize as an array
   const [skillInput, setSkillInput] = useState<string>('');
-  const [experiences, setExperiences] = useState([{ title: '', companyName: '', startDate: '', endDate: '', isCurrent: false }]);
+  const [experiences, setExperiences] = useState([{ title: '', companyName: '', startDate: '', endDate: '', isCurrently: false }]);
   const [errors, setErrors] = useState<Errors>({});
   const [error, setError] = useState('');
   const router = useRouter();
@@ -210,11 +210,15 @@ const SignupPage: React.FC = () => {
     setLanguages(newLanguages);
   };
 
-  const handleSocialInputChange = (index: number, event: ChangeEvent<HTMLInputElement>) => {
+  const handleSocialInputChange = (
+    index: number,
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const updatedLinks = [...socialLinks];
     updatedLinks[index].url = event.target.value;
     setSocialLinks(updatedLinks);
   };
+  
 
   const handleCurrentlyWorkingInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -294,7 +298,7 @@ const SignupPage: React.FC = () => {
 
     // If all required fields are filled, clear error and add a new form
     setError('');
-    setExperiences([...experiences, { title: '', companyName: '', startDate: '', endDate: '', isCurrent: false }]);
+    setExperiences([...experiences, { title: '', companyName: '', startDate: '', endDate: '', isCurrently: false }]);
   };
 
 
@@ -311,6 +315,7 @@ const SignupPage: React.FC = () => {
     });
     setExperiences(updatedExperiences);
   };
+  
 
 
   const category = [
@@ -355,8 +360,15 @@ const SignupPage: React.FC = () => {
   // };
 
   const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const filteredSocialLinks = socialLinks.map((link) => ({
+      platform: link.platform,
+      url: link.url.trim() ? link.url : null, // Set empty URLs to null
+    }));
+
     try {
-      const response = await fetch("https://career-net-server.vercel.app/api/auth/signup", {
+      const response = await fetch("http://localhost:5000/api/auth/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -369,11 +381,11 @@ const SignupPage: React.FC = () => {
           userName: formData.userName,
           dob: dob,
           languages: languages,
-          socialLinks: socialLinks,
+          socialLinks: filteredSocialLinks,
           education: education,
-          currentlyWorking: currentlyWorking,
           countryCode: countryCode,
           contactNumber: contactNumber,
+          // currentlyWorking: currentlyWorking,
           bioTitle: bioTitle,
           bio: bio,
           bioSkills: skills,
@@ -1194,14 +1206,14 @@ const SignupPage: React.FC = () => {
                 </h1>
                 <input
                   type="text"
-                  name="Title"
+                  name="bioTitle"
                   value={bioTitle} 
                   onChange={handleBioTitleChange}
                   placeholder="eg: Web Developer"
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2"
                 />
                 <textarea
-                  name="Bio"
+                  name="bio"
                   value={bio} 
                   onChange={handleBioChange}
                   placeholder="Bio"
@@ -1314,8 +1326,8 @@ const SignupPage: React.FC = () => {
                     <div className="flex gap-4 items-center mt-4">
                       <input
                         type="checkbox"
-                        name="isCurrent"
-                        checked={experience.isCurrent}
+                        name="isCurrently"
+                        checked={experience.isCurrently}
                         onChange={(e) => handleInputChange(index, e)}
                         className="h-5 w-5"
                       />

@@ -5,13 +5,13 @@ const bcrypt = require("bcryptjs");
 const socialLinkSchema = new mongoose.Schema({
   platform: {
     type: String,
-    enum: ["LinkedIn", "GitHub", "Twitter", "Telegram"], // Limits to valid platforms
+    enum: ["LinkedIn", "GitHub", "Twitter", "Telegram"], // Valid platforms
   },
   url: {
     type: String,
     validate: {
       validator: function (v) {
-        return /^(ftp|http|https):\/\/[^ "]+$/.test(v); // Basic URL validation
+        return !v || /^(ftp|http|https):\/\/[^ "]+$/.test(v); // Allow empty or valid URL
       },
       message: (props) => `${props.value} is not a valid URL!`,
     },
@@ -33,9 +33,9 @@ const userSchema = new mongoose.Schema({
 
   currentlyWorking: 
     {
-      currentlyWorkingCompany: { type: String },
-      currentlyWorkingRole: { type: String },
-      currentlyWorkingDescription: { type: String },
+      currentlyWorkingCompany: { type: String, default: ""  },
+      currentlyWorkingRole: { type: String, default: ""  },
+      currentlyWorkingDescription: { type: String, default: ""  },
     },
 
   countryCode: {
@@ -45,32 +45,30 @@ const userSchema = new mongoose.Schema({
   },
   contactNumber: { type: String },
 
-  portfolio: [
+  portfolio: 
     {
-      portfolioSrc: { type: String },
-      portfolioRole: { type: String },
-      portfolioLink: { type: String },
+      portfolioSrc: { type: String, default: ""  },
+      portfolioRole: { type: String, default: ""  },
+      portfolioLink: { type: String, default: ""  },
       portfolioDomain: {
         type: String,
         enum: ['Graphic Design', 'Cartoon Animation', 'Illustration', 'Web Development', 'Logo Design', 'Social Graphics', 'Article Writing', 'Video Editing', 'App Development', 'AI & ML', 'UI & UX', 'Digital Marketing', 'Photography', 'Others'],
         default: 'Others'
       },
-    }
-  ],
+    },
 
-  bioTitle: { type: String },
-  bio: { type: String },
+  bioTitle: { type: String, default: ""  },
+  bio: { type: String, default: ""  },
   bioSkills: {
     type: [String],
-    required: true
   },
   
   experiences: [
     {
-      title: { type: String },
-      companyName: { type: String },
-      startDate: { type: String },
-      endDate: { type: String },
+      title: { type: String, default: "" },
+      companyName: { type: String, default: "" },
+      startDate: { type: String, default: "" },
+      endDate: { type: String, default: "" },
       isCurrently: { type: Boolean, default: false },
     },
   ],
