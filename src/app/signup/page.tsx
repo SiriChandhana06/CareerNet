@@ -52,13 +52,11 @@ const SignupPage: React.FC = () => {
     { platform: "Telegram", url: "" },
   ]);
   const [education, setEducation] = useState(['']);
-  const [currentlyWorking, setCurrentlyWorking] = useState([
-    {
-      currentlyWorkingCompany: "",
-      currentlyWorkingRole: "",
-      currentlyWorkingDescription: "",
-    }
-  ])
+  const [currentlyWorking, setCurrentlyWorking] = useState({
+    currentlyWorkingCompany: "",
+    currentlyWorkingRole: "",
+    currentlyWorkingDescription: "",
+  });
   const [countryCode, setCountryCode] = useState<string>(""); // Default to India
   const [contactNumber, setContactNumber] = useState('');
   const [portfolio, setPortfolio] = useState([
@@ -218,18 +216,16 @@ const SignupPage: React.FC = () => {
     setSocialLinks(updatedLinks);
   };
 
-  const handleCurrntlyWorkingInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleCurrentlyWorkingInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
-    setCurrentlyWorking((prevState) =>
-      prevState.map((job) =>
-        job.currentlyWorkingRole === "" ? 
-          {
-            ...job,
-            [name]: value,
-          } : job
-      )
-    );
+    setCurrentlyWorking((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
   };
+  
 
   const handleBioTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setBioTitle(e.target.value);
@@ -375,8 +371,13 @@ const SignupPage: React.FC = () => {
           languages: languages,
           socialLinks: socialLinks,
           education: education,
+          currentlyWorking: currentlyWorking,
           countryCode: countryCode,
           contactNumber: contactNumber,
+          bioTitle: bioTitle,
+          bio: bio,
+          bioSkills: skills,
+          experiences: experiences,
         }),
       });
       const data = await response.json();
@@ -1007,24 +1008,24 @@ const SignupPage: React.FC = () => {
                 <h1 className="block text-gray-700 text-lg ">Currently Working Job</h1>
                 <input
                   type="text"
-                  name="Role"
-                  value={currentlyWorking[0].currentlyWorkingRole}
-                  onChange={handleCurrntlyWorkingInputChange}
+                  name="currentlyWorkingRole"
+                  value={currentlyWorking.currentlyWorkingRole}
+                  onChange={handleCurrentlyWorkingInputChange}
                   placeholder="eg: Web Developer"
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2"
                 />
                 <input
                   type="text"
-                  name="companyname"
-                  value={currentlyWorking[0].currentlyWorkingCompany}
-                  onChange={handleCurrntlyWorkingInputChange}
+                  name="currentlyWorkingCompany"
+                  value={currentlyWorking.currentlyWorkingCompany}
+                  onChange={handleCurrentlyWorkingInputChange}
                   placeholder="company name"
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2"
                 />
                 <textarea
-                  name="description"
-                  value={currentlyWorking[0].currentlyWorkingDescription}
-                  onChange={handleCurrntlyWorkingInputChange}
+                  name="currentlyWorkingDescription"
+                  value={currentlyWorking.currentlyWorkingDescription}
+                  onChange={handleCurrentlyWorkingInputChange}
                   placeholder="Description about the role"
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2"
                 />
