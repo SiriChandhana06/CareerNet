@@ -8,7 +8,7 @@
 // // Middleware to verify JWT
 // // function verifyToken(req, res, next) {
 // //   const token = req.headers["authorization"];
-  
+
 // //   if (!token) {
 // //     return res.status(403).json({ message: "No token provided" });
 // //   }
@@ -238,7 +238,7 @@ const router = express.Router();
 // Middleware to verify JWT
 // function verifyToken(req, res, next) {
 //   const token = req.headers["authorization"];
-  
+
 //   if (!token) {
 //     return res.status(403).json({ message: "No token provided" });
 //   }
@@ -461,9 +461,9 @@ router.post("/signup", async (req, res) => {
         : [],
       socialLinks: optionalFields.socialLinks
         ? optionalFields.socialLinks.map(link => ({
-            platform: link.platform,
-            url: link.url,
-          }))
+          platform: link.platform,
+          url: link.url,
+        }))
         : [],
       education: optionalFields.education
         ? Array.isArray(optionalFields.education)
@@ -479,24 +479,32 @@ router.post("/signup", async (req, res) => {
       //   : [],
       countryCode: optionalFields.countryCode || 'India', // Default to 'India' if not provided
       contactNumber: optionalFields.contactNumber || undefined,
-      portfolio: optionalFields.portfolio
+      // portfolio: optionalFields.portfolio
+      //   ? optionalFields.portfolio.map(item => ({
+      //     portfolioSrc: item.portfolioSrc,
+      //     portfolioRole: item.portfolioRole,
+      //     portfolioLink: item.portfolioLink,
+      //     portfolioDomain: item.portfolioDomain || 'Others', // Default to 'Others' if not provided
+      //   }))
+      //   : [],
+      portfolio : optionalFields.portfolio
         ? optionalFields.portfolio.map(item => ({
-            portfolioSrc: item.portfolioSrc,
-            portfolioRole: item.portfolioRole,
-            portfolioLink: item.portfolioLink,
-            portfolioDomain: item.portfolioDomain || 'Others', // Default to 'Others' if not provided
-          }))
+          portfolioSrc: item.portfolioSrc || "", 
+          portfolioRole: item.portfolioRole || "", 
+          portfolioLink: item.portfolioLink || "", 
+          portfolioDomain: item.portfolioDomain || "Others", 
+        }))
         : [],
       bioTitle: optionalFields.bioTitle || undefined,
       bio: optionalFields.bio || undefined,
       experiences: optionalFields.experiences
         ? optionalFields.experiences.map(exp => ({
-            title: exp.title,
-            companyName: exp.companyName,
-            startDate: exp.startDate,
-            endDate: exp.endDate,
-            isCurrently: exp.isCurrently || false,
-          }))
+          title: exp.title,
+          companyName: exp.companyName,
+          startDate: exp.startDate,
+          endDate: exp.endDate,
+          isCurrently: exp.isCurrently || false,
+        }))
         : [],
     };
 
@@ -580,7 +588,7 @@ router.post("/check-availability", async (req, res) => {
   } catch (err) {
     res.status(500).json({ message: "Server error", error: err.message });
   }
-  
+
 });
 
 

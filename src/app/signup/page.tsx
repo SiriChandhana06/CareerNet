@@ -32,6 +32,7 @@ interface SocialLink {
 const SignupPage: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);
   const [imageSrc, setImageSrc] = useState('/profileimage.webp');
+  const [coverImageSrc, setCoverImageSrc] = useState<string | null>(null);
   const [fileName, setFileName] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     firstName: "",
@@ -50,7 +51,7 @@ const SignupPage: React.FC = () => {
     { platform: "GitHub", url: "" },
     { platform: "Twitter", url: "" },
     { platform: "Telegram", url: "" },
-  ]);  
+  ]);
   const [education, setEducation] = useState(['']);
   // const [currentlyWorking, setCurrentlyWorking] = useState({
   //   currentlyWorkingCompany: "",
@@ -59,15 +60,15 @@ const SignupPage: React.FC = () => {
   // });
   const [countryCode, setCountryCode] = useState<string>(""); // Default to India
   const [contactNumber, setContactNumber] = useState('');
-  const [portfolio, setPortfolio] = useState([
+  const [portfolio, setPortfolio] = useState(
     {
       portfolioSrc: "",
       portfolioRole: "",
       portfolioLink: "",
-      portfolioDomain:"",
+      portfolioDomain: "",
     }
-  ])
-  const [portfolioimage, setPortfolioimage] = useState<File | null>(null);
+  )
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [bioTitle, setBioTitle] = useState('');
   const [bio, setBio] = useState('');
   const [skills, setSkills] = useState<string[]>([]); // Initialize as an array
@@ -77,6 +78,8 @@ const SignupPage: React.FC = () => {
   const [error, setError] = useState('');
   const router = useRouter();
   const [step, setStep] = useState(1);
+  const [loading, setLoading] = useState(false);
+
 
   const handleGoogleSignIn = async () => {
     try {
@@ -173,6 +176,7 @@ const SignupPage: React.FC = () => {
     return newErrors;
 
   }
+
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
 
@@ -182,18 +186,36 @@ const SignupPage: React.FC = () => {
       reader.onload = (event) => {
         const result = event.target?.result;
         if (typeof result === 'string') {
-          setImageSrc(result); // Set the image preview
+          setImageSrc(result); // Update `imageSrc` with the Base64 URL
         }
-
       };
 
-      reader.readAsDataURL(file); // Convert the image to base64 string for preview
+      reader.readAsDataURL(file); // Convert the image to Base64
     }
   };
 
+
+  // const handleCoverFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   if (e.target.files && e.target.files.length > 0) {
+  //     setFileName(e.target.files[0].name);
+  //   }
+  // };
+
   const handleCoverFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length > 0) {
-      setFileName(e.target.files[0].name);
+    const file = e.target.files?.[0];
+
+    if (file) {
+      const reader = new FileReader();
+
+      reader.onload = (event) => {
+        const result = event.target?.result;
+        if (typeof result === 'string') {
+          setCoverImageSrc(result); // Update `coverImageSrc` with the Base64 URL
+          setFileName(file.name); // Set the file name for display
+        }
+      };
+
+      reader.readAsDataURL(file); // Convert the image to Base64
     }
   };
 
@@ -218,7 +240,7 @@ const SignupPage: React.FC = () => {
     updatedLinks[index].url = event.target.value;
     setSocialLinks(updatedLinks);
   };
-  
+
 
   // const handleCurrentlyWorkingInputChange = (
   //   e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -229,7 +251,7 @@ const SignupPage: React.FC = () => {
   //     [name]: value,
   //   }));
   // };
-  
+
 
   const handleBioTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setBioTitle(e.target.value);
@@ -287,7 +309,7 @@ const SignupPage: React.FC = () => {
 
 
   const handleAddExperience = () => {
-    
+
     const lastExperience = experiences[experiences.length - 1];
 
     if (!lastExperience.title || !lastExperience.companyName || !lastExperience.startDate) {
@@ -315,8 +337,35 @@ const SignupPage: React.FC = () => {
     });
     setExperiences(updatedExperiences);
   };
-  
 
+
+  const handlePortfolioFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const result = event.target?.result;
+        if (typeof result === "string") {
+          setPortfolio((prev) => ({
+            ...prev,
+            portfolioSrc: result, // Update Base64 value
+          }));
+        }
+      };
+      reader.readAsDataURL(file); // Convert to Base64
+      setSelectedFile(file);
+    }
+  };
+
+  const handlePortfolioInputChange = (
+    field: "portfolioRole" | "portfolioLink" | "portfolioDomain",
+    value: string
+  ) => {
+    setPortfolio((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+  };
 
   const category = [
     "Graphic Design",
@@ -361,11 +410,20 @@ const SignupPage: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
 
     const filteredSocialLinks = socialLinks.map((link) => ({
       platform: link.platform,
-      url: link.url.trim() ? link.url : null, 
+      url: link.url.trim() ? link.url : null,
     }));
+
+
+    const portfolioData: any = {};
+
+  if (portfolio.portfolioSrc) portfolioData.portfolioSrc = portfolio.portfolioSrc;
+  if (portfolio.portfolioRole) portfolioData.portfolioRole = portfolio.portfolioRole;
+  if (portfolio.portfolioLink) portfolioData.portfolioLink = portfolio.portfolioLink;
+  if (portfolio.portfolioDomain) portfolioData.portfolioDomain = portfolio.portfolioDomain;
 
     try {
       const response = await fetch("https://career-net-server.vercel.app/api/auth/signup", {
@@ -385,6 +443,9 @@ const SignupPage: React.FC = () => {
           education: education,
           countryCode: countryCode,
           contactNumber: contactNumber,
+          profileSrc: imageSrc,
+          coverSrc: coverImageSrc,
+          portfolio: [portfolioData],
           // currentlyWorking: currentlyWorking,
           bioTitle: bioTitle,
           bio: bio,
@@ -409,6 +470,8 @@ const SignupPage: React.FC = () => {
     } catch (error) {
       console.error("Error submitting form:", error);
       toast.error("An unexpected error occurred.");
+    } finally {
+      setLoading(false); // Enable button after request completes
     }
     // } else {
     //   console.error("Form validation failed:", formattedErrors);
@@ -765,7 +828,7 @@ const SignupPage: React.FC = () => {
                       <label htmlFor="fileInput" className="bg-blue-500 text-white px-4 py-2 rounded cursor-pointer">
                         Select File
                       </label>
-                      {/* <span className="ml-4">{fileName || 'No file selected'}</span> */}
+                      <span className="ml-4">{fileName || 'No file selected'}</span>
                     </div>
                   </div>
                   <button
@@ -1131,22 +1194,37 @@ const SignupPage: React.FC = () => {
                 <div>
                   <label className="block text-gray-700 font-bold mb-2">Upload image </label>
                   <div className="flex items-center border border-gray-300 p-2 rounded">
-                    <input type="file" accept='.png, .jpg, .jpeg, .bmp, .tiff' className="hidden" id="fileInput" />
+                    <input type="file" accept='.png, .jpg, .jpeg, .bmp, .tiff' className="hidden" onChange={handlePortfolioFileChange} id="fileInput" />
                     <label htmlFor="fileInput" className="bg-blue-500 text-white px-4 py-2 rounded cursor-pointer">
                       Select File
                     </label>
-                    <span className="ml-4">{portfolioimage ? portfolioimage.name : 'No file selected'}</span>
+                    <span className="ml-4">{selectedFile ? selectedFile.name : "No file selected"}</span>
                   </div>
+                  {portfolio.portfolioSrc && (
+                    <img
+                      src={portfolio.portfolioSrc}
+                      alt="Portfolio Preview"
+                      className="mt-2 w-full h-auto rounded shadow"
+                    />
+                  )}
                 </div>
                 <input
                   type="text"
                   name="Role"
+                  value={portfolio.portfolioRole}
+                  onChange={(e) =>
+                    handlePortfolioInputChange("portfolioRole", e.target.value)
+                  }
                   placeholder="eg: Web Developer"
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2"
                 />
                 <input
                   type="url"
                   name="link"
+                  value={portfolio.portfolioLink}
+                  onChange={(e) =>
+                    handlePortfolioInputChange("portfolioLink", e.target.value)
+                  }
                   placeholder="Portfolio Link"
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2"
                 />
@@ -1156,12 +1234,11 @@ const SignupPage: React.FC = () => {
                   </label>
                   <select
                     id="titleDropdown"
-                    // value={formData.category}
-                    // onChange={handleTitleChange}
-                    // onChange={(e) =>
-                    //     setFormData({ ...formData, category: e.target.value })
-                    // }
                     className="border border-gray-300 p-2 rounded-md w-full"
+                    value={portfolio.portfolioDomain}
+                    onChange={(e) =>
+                      handlePortfolioInputChange("portfolioDomain", e.target.value)
+                    }
                   >
                     <option value="" disabled>
                       -- Select an option --
@@ -1207,14 +1284,14 @@ const SignupPage: React.FC = () => {
                 <input
                   type="text"
                   name="bioTitle"
-                  value={bioTitle} 
+                  value={bioTitle}
                   onChange={handleBioTitleChange}
                   placeholder="eg: Web Developer"
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2"
                 />
                 <textarea
                   name="bio"
-                  value={bio} 
+                  value={bio}
                   onChange={handleBioChange}
                   placeholder="Bio"
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2"
@@ -1344,9 +1421,12 @@ const SignupPage: React.FC = () => {
                 </div>
                 <button
                   type="submit"
-                  className="w-full bg-blue-600 text-white py-2 rounded-lg text-md md:text-xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className={`w-full py-2 rounded-lg text-md md:text-xl text-white ${loading ? "bg-gray-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700 focus:ring-2 focus:ring-blue-500"
+                    }`}
+                  disabled={loading}
+                // className="w-full bg-blue-600 text-white py-2 rounded-lg text-md md:text-xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
-                  Submit
+                  {loading ? "Uploading..." : "Submit"}
                 </button>
               </form>
             )}
