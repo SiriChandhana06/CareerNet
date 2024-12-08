@@ -287,7 +287,7 @@ const SignupPage: React.FC = () => {
 
 
   const handleAddExperience = () => {
-    // Validate the last experience fields
+    
     const lastExperience = experiences[experiences.length - 1];
 
     if (!lastExperience.title || !lastExperience.companyName || !lastExperience.startDate) {
