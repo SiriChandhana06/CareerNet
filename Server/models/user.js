@@ -44,18 +44,15 @@ const userSchema = new mongoose.Schema({
     default: 'India'
   },
   contactNumber: { type: String },
-
-  portfolio: 
-    {
-      portfolioSrc: { type: String, default: ""  },
-      portfolioRole: { type: String, default: ""  },
-      portfolioLink: { type: String, default: ""  },
-      portfolioDomain: {
+  
+  portfolioSrc: { type: String, default: ""  },
+  portfolioRole: { type: String, default: ""  },
+  portfolioLink: { type: String, default: ""  },
+  portfolioDomain: {
         type: String,
         enum: ['Graphic Design', 'Cartoon Animation', 'Illustration', 'Web Development', 'Logo Design', 'Social Graphics', 'Article Writing', 'Video Editing', 'App Development', 'AI & ML', 'UI & UX', 'Digital Marketing', 'Photography', 'Others'],
         default: 'Others'
       },
-    },
 
   bioTitle: { type: String, default: ""  },
   bio: { type: String, default: ""  },

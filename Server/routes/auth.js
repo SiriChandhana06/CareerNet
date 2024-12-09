@@ -487,14 +487,19 @@ router.post("/signup", async (req, res) => {
       //     portfolioDomain: item.portfolioDomain || 'Others', // Default to 'Others' if not provided
       //   }))
       //   : [],
-      portfolio : optionalFields.portfolio
-        ? optionalFields.portfolio.map(item => ({
-          portfolioSrc: item.portfolioSrc || "", 
-          portfolioRole: item.portfolioRole || "", 
-          portfolioLink: item.portfolioLink || "", 
-          portfolioDomain: item.portfolioDomain || "Others", 
-        }))
-        : [],
+      // portfolio : optionalFields.portfolio
+      //   ? optionalFields.portfolio.map(item => ({
+      //     portfolioSrc: item.portfolioSrc || "", 
+      //     portfolioRole: item.portfolioRole || "", 
+      //     portfolioLink: item.portfolioLink || "", 
+      //     portfolioDomain: item.portfolioDomain || "Others", 
+      //   }))
+      //   : [],
+      // portfolio: optionalFields.portfolio || {},
+      portfolioSrc: optionalFields.portfolioSrc || undefined,
+      portfolioRole: optionalFields.portfolioRole || undefined,
+      portfolioLink: optionalFields.portfolioLink || undefined,
+      portfolioDomain: optionalFields.portfolioDomain || 'Others',
       bioTitle: optionalFields.bioTitle || undefined,
       bio: optionalFields.bio || undefined,
       experiences: optionalFields.experiences
@@ -521,12 +526,14 @@ router.post("/signup", async (req, res) => {
     // Save the user
     await newUser.save();
 
+    console.log(newUser);
+
     // Generate token
     const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
       expiresIn: "1h",
     });
 
-    // console.log(req.body);
+    console.log(req.body);
 
     res.status(201).json({
       message: "User registered successfully",

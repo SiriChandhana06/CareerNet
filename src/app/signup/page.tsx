@@ -60,14 +60,16 @@ const SignupPage: React.FC = () => {
   // });
   const [countryCode, setCountryCode] = useState<string>(""); // Default to India
   const [contactNumber, setContactNumber] = useState('');
-  const [portfolio, setPortfolio] = useState(
-    {
-      portfolioSrc: "",
-      portfolioRole: "",
-      portfolioLink: "",
-      portfolioDomain: "",
-    }
-  )
+  const [portfolioSrc, setPortfolioSrc] = useState('');
+  const [portfolioRole, setPortfolioRole] = useState('');
+  const [portfolioLink, setPortfolioLink] = useState('');
+  const [portfolioDomain, setPortfolioDomain] = useState('');
+  // {
+  //   portfolioSrc: "",
+  //   portfolioRole: "",
+  //   portfolioLink: "",
+  //   portfolioDomain: "",
+  // }
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [bioTitle, setBioTitle] = useState('');
   const [bio, setBio] = useState('');
@@ -346,10 +348,11 @@ const SignupPage: React.FC = () => {
       reader.onload = (event) => {
         const result = event.target?.result;
         if (typeof result === "string") {
-          setPortfolio((prev) => ({
-            ...prev,
-            portfolioSrc: result, // Update Base64 value
-          }));
+          // setPortfolioSrc((prev) => ({
+          //   ...prev,
+          //   portfolioSrc: result, // Update Base64 value
+          // }));
+          setPortfolioSrc(result);
         }
       };
       reader.readAsDataURL(file); // Convert to Base64
@@ -357,14 +360,27 @@ const SignupPage: React.FC = () => {
     }
   };
 
+  // const handlePortfolioInputChange = (
+  //   field: "portfolioRole" | "portfolioLink" | "portfolioDomain",
+  //   value: string
+  // ) => {
+  //   setPortfolio((prev) => ({
+  //     ...prev,
+  //     [field]: value,
+  //   }));
+  // };
+
   const handlePortfolioInputChange = (
     field: "portfolioRole" | "portfolioLink" | "portfolioDomain",
     value: string
   ) => {
-    setPortfolio((prev) => ({
-      ...prev,
-      [field]: value,
-    }));
+    if (field === "portfolioRole") {
+      setPortfolioRole(value);
+    } else if (field === "portfolioLink") {
+      setPortfolioLink(value);
+    } else if (field === "portfolioDomain") {
+      setPortfolioDomain(value);
+    }
   };
 
   const category = [
@@ -418,12 +434,12 @@ const SignupPage: React.FC = () => {
     }));
 
 
-    const portfolioData: any = {};
+    // const portfolioData: any = {};
 
-  if (portfolio.portfolioSrc) portfolioData.portfolioSrc = portfolio.portfolioSrc;
-  if (portfolio.portfolioRole) portfolioData.portfolioRole = portfolio.portfolioRole;
-  if (portfolio.portfolioLink) portfolioData.portfolioLink = portfolio.portfolioLink;
-  if (portfolio.portfolioDomain) portfolioData.portfolioDomain = portfolio.portfolioDomain;
+    // if (portfolioSrc) portfolioData.portfolioSrc = portfolioSrc;
+    // if (portfolioRole) portfolioData.portfolioRole = portfolioRole;
+    // if (portfolioLink) portfolioData.portfolioLink = portfolioLink;
+    // if (portfolioDomain) portfolioData.portfolioDomain = portfolioDomain;
 
     try {
       const response = await fetch("https://career-net-server.vercel.app/api/auth/signup", {
@@ -445,8 +461,12 @@ const SignupPage: React.FC = () => {
           contactNumber: contactNumber,
           profileSrc: imageSrc,
           coverSrc: coverImageSrc,
-          portfolio: [portfolioData],
+          // portfolio: [portfolioData],
           // currentlyWorking: currentlyWorking,
+          portfolioSrc : portfolioSrc,
+          portfolioRole : portfolioRole,
+          portfolioLink : portfolioLink,
+          portfolioDomain: portfolioDomain,
           bioTitle: bioTitle,
           bio: bio,
           bioSkills: skills,
@@ -1200,9 +1220,9 @@ const SignupPage: React.FC = () => {
                     </label>
                     <span className="ml-4">{selectedFile ? selectedFile.name : "No file selected"}</span>
                   </div>
-                  {portfolio.portfolioSrc && (
+                  {portfolioSrc && (
                     <img
-                      src={portfolio.portfolioSrc}
+                      src={portfolioSrc}
                       alt="Portfolio Preview"
                       className="mt-2 w-full h-auto rounded shadow"
                     />
@@ -1211,7 +1231,7 @@ const SignupPage: React.FC = () => {
                 <input
                   type="text"
                   name="Role"
-                  value={portfolio.portfolioRole}
+                  value={portfolioRole}
                   onChange={(e) =>
                     handlePortfolioInputChange("portfolioRole", e.target.value)
                   }
@@ -1221,7 +1241,7 @@ const SignupPage: React.FC = () => {
                 <input
                   type="url"
                   name="link"
-                  value={portfolio.portfolioLink}
+                  value={portfolioLink}
                   onChange={(e) =>
                     handlePortfolioInputChange("portfolioLink", e.target.value)
                   }
@@ -1235,7 +1255,7 @@ const SignupPage: React.FC = () => {
                   <select
                     id="titleDropdown"
                     className="border border-gray-300 p-2 rounded-md w-full"
-                    value={portfolio.portfolioDomain}
+                    value={portfolioDomain}
                     onChange={(e) =>
                       handlePortfolioInputChange("portfolioDomain", e.target.value)
                     }
