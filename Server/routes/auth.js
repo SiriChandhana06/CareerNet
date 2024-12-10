@@ -600,6 +600,61 @@ router.post("/check-availability", async (req, res) => {
 
 
 
+// GET: Retrieve Users Route with Optional Data
+router.get("/users", async (req, res) => {
+  const { email, userName, firstName, lastName } = req.query;
+
+  try {
+    // Build a dynamic filter object
+    const filter = {};
+    if (email) filter.email = email;
+    if (userName) filter.userName = userName;
+    if (firstName) filter.firstName = new RegExp(firstName, "i"); // Case-insensitive search
+    if (lastName) filter.lastName = new RegExp(lastName, "i"); // Case-insensitive search
+
+    // Fetch users based on the filter
+    const users = await User.find(filter);
+
+    if (users.length === 0) {
+      return res.status(404).json({ message: "No users found" });
+    }
+
+    // Map the users to include optionalData
+    const userDetails = users.map(user => ({
+      id: user._id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      userName: user.userName,
+      bioSkills: user.bioSkills,
+      profileSrc: user.profileSrc,
+      coverSrc: user.coverSrc,
+      dob: user.dob,
+      languages: user.languages,
+      socialLinks: user.socialLinks,
+      education: user.education,
+      countryCode: user.countryCode,
+      contactNumber: user.contactNumber,
+      portfolioSrc: user.portfolioSrc,
+      portfolioRole: user.portfolioRole,
+      portfolioLink: user.portfolioLink,
+      portfolioDomain: user.portfolioDomain,
+      bioTitle: user.bioTitle,
+      bio: user.bio,
+      experiences: user.experiences,
+    }));
+
+    res.status(200).json({
+      message: "Users retrieved successfully",
+      users: userDetails,
+    });
+  } catch (err) {
+    res.status(500).json({ message: "Server error", error: err.message });
+  }
+});
+
+
+
 // @route   POST /api/auth/login
 // @desc    Login user and get token
 router.post("/login", async (req, res) => {
