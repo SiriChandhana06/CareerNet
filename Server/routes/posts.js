@@ -76,6 +76,33 @@ router.get('/', async (req, res) => {
     }
 });
 
+
+// @route DELETE /api/projects/:id
+// @desc Delete a project by ID
+
+router.delete('/mypost/:id', async (req, res) => {
+    try {
+        const { id } = req.params; // Extract the project ID from the request parameters
+
+        // Find and delete the project by ID
+        const deletedProject = await Project.findByIdAndDelete(id);
+
+        // If no project is found with the given ID
+        if (!deletedProject) {
+            return res.status(404).json({ success: false, message: 'Project not found' });
+        }
+
+        res.status(200).json({
+            success: true,
+            message: 'Project deleted successfully',
+            deletedProject,
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ success: false, message: 'Server error' });
+    }
+});
+
 // @route GET /api/projects/my-posts
 // @desc Get posts created by the logged-in user
 // router.get('/my-posts', async (req, res) => {

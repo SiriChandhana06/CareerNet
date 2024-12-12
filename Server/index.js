@@ -22,8 +22,13 @@ const corsOptions = {
     } else {
       callback(new Error('Not allowed by CORS'));
     }
+    if (!allowedOrigins.includes(origin)) {
+      console.error(`Blocked by CORS: ${origin}`);
+      return callback(new Error('Not allowed by CORS'));
+    }
   },
-  methods: ['GET', 'POST'],
+  // methods: ['GET', 'POST'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 };
 
