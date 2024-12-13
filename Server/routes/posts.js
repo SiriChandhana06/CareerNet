@@ -82,7 +82,7 @@ router.get('/:id', async (req, res) => {
     console.log(id); // Logging the id to verify it's received correctly
   
     try {
-      const post = await FoundItem.findById(id);
+      const post = await projects.findById(id);
       console.log(post); // Logging the retrieved post to verify
   
       if (!post) {
