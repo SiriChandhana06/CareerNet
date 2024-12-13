@@ -108,8 +108,21 @@ const MyPosts: React.FC = () => {
         console.log("Share clicked");
     };
 
-    const handleCopyLink = () => {
-        console.log("Copy link clicked");
+    // const handleCopyLink = () => {
+    //     console.log("Copy link clicked");
+    // };
+
+    const handleCopyLink = (id: string) => {
+        const postUrl = `https://career-net-server.vercel.app/api/projects/posts/${id}`; // Replace with the actual post URL format
+        navigator.clipboard.writeText(postUrl)
+            .then(() => {
+                console.log("Link copied to clipboard:", postUrl);
+                toast.success("Link copied to clipboard!");
+            })
+            .catch((error) => {
+                console.error("Failed to copy link:", error);
+                toast.error("Failed to copy the link. Please try again.");
+            });
     };
 
     // const handleDelete = () => {
@@ -192,7 +205,8 @@ const MyPosts: React.FC = () => {
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="#3b82f5" d="M12 2.04c-5.5 0-10 4.49-10 10.02c0 5 3.66 9.15 8.44 9.9v-7H7.9v-2.9h2.54V9.85c0-2.51 1.49-3.89 3.78-3.89c1.09 0 2.23.19 2.23.19v2.47h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.45 2.9h-2.33v7a10 10 0 0 0 8.44-9.9c0-5.53-4.5-10.02-10-10.02" /></svg> <span className='text-lg'> Share On Facebook</span>
                                         </button>
                                         <button
-                                            onClick={handleCopyLink}
+                                            // onClick={handleCopyLink}
+                                            onClick={() => handleCopyLink(job._id)}
                                             className="flex gap-1 w-full px-4 py-2 text-left text-gray-700 hover:bg-blue-100"
                                         >
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" stroke="#3b82f5" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" /><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" /></g></svg> <span className='text-lg'> Copy Link </span>

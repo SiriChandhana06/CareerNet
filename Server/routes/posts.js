@@ -77,6 +77,20 @@ router.get('/', async (req, res) => {
 });
 
 
+
+router.get('/posts/:id', (req, res) => {
+    const { id } = req.params;
+    const post = posts.find(p => p.id === id);
+
+    if (!post) {
+        return res.status(404).json({ error: "Post not found" });
+    }
+
+    res.json({ url: post.url });
+});
+
+
+
 // @route DELETE /api/projects/:id
 // @desc Delete a project by ID
 
