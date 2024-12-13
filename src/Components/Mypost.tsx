@@ -112,18 +112,40 @@ const MyPosts: React.FC = () => {
     //     console.log("Copy link clicked");
     // };
 
-    const handleCopyLink = (id: string) => {
-        const postUrl = `https://career-net-server.vercel.app/api/projects/posts/${id}`; // Replace with the actual post URL format
-        navigator.clipboard.writeText(postUrl)
-            .then(() => {
-                console.log("Link copied to clipboard:", postUrl);
-                toast.success("Link copied to clipboard!");
-            })
-            .catch((error) => {
-                console.error("Failed to copy link:", error);
-                toast.error("Failed to copy the link. Please try again.");
-            });
-    };
+    // const handleCopyLink = (id: string) => {
+    //     const postUrl = `https://career-net-server.vercel.app/api/projects/${id}`; // Adjust path if necessary
+    //     console.log("Generated Post URL:", postUrl); // Debug log
+    
+    //     navigator.clipboard.writeText(postUrl)
+    //         .then(() => {
+    //             console.log("Link copied to clipboard:", postUrl);
+    //             toast.success("Link copied to clipboard!");
+    //         })
+    //         .catch((error) => {
+    //             console.error("Failed to copy link:", error);
+    //             toast.error("Failed to copy the link. Please try again.");
+    //         });
+    // };
+
+
+    const handleCopyLink = async (id: string) => {
+        try {
+          const response = await fetch(`https://career-net-server.vercel.app/api/projects/${id}`);
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+    
+          const data = await response.json();
+          console.log(data);
+          
+          const postUrl = data.postUrl;
+    
+          await navigator.clipboard.writeText(postUrl);
+          console.log("Link copied to clipboard:", postUrl);
+        } catch (error) {
+          console.error("Error copying link:", error);
+        }
+      };
 
     // const handleDelete = () => {
     //     console.log("Deleted");

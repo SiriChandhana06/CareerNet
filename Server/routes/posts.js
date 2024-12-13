@@ -77,17 +77,37 @@ router.get('/', async (req, res) => {
 });
 
 
-
-router.get('/posts/:id', (req, res) => {
+router.get('/:id', async (req, res) => {
     const { id } = req.params;
-    const post = posts.find(p => p.id === id);
-
-    if (!post) {
-        return res.status(404).json({ error: "Post not found" });
+    console.log(id); // Logging the id to verify it's received correctly
+  
+    try {
+      const post = await FoundItem.findById(id);
+      console.log(post); // Logging the retrieved post to verify
+  
+      if (!post) {
+        return res.status(404).json({ error: 'Post not found' });
+      }
+  
+      // Correct URL to match the Next.js App Router structure
+      const postUrl = `https://careernet.vercel.app/${id}`;
+      res.status(200).json({ post, postUrl });
+    } catch (error) {
+      console.error('Error fetching post:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
     }
+  });
 
-    res.json({ url: post.url });
-});
+// router.get('/posts/:id', (req, res) => {
+//     const { id } = req.params;
+//     const post = posts.find(p => p.id === id);
+
+//     if (!post) {
+//         return res.status(404).json({ error: "Post not found" });
+//     }
+
+//     res.json({ url: post.url });
+// });
 
 
 
