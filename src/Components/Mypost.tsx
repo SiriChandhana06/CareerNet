@@ -136,15 +136,28 @@ const MyPosts: React.FC = () => {
             }
     
             const data = await response.json();
-            const postUrl = data.postUrl;
+            const postUrl = data.postUrl || `${window.location.origin}/${id}`;
     
             await navigator.clipboard.writeText(postUrl);
             toast.success("Link copied to clipboard!");
+            setIsDropdownOpen(null);
         } catch (error) {
             console.error("Error copying link:", error);
             toast.error("Failed to copy link. Please try again.");
         }
     };
+
+    // const handleCopyLink = async (jobId: string) => {
+    //     try {
+    //         const postUrl = `${window.location.origin}/${jobId}`;
+    //         await navigator.clipboard.writeText(postUrl);
+    //         toast.success("Link copied to clipboard!");
+    //         setIsDropdownOpen(null);
+    //     } catch (error) {
+    //         console.error("Error copying link:", error);
+    //         toast.error("Failed to copy link. Please try again.");
+    //     }
+    // };
 
 
       const shareOnSocialMedia = async (id: string, platform: string) => {
@@ -154,10 +167,10 @@ const MyPosts: React.FC = () => {
             throw new Error("Network response was not ok");
           }
           const data = await response.json();
-          const postUrl = data.postUrl;
+          const postUrl = data.postUrl || `${window.location.origin}/${id}`;
           let shareUrl = "";
           if (platform === "whatsapp") {
-            shareUrl = `whatsapp://send?text=Check out this found item: ${encodeURIComponent(postUrl)}`;
+            shareUrl = `whatsapp://send?text=Check out this Freelance Post: ${encodeURIComponent(postUrl)}`;
           } else if (platform === "twitter") {
             shareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(postUrl)}`;
           } else if (platform === "facebook") {
@@ -165,6 +178,7 @@ const MyPosts: React.FC = () => {
           }
     
           window.open(shareUrl, "_blank");
+          setIsDropdownOpen(null);
         } catch (error) {
           console.error("Error sharing link:", error);
         }
@@ -263,7 +277,11 @@ const MyPosts: React.FC = () => {
                                         </button>
                                         <button
                                             // onClick={handleCopyLink}
-                                            onClick={() => handleCopyLink(job._id)}
+                                            // onClick={() => handleCopyLink(job._id)}
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                handleCopyLink(job._id);
+                                            }}
                                             className="flex gap-1 w-full px-4 py-2 text-left text-gray-700 hover:bg-blue-100"
                                         >
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" stroke="#3b82f5" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" /><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" /></g></svg> <span className='text-lg'> Copy Link </span>
