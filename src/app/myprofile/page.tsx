@@ -18,6 +18,13 @@ import { LiaTelegram } from "react-icons/lia";
 // import poi from '@/Assests/girl.png';
 // import { StaticImageData } from "next/image";
 import portfolioalt from "@/Assests/portfolioalt.webp";
+import { RiGraduationCapFill } from "react-icons/ri";
+import { HiMiniLanguage } from "react-icons/hi2";
+import { FaBirthdayCake } from "react-icons/fa";
+import { BiSolidContact } from "react-icons/bi";
+import { SiNamecheap } from "react-icons/si";
+import { TbListDetails } from "react-icons/tb";
+// import { FaBuilding } from "react-icons/fa";
 
 // interface UserDetails {
 //   firstname: string;
@@ -304,16 +311,24 @@ const MyProfile: React.FC = () => {
         if (matchedData) {
           console.log('Matched Data:', matchedData);
 
+          const hasPortfolioData = !!(
+            matchedData.portfolioSrc || 
+            matchedData.portfolioRole || 
+            matchedData.portfolioLink
+          );
+
           // Set details based on activeTab
           setPortDetails(matchedData);
-          setIsPortDetailsProvided(!!Object.keys(matchedData).length);
+          // setIsPortDetailsProvided(!!Object.keys(matchedData).length);
+          setIsPortDetailsProvided(hasPortfolioData); 
 
           if (activeTab === 'Profile') {
             setDetails(matchedData);
             setIsDetailsProvided(!!Object.keys(matchedData).length);
           } else if (activeTab === 'Experience') {
             setXDetails(matchedData);
-            setIsXDetailsProvided(!!Object.keys(matchedData).length);
+            // setIsXDetailsProvided(!!Object.keys(matchedData).length);
+            setIsXDetailsProvided(!!matchedData.experiences && matchedData.experiences.length > 0);
           }
         } else {
           console.warn('No data found for the email:', email);
@@ -338,9 +353,9 @@ const MyProfile: React.FC = () => {
         return (
           <div>
             <div className="flex justify-between mx-4 md:mx-10">
-              <h1 className="text-2xl font-semibold lg:text-4xl">Details</h1>
+              <h1 className="text-2xl font-semibold lg:text-4xl flex gap-2"><TbListDetails /><span>Details</span></h1>
               <h1 className="flex underline text-xl hover:text-blue-500 hover:cursor-pointer">
-                {isDetailsProvided ? "Edit Details" : "Fill Details"}
+              {isDetailsProvided ? "Edit Details" : "Fill Details"}
                 <svg
                   className="underline hover:text-blue-500"
                   xmlns="http://www.w3.org/2000/svg"
@@ -364,14 +379,14 @@ const MyProfile: React.FC = () => {
               {isDetailsProvided ? (
                 <div>
                   <div className="md:mx-32">
-                    <h1 className="text-2xl font-semibold mt-5">Name :</h1>
+                    <h1 className="text-2xl font-semibold mt-5 flex gap-2"><SiNamecheap className='text-blue-500 text-3xl'/><span>Name :</span></h1>
                     <div className="flex gap-2 mt-2 ml-6 md:ml-12 ">
                       <h1 className="text-xl font-semibold">{details.firstName || "No Data Provide"}</h1>
                       <h1 className="text-xl font-semibold">{details.lastName}</h1>
                     </div>
                   </div>
                   <div className="md:mx-32">
-                    <h1 className="text-2xl font-semibold mt-5">Date Of Birth :</h1>
+                    <h1 className="text-2xl font-semibold mt-5  flex gap-2"><FaBirthdayCake className='text-blue-500 text-3xl' /> <span>Date Of Birth :</span></h1>
                     <div className="flex gap-2 mt-2 ml-6 md:ml-12 ">
                       <h1 className="text-xl font-semibold"> {details.dob ? new Date(details.dob).toLocaleDateString() : "No Data Provided"}</h1>
                     </div>
@@ -385,7 +400,7 @@ const MyProfile: React.FC = () => {
                     </div> */}
                   </div>
                   <div className="md:mx-32">
-                    <h1 className="text-2xl font-semibold mt-5">Languages Known :</h1>
+                    <h1 className="text-2xl font-semibold mt-5 flex gap-2"> <HiMiniLanguage className='text-blue-500 text-3xl' /> <span>Languages Known :</span></h1>
                     <div className="mt-2 ml-6 md:ml-12">
                       <h1 className="text-xl font-semibold">
                         {typeof details.languages === 'string' && details.languages.trim()
@@ -395,7 +410,7 @@ const MyProfile: React.FC = () => {
                     </div>
                   </div>
                   <div className="md:mx-32">
-                    <h1 className="text-2xl font-semibold mt-5">Education :</h1>
+                    <h1 className="text-2xl font-semibold mt-5 flex gap-2"><RiGraduationCapFill className='text-blue-500 text-3xl'/><span>Education :</span></h1>
                     <div className="mt-2 ml-6 md:ml-12">
                       <h1 className="text-xl font-semibold">
                         {details.education && Array.isArray(details.education) && details.education.length > 0 ? (
@@ -409,7 +424,7 @@ const MyProfile: React.FC = () => {
                     </div>
                   </div>
                   <div className="md:mx-32">
-                    <h1 className="text-2xl font-semibold mt-5">Contact Info:</h1>
+                    <h1 className="text-2xl font-semibold mt-5 flex gap-2"> <BiSolidContact className='text-blue-500 text-3xl' /> <span>Contact Info:</span></h1>
                     <div className="mt-2 ml-6 md:ml-12">
                       {details.email && (
                         <h1 className="text-xl font-semibold">Email Id: {details.email}</h1>
@@ -434,7 +449,7 @@ const MyProfile: React.FC = () => {
         return (
           <div>
             <div className='flex justify-between mx-4 md:mx-10'>
-              <h1 className='text-2xl font-semibold lg:text-4xl'>Details</h1>
+            <h1 className="text-2xl font-semibold lg:text-4xl flex gap-2"><TbListDetails /><span>Details</span></h1>
               <h1 className='flex underline text-xl hover:text-blue-500 hover:cursor-pointer'> {isXDetailsProvided ? "Edit Details" : "Fill Details"} <svg className='underline hover:text-blue-500' xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="black" d="M5 18.08V19h.92l9.06-9.06l-.92-.92z" opacity="0.3" /><path fill="black" d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75zM5.92 19H5v-.92l9.06-9.06l.92.92zM20.71 5.63l-2.34-2.34a.996.996 0 0 0-1.41 0l-1.83 1.83l3.75 3.75l1.83-1.83a.996.996 0 0 0 0-1.41" /></svg></h1>
             </div>
             {isXDetailsProvided && xDetails.experiences?.length > 0 ? (
@@ -447,8 +462,8 @@ const MyProfile: React.FC = () => {
                       key={exp._id}
                       className="bg-white/30 bg-opacity-10 backdrop-filter backdrop-blur-lg rounded-lg shadow-lg p-5"
                     >
-                      <h2 className="text-xl font-semibold">Role: <span className='font-medium'>{exp.title}</span> </h2>
-                      <h3 className="text-lg font-semibold">CompanyName: <span className='font-medium'>{exp.companyName}</span> </h3>
+                      <h2 className="text-xl font-semibold">🧑‍💻 Role: <span className='font-medium'>{exp.title}</span> </h2>
+                      <h3 className="text-lg font-semibold"> 🏢 CompanyName: <span className='font-medium'>{exp.companyName}</span> </h3>
                       <div className="flex justify-between gap-10 text-sm text-gray-700 mt-2">
                         <p>From: {new Date(exp.startDate).toLocaleDateString()}</p>
                         <p>To: {exp.isCurrently ? "Present" : new Date(exp.endDate).toLocaleDateString()}</p>

@@ -5,6 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Image from 'next/image';
 import { IoWarningOutline } from "react-icons/io5";
 import { MdDelete } from "react-icons/md";
+import { MdWork } from "react-icons/md";
 
 
 interface Job {
@@ -217,7 +218,7 @@ const MyPosts: React.FC = () => {
 
     return (
         <div className="p-6">
-            <h1 className="text-2xl font-bold mb-4">My Posted Jobs</h1>
+            <h1 className="text-2xl font-bold mb-4 flex gap-2"><MdWork className='text-3xl'/><span>My Posted Jobs</span></h1>
             {jobs.length === 0 ? (
                 <p className='flex justify-center gap-1'> <IoWarningOutline className='text-4xl text-blue-500 ' /> <span className='font-semibold mt-2'>You haven&apos;t posted any jobs yet.</span></p>
             ) : (
