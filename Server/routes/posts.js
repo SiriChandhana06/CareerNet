@@ -110,6 +110,48 @@ router.get('/:id', async (req, res) => {
 // });
 
 
+// @route PUT /api/projects/:id
+// @desc Edit an existing project
+router.put('/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { projectName, description, skills, payment, currency, isHourly, email, fileUrl, category } = req.body;
+
+        // Find the project by ID
+        let project = await Project.findById(id);
+
+        if (!project) {
+            return res.status(404).json({ success: false, message: 'Project not found' });
+        }
+
+        // Parse skills if it's a string
+        const parsedSkills = Array.isArray(skills) ? skills : skills.split(',');
+
+        // Update project fields
+        project.projectName = projectName || project.projectName;
+        project.description = description || project.description;
+        project.skills = parsedSkills || project.skills;
+        project.payment = payment || project.payment;
+        project.currency = currency || project.currency;
+        project.isHourly = isHourly !== undefined ? Boolean(isHourly) : project.isHourly;
+        project.email = email || project.email;
+        project.fileUrl = fileUrl || project.fileUrl;
+        project.category = category || project.category;
+
+        // Save the updated project
+        await project.save();
+
+        res.status(200).json({
+            success: true,
+            message: 'Project updated successfully',
+            project
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ success: false, message: 'Server error' });
+    }
+});
+
 
 // @route DELETE /api/projects/:id
 // @desc Delete a project by ID

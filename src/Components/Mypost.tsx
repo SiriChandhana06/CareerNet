@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { IoWarningOutline } from "react-icons/io5";
 import { MdDelete } from "react-icons/md";
 import { MdWork } from "react-icons/md";
+import EditPost from './EditPost';
 
 
 interface Job {
@@ -26,6 +27,7 @@ const MyPosts: React.FC = () => {
     const [loading, setLoading] = useState(true);
     const [isDropdownOpen, setIsDropdownOpen] = useState<string | null>(null);
     const dropdownRef = useRef<HTMLDivElement>(null);
+    const [editingJob, setEditingJob] = useState<Job | null>(null);
 
     // const randomImages = [
     //     '/Assests/article.png',
@@ -101,9 +103,9 @@ const MyPosts: React.FC = () => {
         setIsDropdownOpen((prevId) => (prevId === id ? null : id));
     };
 
-    const handleEdit = () => {
-        console.log("Edit clicked");
-    };
+    // const handleEdit = () => {
+    //     console.log("Edit clicked");
+    // };
 
     // const handleShare = () => {
     //     console.log("Share clicked");
@@ -128,6 +130,15 @@ const MyPosts: React.FC = () => {
     //         });
     // };
 
+
+    const handleEdit = (job: Job) => { 
+        setEditingJob(job);
+    };
+
+    const handleJobUpdate = (updatedJob: Job) => { 
+        setJobs(jobs.map(job => job._id === updatedJob._id ? updatedJob : job));
+        setEditingJob(null);
+    };
 
     const handleCopyLink = async (id: string) => {
         try {
@@ -241,7 +252,8 @@ const MyPosts: React.FC = () => {
                                 {isDropdownOpen === job._id && (
                                     <div className="absolute -right-4 mt-2 w-54 bg-white border rounded shadow-lg z-10">
                                         <button
-                                            onClick={handleEdit}
+                                            // onClick={handleEdit}
+                                            onClick={() => handleEdit(job)}
                                             className="flex gap-1 w-full px-4 py-2 text-left text-gray-700 hover:bg-blue-100"
                                         >
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none"><path fill="#3b82f5" d="m5 16l-1 4l4-1L18 9l-3-3z" opacity="0.16" /><path stroke="#3b82f5" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m5 16l-1 4l4-1L19.586 7.414a2 2 0 0 0 0-2.828l-.172-.172a2 2 0 0 0-2.828 0zM15 6l3 3m-5 11h8" /></g></svg> <span className='text-lg'> Edit </span>
@@ -349,6 +361,13 @@ const MyPosts: React.FC = () => {
                 theme="colored"
             />
             {/* <ToastContainer /> */}
+            {editingJob && ( 
+                <EditPost
+                    job={editingJob}
+                    onClose={() => setEditingJob(null)}
+                    onUpdate={handleJobUpdate}
+                />
+            )}
         </div>
     );
 };
