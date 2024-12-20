@@ -55,7 +55,7 @@
 //           setDropdownOpen(false);
 //         }
 //       };
-  
+
 //       document.addEventListener("mousedown", handleClickOutside);
 //       return () => document.removeEventListener("mousedown", handleClickOutside);
 //     }, []);
@@ -87,7 +87,7 @@
 //                     <div>Filter</div>
 //                     <span className="mt-1"><FaFilter /></span>
 //                   </button>
-      
+
 //                   {/* Dropdown menu */}
 //                   {isDropdownOpen && (
 //                     <div className="absolute mt-2 bg-white shadow-lg rounded-xl w-64 p-4 z-10" ref={dropdownRef}>
@@ -165,10 +165,11 @@ import Navbar from "@/Components/Navbar";
 import Footer from "@/Components/Footer";
 
 interface Portfolio {
-  firstname: string;
+  firstName: string;
   portfolioRole: string;
   portfolioSrc: string;
   portfolioLink: string;
+  portfolioDomain: string;
 }
 
 const FindFreelancers: React.FC = () => {
@@ -176,6 +177,7 @@ const FindFreelancers: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isDropdownOpen, setDropdownOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const toggleDropdown = () => {
@@ -201,21 +203,38 @@ const FindFreelancers: React.FC = () => {
         }
         const data = await response.json();
 
-        console.log('data',data);
-        
-        // Filter and map the data to match our Portfolio interface
-        const portfolioData = data
+        console.log('Fetched data:', data); // Log the fetched data for debugging
+
+        if (!data || typeof data !== 'object') {
+          throw new Error('Invalid data format received');
+        }
+
+        let usersArray: any[];
+        if (Array.isArray(data)) {
+          usersArray = data;
+        } else if (data.users && Array.isArray(data.users)) {
+          usersArray = data.users;
+        } else {
+          throw new Error('Fetched data does not contain a valid users array');
+        }
+
+        const portfolioData = usersArray
           .filter((user: any) => user.portfolioSrc && user.portfolioRole)
           .map((user: any) => ({
-            firstname: user.firstname,
+            firstName: user.firstName || 'Unknown',
             portfolioRole: user.portfolioRole,
             portfolioSrc: user.portfolioSrc,
             portfolioLink: user.portfolioLink || '#',
+            portfolioDomain: user.portfolioDomain || 'Others',
           }));
 
         setPortfolios(portfolioData);
       } catch (err) {
-        setError('Failed to load portfolios. Please try again later.');
+        if (err instanceof Error) {
+          setError(`Failed to load portfolios: ${err.message}`);
+        } else {
+          setError('An unexpected error occurred while loading portfolios.');
+        }
         console.error('Error fetching portfolios:', err);
       } finally {
         setIsLoading(false);
@@ -236,7 +255,17 @@ const FindFreelancers: React.FC = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const title = ['Graphic Design', 'Cartoon Animation', 'Illustration', 'Web Development', 'Logo Design', 'Social Graphics', 'Article Writing', 'Video Editing', 'App Development', 'AI & ML', 'UI & UX', 'Digital Marketing', 'Photography', 'Others'];
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value);
+  };
+
+  const filteredPortfolios = portfolios.filter(portfolio =>
+    portfolio.firstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    portfolio.portfolioRole.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    portfolio.portfolioDomain.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const domains = ['Graphic Design', 'Cartoon Animation', 'Illustration', 'Web Development', 'Logo Design', 'Social Graphics', 'Article Writing', 'Video Editing', 'App Development', 'AI & ML', 'UI & UX', 'Digital Marketing', 'Photography', 'Others'];
 
   return (
     <div className="bg-blue-300 min-h-screen">
@@ -246,6 +275,8 @@ const FindFreelancers: React.FC = () => {
           <input
             type="text"
             placeholder="Search Here"
+            value={searchQuery}
+            onChange={handleSearch}
             className="py-3 px-4 rounded-full border border-gray-300 shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent mb-4 sm:mb-0 sm:mr-4 w-full"
           />
           <div className="relative">
@@ -256,11 +287,11 @@ const FindFreelancers: React.FC = () => {
               <div>Filter</div>
               <span className="mt-1"><FaFilter /></span>
             </button>
-            
+
             {isDropdownOpen && (
               <div className="absolute mt-2 bg-white shadow-lg rounded-xl w-64 p-4 z-10" ref={dropdownRef}>
                 <ul className="space-y-2">
-                  {title.map((item, index) => (
+                  {domains.map((item, index) => (
                     <li key={index} className="cursor-pointer hover:bg-gray-100 p-2 rounded-lg" onClick={() => handleTitleClick(item)}>
                       {item}
                     </li>
@@ -273,40 +304,57 @@ const FindFreelancers: React.FC = () => {
       </div>
       <section className="px-4 py-10">
         {isLoading ? (
-          <div className="text-center">Loading portfolios...</div>
+          <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center z-50">
+            <div className="animate-spin rounded-full h-14 w-14 border-t-2 border-b-2 border-blue-700"></div>
+          </div>
         ) : error ? (
-          <div className="text-center text-red-500">{error}</div>
+          <div className="text-center text-red-500 p-4 bg-red-100 rounded-md">
+            <p className="font-bold">Error:</p>
+            <p>{error}</p>
+          </div>
         ) : (
-          <div className="relative">
-            <div className="flex justify-center">
-              <div className="flex gap-6 md:gap-10 overflow-x-auto w-[1200px] scrollbar-hide scroll-smooth snap-x mx-6 md:mx-20">
-                {portfolios.map((portfolio, index) => (
-                  <div
-                    key={index}
-                    className="bg-white shadow-md rounded-lg overflow-hidden p-4 snap-center min-w-[300px] md:min-w-[400px] flex-shrink-0"
-                  >
-                    <Image
-                      src={portfolio.portfolioSrc}
-                      alt={portfolio.firstname}
-                      width={360}
-                      height={360}
-                      className="w-full rounded-lg object-cover"
-                    />
-                    <div className="mt-4 text-center flex justify-between mx-4">
-                      <div>
-                        <h3 className="text-xl font-semibold">{portfolio.firstname}</h3>
-                        <p className="text-gray-500">{portfolio.portfolioRole}</p>
-                      </div>
-                      <div className="mt-4">
-                        <a href={portfolio.portfolioLink} className="text-blue-500 font-semibold">
-                          →
-                        </a>
-                      </div>
-                    </div>
+          <div className="m-4 md:m-20">
+            {domains.map((domain, index) => {
+              const domainPortfolios = filteredPortfolios.filter(portfolio => portfolio.portfolioDomain === domain);
+              if (domainPortfolios.length === 0) return null;
+
+              return (
+                <div key={index} id={domain.toLowerCase().replace(/ /g, '-')} className="mb-10">
+                  <div className="relative mb-6">
+                    <p className="text-lg font-medium">{domain}</p>
+                    <span className="absolute left-0 top-full mt-1 w-56 md:w-96 h-[2px] bg-blue-500"></span>
                   </div>
-                ))}
-              </div>
-            </div>
+                  
+                  <div className="flex gap-6 overflow-x-auto w-full scrollbar-hide scroll-smooth snap-x">
+                    {domainPortfolios.map((portfolio, portfolioIndex) => (
+                      <div
+                        key={portfolioIndex}
+                        className="bg-white shadow-md rounded-lg overflow-hidden p-4 snap-center w-[300px] md:w-[400px] flex-shrink-0"
+                      >
+                        <Image
+                          src={portfolio.portfolioSrc}
+                          alt={portfolio.firstName}
+                          width={360}
+                          height={360}
+                          className="w-full rounded-lg object-cover"
+                        />
+                        <div className="mt-4 text-center flex justify-between mx-4">
+                          <div>
+                            <h3 className="text-xl font-semibold">{portfolio.firstName}</h3>
+                            <p className="text-gray-500">{portfolio.portfolioRole}</p>
+                          </div>
+                          <div className="mt-4">
+                            <a href={portfolio.portfolioLink} className="text-blue-500 font-semibold">
+                              →
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
           </div>
         )}
       </section>
@@ -316,5 +364,4 @@ const FindFreelancers: React.FC = () => {
 };
 
 export default FindFreelancers;
-
 
