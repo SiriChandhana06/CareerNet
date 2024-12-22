@@ -25,6 +25,7 @@ import { BiSolidContact } from "react-icons/bi";
 import { SiNamecheap } from "react-icons/si";
 import { TbListDetails } from "react-icons/tb";
 // import { FaBuilding } from "react-icons/fa";
+import EditDetails from '@/Components/EditDetails';
 
 // interface UserDetails {
 //   firstname: string;
@@ -114,6 +115,7 @@ const MyProfile: React.FC = () => {
   });
   const [isPortDetailsProvided, setIsPortDetailsProvided] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
 
 
   // const userDetails = [{
@@ -345,38 +347,42 @@ const MyProfile: React.FC = () => {
 
 
 
-
-
   const renderContent = () => {
     switch (activeTab) {
       case 'Profile':
         return (
           <div>
-            <div className="flex justify-between mx-4 md:mx-10">
-              <h1 className="text-2xl font-semibold lg:text-4xl flex gap-2"><TbListDetails /><span>Details</span></h1>
-              <h1 className="flex underline text-xl hover:text-blue-500 hover:cursor-pointer">
-              {isDetailsProvided ? "Edit Details" : "Fill Details"}
-                <svg
-                  className="underline hover:text-blue-500"
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    fill="black"
-                    d="M5 18.08V19h.92l9.06-9.06l-.92-.92z"
-                    opacity="0.3"
-                  />
-                  <path
-                    fill="black"
-                    d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75zM5.92 19H5v-.92l9.06-9.06l.92.92zM20.71 5.63l-2.34-2.34a.996.996 0 0 0-1.41 0l-1.83 1.83l3.75 3.75l1.83-1.83a.996.996 0 0 0 0-1.41"
-                  />
-                </svg>
-              </h1>
-            </div>
-            <div>
-              {isDetailsProvided ? (
+          <div className="flex justify-between mx-4 md:mx-10">
+            <h1 className="text-2xl font-semibold lg:text-4xl flex gap-2"><TbListDetails /><span>Details</span></h1>
+            <button 
+              className="flex underline text-xl hover:text-blue-500 hover:cursor-pointer"
+              onClick={() => setIsEditing(!isEditing)}
+            >
+              {isEditing ? "Cancel" : (isDetailsProvided ? "Edit Details" : "Fill Details")}
+              <svg
+                className="underline hover:text-blue-500"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  fill="black"
+                  d="M5 18.08V19h.92l9.06-9.06l-.92-.92z"
+                  opacity="0.3"
+                />
+                <path
+                  fill="black"
+                  d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75zM5.92 19H5v-.92l9.06-9.06l.92.92zM20.71 5.63l-2.34-2.34a.996.996 0 0 0-1.41 0l-1.83 1.83l3.75 3.75l1.83-1.83a.996.996 0 0 0 0-1.41"
+                />
+              </svg>
+            </button>
+          </div>
+          <div>
+            {isEditing ? (
+              <EditDetails details={details} setDetails={setDetails} setIsEditing={setIsEditing} />
+            ) : (
+              isDetailsProvided ? (
                 <div>
                   <div className="md:mx-32">
                     <h1 className="text-2xl font-semibold mt-5 flex gap-2"><SiNamecheap className='text-blue-500 text-3xl'/><span>Name :</span></h1>
@@ -390,14 +396,6 @@ const MyProfile: React.FC = () => {
                     <div className="flex gap-2 mt-2 ml-6 md:ml-12 ">
                       <h1 className="text-xl font-semibold"> {details.dob ? new Date(details.dob).toLocaleDateString() : "No Data Provided"}</h1>
                     </div>
-                    {/* <div className="mt-2 ml-6 md:ml-12">
-                      <input
-                        className="underline hover:underline border-b-2 border-blue-500 bg-blue-200 font-semibold focus:outline-none focus:border-transparent"
-                        type="date"
-                        value={details.dob}
-                        readOnly
-                      />
-                    </div> */}
                   </div>
                   <div className="md:mx-32">
                     <h1 className="text-2xl font-semibold mt-5 flex gap-2"> <HiMiniLanguage className='text-blue-500 text-3xl' /> <span>Languages Known :</span></h1>
@@ -415,7 +413,7 @@ const MyProfile: React.FC = () => {
                       <h1 className="text-xl font-semibold">
                         {details.education && Array.isArray(details.education) && details.education.length > 0 ? (
                           details.education.map((item, index) => (
-                            <div key={index}>{item}</div> // Render each item in a new line
+                            <div key={index}>{item}</div> 
                           ))
                         ) : (
                           <span>No education data available</span>
@@ -441,9 +439,10 @@ const MyProfile: React.FC = () => {
                 <h1 className="text-center mt-5 flex justify-center gap-1">
                   <IoWarningOutline className='text-4xl text-blue-500 ' /> <span className='mt-2 font-semibold'>No details provided</span>
                 </h1>
-              )}
-            </div>
+              )
+            )}
           </div>
+        </div>
         );
       case 'Experience':
         return (
